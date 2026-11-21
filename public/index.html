@@ -2392,14 +2392,14 @@ $("tlMascot").innerHTML=mascot("think",90);
 let TPIN=null;const TL={mode:"pin"};
 function tlPrepare(){const r=roster(),inp=$("tlPin");inp.value="";$("tlErr").textContent="";
  if(SRV.on&&SRV.hasRoster){TL.mode="srv";$("tlTitle").innerHTML="Enter the teacher PIN";inp.type="password";inp.setAttribute("inputmode","numeric");inp.maxLength=6;inp.placeholder="";setTimeout(()=>inp.focus(),50);return}
- if(!deviceReady()){TL.mode="setup";$("tlTitle").innerHTML='Set up this device<br><small class="muted" style="font-size:15px">Enter the school code to load the class lists securely (once per device)</small>';inp.type="text";inp.removeAttribute("inputmode");inp.maxLength=20;inp.placeholder="OBZ-XXXX-XXXX";inp.style.letterSpacing="3px";$("tlGo").textContent="Set up device"}
+ if(!deviceReady()){TL.mode="setup";$("tlTitle").innerHTML=SRV.on?'First-time setup<br><small class="muted" style="font-size:15px">Enter the school code (it looks like OBZ-XXXX-XXXX – not your PIN). This uploads your classes to the online database once.</small>':'Set up this device<br><small class="muted" style="font-size:15px">Enter the school code to load the class lists securely (once per device)</small>';inp.type="text";inp.removeAttribute("inputmode");inp.maxLength=20;inp.placeholder="OBZ-XXXX-XXXX";inp.style.letterSpacing="3px";$("tlGo").textContent="Set up device"}
  else{TL.mode=(r.pinHash||r.pin)?"pin":"create";$("tlTitle").innerHTML=TL.mode==="pin"?'Enter the teacher PIN':'Create a teacher PIN (4–6 digits)';inp.type="password";inp.setAttribute("inputmode","numeric");inp.maxLength=6;inp.placeholder="";inp.style.letterSpacing="";$("tlGo").textContent="Log in"}
  setTimeout(()=>inp.focus(),50)}
 $("goTeacher").addEventListener("click",()=>{tlPrepare();show("tlogin")});
 $("tlBack").addEventListener("click",()=>show("landing","b"));
 async function tlGo(){const r=roster(),v=$("tlPin").value.trim(),err=m=>{$("tlErr").textContent=m;sfx.bad()};
  if(TL.mode==="srv"){$("tlErr").textContent="Checking…";try{await srvTeacherLogin(v);$("tlErr").textContent="";TPIN=v;openTeacher()}catch(e){$("tlPin").value="";err(e.status===401?"Wrong PIN":e.status===429?"Too many tries – wait 10 minutes":"No internet connection")}return}
- if(TL.mode==="setup"){$("tlErr").textContent="Checking…";try{const d=await setupDevice(v);sfx.ok();tlPrepare();$("tlErr").innerHTML=`<span style="color:var(--ok-d)">✅ Loaded ${d.length} classes (${d.reduce((a,c)=>a+c.students.length,0)} students)</span>`}catch(e){err(e&&e.message==="save"?"Could not save on this device":"Wrong school code")}return}
+ if(TL.mode==="setup"){$("tlErr").textContent="Checking…";try{const d=await setupDevice(v);sfx.ok();tlPrepare();$("tlErr").innerHTML=`<span style="color:var(--ok-d)">✅ Loaded ${d.length} classes (${d.reduce((a,c)=>a+c.students.length,0)} students)</span>`}catch(e){err(e&&e.message==="save"?"Could not save on this device":/^\d{1,6}$/.test(v)?"That looks like a PIN. Enter the school code (OBZ-XXXX-XXXX).":"Wrong school code")}return}
  if(TL.mode==="create"){if(!/^\d{4,6}$/.test(v))return err("Use 4 to 6 digits");r.salt=ub64(crypto.getRandomValues(new Uint8Array(12)));r.pinHash=await sha256(r.salt+"|"+v);delete r.pin;if(!saveRoster(r))return err("Could not save");TPIN=v;openTeacher();return}
  let ok=false;
  if(r.pinHash)ok=(await sha256(r.salt+"|"+v))===r.pinHash;
