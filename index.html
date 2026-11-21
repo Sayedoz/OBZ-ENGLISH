@@ -1698,6 +1698,12 @@ body[data-scr=pga] #tabbar{display:none!important}
       </div>
       <div class="lvlist" id="lvList" aria-live="polite"></div>
     </div>
+    <div class="panel" id="lvLinkBox">
+      <h3 style="margin:0 0 4px">📱 Student link</h3>
+      <p class="tnote" style="margin-top:0">Send this link to your students (WhatsApp, Teams, QR code). Opening it once sets up their phone, tablet or computer, then they log in with class → name → PIN. Anyone with this link can reach your class lists, so share it only with your students' families.</p>
+      <div class="trow"><input id="lvLink" readonly style="flex:1;min-width:220px;font:inherit;font-size:14px;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;background:#fff"><button class="act p" id="lvLinkCopy">📋 Copy link</button></div>
+      <p class="tnote" id="lvLinkNote" style="margin-bottom:0"></p>
+    </div>
     <details class="panel lvoff"><summary><b>Offline backup – move classes and results with codes</b><small>Use this only when a device can't go online.</small></summary>
     <div class="panel">
       <h3 style="margin:0 0 4px">1. Put your classes on other devices</h3>
@@ -3648,7 +3654,7 @@ function lvEvents(){const who=lvWho(),E=[],add=e=>{if(who[e.sid])E.push({...e,..
 function lvAgo(t,day){if(day)return new Date(t).toDateString()===new Date().toDateString()?"today":new Date(t).toLocaleDateString("en-GB");const s2=Math.max(0,Math.round((Date.now()-t)/1000));return s2<60?`${s2}s ago`:s2<3600?`${Math.floor(s2/60)} min ago`:s2<86400?`${Math.floor(s2/3600)} h ago`:new Date(t).toLocaleDateString("en-GB")}
 function lvState(){const st=$("lvState"),nt=$("lvNote");if(!st)return;const on=!!CLOUD.db;
  st.className="lvstate "+(on?(CLOUD.state==="error"?"err":"on"):"off");st.innerHTML=on?(CLOUD.state==="error"?"⚠️ Reconnecting…":`<i></i> Online · live`):"⚪ This device is offline";
- nt.innerHTML=on?`Answers from every signed-in student device arrive here automatically and this list refreshes every second.${CLOUD.last?` Last saved ${lvAgo(CLOUD.last)}.`:""}`:`Open the platform on <b>claude.ai</b> (signed in) on this device and on the student devices to get answers live. Until then you only see work done on this device – use <b>Offline backup</b> below to move results.`}
+ nt.innerHTML=on?`Answers from every student device arrive here automatically and this list refreshes every second.${CLOUD.last?` Last saved ${lvAgo(CLOUD.last)}.`:""}`:`Open the platform from its website (or on <b>claude.ai</b>, signed in) to get answers live. Until then you only see work done on this device – use <b>Offline backup</b> below to move results.`}
 function lvRender(force){const list=$("lvList");if(!list||tTab!=="backup"||curScreen!=="teacher")return;lvState();if($("lvPause").checked&&!force)return;
  const cls=$("lvCls").value,ty=$("lvType").value,q=($("lvQ").value||"").trim().toLowerCase();
  let E=lvEvents().filter(e=>(!cls||e.cid===cls)&&(!ty||e.type===ty)&&(!q||e.name.toLowerCase().includes(q)));const total=E.length;E=E.slice(0,80);
@@ -3658,7 +3664,10 @@ function lvRender(force){const list=$("lvList");if(!list||tTab!=="backup"||curSc
  list.innerHTML=E.length?E.map(e=>`<div class="lvrow ${e.type}${fresh.has(e.k)?" new":""}"><span class="lvt"><b data-t="${e.t}" data-day="${e.day?1:0}">${lvAgo(e.t,e.day)}</b>${e.day?"":`<small>${new Date(e.t).toLocaleTimeString("en-GB")}</small>`}</span>
   <span class="lvwho">${avOf(e.sid,34)}<span><b class="ar">${esc(e.name)}</b><small>Class ${esc(e.cls)}</small></span></span>
   <span class="lvwhat"><b><span aria-hidden="true">${e.ic}</span> ${e.title}</b>${e.det?`<small>${e.det}</small>`:""}</span><span class="lvres ${e.lvl}">${e.res}</span></div>`).join(""):`<div class="empty" style="box-shadow:none">${mascot("sleep",80)}<b>No answers yet</b><span>${CLOUD.db?"When students play, read or write, their work appears here within a few seconds.":"Nothing done on this device yet."}</span></div>`}
-function lvOpen(){const sel=$("lvCls");const cur=sel.value;sel.innerHTML=`<option value="">All classes</option>`+roster().classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("");if([...sel.options].some(o=>o.value===cur))sel.value=cur;lvRender(true);clearInterval(LVF.timer);LVF.timer=setInterval(()=>{if(tTab!=="backup"||curScreen!=="teacher"){clearInterval(LVF.timer);LVF.timer=null;return}lvRender()},1000)}
+function lvLinkRender(){const i=$("lvLink"),n=$("lvLinkNote");if(!i)return;const L=joinLink();i.value=L||"";$("lvLinkCopy").disabled=!L;
+ n.innerHTML=L?(onlineConfigured()?"✅ This website is connected to the online database, so work from every device appears in Live answers.":"⚠️ The online database isn't connected yet – work stays on each device until it is."):"The student link appears when the platform is opened from its website address (for example GitHub Pages), not inside claude.ai."}
+$("lvLinkCopy").addEventListener("click",async()=>{const v=$("lvLink").value;if(!v)return;try{await navigator.clipboard.writeText(v)}catch(_){$("lvLink").select();document.execCommand("copy")}$("lvLinkCopy").textContent="✓ Copied";setTimeout(()=>$("lvLinkCopy").textContent="📋 Copy link",1800)});
+function lvOpen(){lvLinkRender();const sel=$("lvCls");const cur=sel.value;sel.innerHTML=`<option value="">All classes</option>`+roster().classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("");if([...sel.options].some(o=>o.value===cur))sel.value=cur;lvRender(true);clearInterval(LVF.timer);LVF.timer=setInterval(()=>{if(tTab!=="backup"||curScreen!=="teacher"){clearInterval(LVF.timer);LVF.timer=null;return}lvRender()},1000)}
 ["lvCls","lvType"].forEach(id=>$(id).addEventListener("change",()=>lvRender(true)));$("lvQ").addEventListener("input",()=>lvRender(true));$("lvPause").addEventListener("change",()=>lvRender(true));
 $("lvSync").addEventListener("click",async()=>{const b=$("lvSync");if(!CLOUD.db){b.textContent="Offline – open on claude.ai";setTimeout(()=>b.textContent="🔄 Sync now",2500);return}b.disabled=true;b.textContent="Syncing…";try{CLOUD.dirty.add("*");await pushProgress();await pullConfig()}catch(e){}b.disabled=false;b.textContent="✓ Synced";setTimeout(()=>b.textContent="🔄 Sync now",2000);lvRender(true)});
 /* Reading: two tabs – Control Centre and Fluency Pyramid */
@@ -5834,6 +5843,28 @@ $("tNewPins").addEventListener("click",()=>{const c=curClass();if(!c)return;ask(
    • config/roster        – class settings (units, PINs, vocabulary), AES-encrypted with the school code
    Works on any device signed in to claude.ai with access to this page; otherwise saves on the device. */
 const PROGRESS_KEYS=["eg_hist","eg_read","eg_best","eg_pb","eg_stories","eg_flash","eg_bonus","eg_prof","eg_certs","eg_speech","eg_pyr","eg_trace","eg_lessons","eg_play"];
+/* ================= ONLINE DATABASE FOR THE PUBLIC WEBSITE (Firebase) =================
+   On claude.ai the app uses Claude's own database. On the public website (GitHub Pages) it uses the
+   Firebase project below, with anonymous sign-in, so every device sees the same data.
+   Only public identifiers go here (Firebase web keys are not secrets). Data is stored as JSON text:
+   class lists stay AES-encrypted with the school code; progress documents carry student ids, not names. */
+const EG_ONLINE={apiKey:"",authDomain:"",projectId:"",appId:""};
+async function firebaseDb(){
+ if(!EG_ONLINE.apiKey||!EG_ONLINE.projectId)return null;
+ const B="https://www.gstatic.com/firebasejs/10.12.2/";
+ const [app,auth,fs]=await Promise.all([import(B+"firebase-app.js"),import(B+"firebase-auth.js"),import(B+"firebase-firestore.js")]);
+ const a=app.initializeApp(EG_ONLINE);await auth.signInAnonymously(auth.getAuth(a));const db=fs.getFirestore(a);
+ const wrap=x=>({id:x.id,exists:x.exists(),data:()=>{if(!x.exists())return undefined;const v=x.data();try{return v&&typeof v.j==="string"?JSON.parse(v.j):v}catch(e){return undefined}}});
+ return{kind:"firebase",
+  doc:p=>({get:async()=>wrap(await fs.getDoc(fs.doc(db,p))),set:async d=>fs.setDoc(fs.doc(db,p),{j:JSON.stringify(d),u:Date.now()}),delete:async()=>fs.deleteDoc(fs.doc(db,p))}),
+  collection:c=>({get:async()=>{const q=await fs.getDocs(fs.collection(db,c));return{docs:q.docs.map(wrap),size:q.size,empty:q.empty}},
+   onSnapshot:(next,err)=>fs.onSnapshot(fs.collection(db,c),s2=>next({docs:s2.docs.map(wrap),size:s2.size,empty:s2.empty,docChanges:()=>s2.docChanges().map(ch=>({type:ch.type,doc:wrap(ch.doc)})),metadata:s2.metadata}),e=>err&&err(e))})}}
+const onlineConfigured=()=>!!(EG_ONLINE.apiKey&&EG_ONLINE.projectId);
+/* One-tap class link: <website>#join=<school code> sets a device up and opens the student login.
+   The part after # is never sent to any server. */
+function joinLink(){const code=store.get("eg_sc",null);if(!code)return"";const u=location.href.split("#")[0];return /^https?:/.test(u)&&!/claude\.ai|claudeusercontent|anthropic/.test(location.host)?u+"#join="+encodeURIComponent(code):""}
+async function handleJoin(){const m=location.hash.match(/^#join=([^&]+)/);if(!m)return false;const code=decodeURIComponent(m[1]);try{history.replaceState(null,"",location.href.split("#")[0])}catch(_){}
+ try{if(!deviceReady()||store.get("eg_sc",null)!==normCode(code))await setupDevice(code);return true}catch(e){return false}}
 const CLOUD={db:null,state:"local",dirty:new Set(),timer:null,merging:false,pushed:{},cfgTimer:null,last:0};
 function cloudMark(k){if(CLOUD.merging||!CLOUD.db)return;
  if(k==="eg_roster"){clearTimeout(CLOUD.cfgTimer);CLOUD.cfgTimer=setTimeout(pushConfig,2500);return}
@@ -5907,14 +5938,16 @@ function refreshVisible(){
  try{if(curScreen==="teacher")renderTeacher();else if(curScreen==="home"&&me)renderHome();else if(curScreen==="reading"&&me)renderReadingHub();else if(curScreen==="me"&&me)renderMe();else if(curScreen==="board"&&me)renderBoard();else if(curScreen==="landing")renderLanding()}catch(e){}
 }
 function renderCloud(){
- const t={local:["📱","Saved on this device only","Sign in to claude.ai on this device to save online"],syncing:["☁️","Syncing…",""],saving:["☁️","Saving…",""],synced:["☁️","Progress saved online",""],error:["⚠️","Online save failed – retrying",""]}[CLOUD.state];
+ const t={local:["📱","Saved on this device only",onlineConfigured()?"No internet connection – work is kept here and sent when you are online":"Sign in to claude.ai on this device to save online"],syncing:["☁️","Syncing…",""],saving:["☁️","Saving…",""],synced:["☁️","Progress saved online",""],error:["⚠️","Online save failed – retrying",""]}[CLOUD.state];
  document.querySelectorAll(".cloudchip").forEach(el=>{el.className="cloudchip "+CLOUD.state;el.innerHTML=`<span>${t[0]}</span><span><b>${t[1]}</b>${t[2]?`<small class="en">${t[2]}</small>`:""}</span>`});
 }
 (async()=>{
  renderCloud();
  try{
-  if(!window.claude||!window.claude.use)return;
-  const db=await window.claude.use("db");if(!db)return;
+  let db=null;
+  if(window.claude&&window.claude.use){try{db=await window.claude.use("db")}catch(_){db=null}}
+  if(!db&&onlineConfigured()){CLOUD.state="syncing";renderCloud();try{db=await firebaseDb()}catch(e){console.warn("online database",e);CLOUD.state="error";renderCloud()}}
+  if(!db){if(CLOUD.state==="syncing")CLOUD.state="local";renderCloud();return}
   CLOUD.db=db;CLOUD.state="syncing";renderCloud();
   await pullConfig();
   let first=true;
@@ -5928,7 +5961,7 @@ function renderCloud(){
 })();
 
 (async()=>{const sc=store.get("eg_sc",null);if(sc&&seedOutdated()){try{await refreshSeed(sc);if(curScreen!=="landing"&&curScreen!=="splash")refreshVisible()}catch(e){}}})();
-afterSplash();
+(async()=>{const joined=await handleJoin();if(joined&&deviceReady()){Object.assign(SL,{fails:0,step:1,cid:null,sid:null,pin:""});slRender();show("slogin")}else afterSplash()})();
 })();
 </script>
 </body>
