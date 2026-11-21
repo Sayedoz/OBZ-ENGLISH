@@ -5,7 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>English Geniuses</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Fredoka:wght@400;500;600;700&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>/* Apple devices draw pictures with their own emoji; the Noto emoji web font shows blank there, so only other devices load it */
+(function(){var ua=navigator.userAgent||"",apple=/iPhone|iPad|iPod|Macintosh/.test(ua)&&!/Android/.test(ua);
+ if(apple){document.documentElement.classList.add("apple")}
+ else{var l=document.createElement("link");l.rel="stylesheet";l.href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap";document.head.appendChild(l)}})();</script>
 <style>
 /* English Geniuses v7 — "a learning world": lavender sky, white cards, one lion guide (Usama, the school mascot),
    five zone colours, Duolingo-style pressable buttons. Student app = phone-first column + bottom tabs. */
@@ -30,6 +34,7 @@
   --shadow:0 10px 30px rgba(28,58,100,.10);
   color-scheme:light;
 }
+html.apple{--emo:'Apple Color Emoji','Segoe UI Emoji',sans-serif}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;min-height:100%}
 body{font-family:var(--font);background:var(--bg);color:var(--ink);overflow-x:hidden;font-size:17px;line-height:1.5}
@@ -423,7 +428,7 @@ body.ingame{background:var(--zs)}
 .resacts .row{display:flex;gap:10px;flex-wrap:wrap}
 .resacts .row .btn{flex:1 1 140px}
 .resacts .btn{white-space:normal;text-align:center;line-height:1.25}
-.confetti{position:fixed;top:-20px;width:10px;height:16px;z-index:80;pointer-events:none;animation:fall linear forwards;border-radius:3px}
+.confetti{position:fixed;top:-20px;will-change:transform;backface-visibility:hidden;width:10px;height:16px;z-index:80;pointer-events:none;animation:fall linear forwards;border-radius:3px}
 @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
 
 /* ---------- READING RUN ---------- */
@@ -688,6 +693,8 @@ body{background:#E8F0FA}
 @keyframes skyshift{from{background-position:0 0}to{background-position:0 100%}}
 #sky .fl{position:absolute;left:0;will-change:transform;animation:drift linear infinite}
 #sky .fl>i{display:block;font-style:normal;animation:float 7s ease-in-out infinite}
+/* phones and tablets: keep the sky still (a moving full-screen gradient repaints every frame) and light the clouds */
+@media (hover:none),(pointer:coarse){#sky{animation:none;background-size:100% 100%}#sky .cloud{filter:none}#sky .fl{transform:translateZ(0)}.fb{transform:translateZ(0)}}
 @keyframes drift{from{transform:translateX(-18vw)}to{transform:translateX(118vw)}}
 @keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-16px) rotate(4deg)}}
 #sky .ltr{font-family:var(--disp);font-weight:700;color:rgba(255,255,255,.62);text-shadow:0 4px 18px rgba(47,111,184,.25);line-height:1}
@@ -860,7 +867,7 @@ body.has-mic .micbtn{display:inline-flex}
 .pw.got{background:#3CCB57!important;color:#fff;transform:scale(1.15)}
 .pw.no{animation:shake .4s;background:rgba(255,90,90,.85)!important}
 @keyframes shake{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
-.pyspark{position:fixed;z-index:90;pointer-events:none;font-size:22px;animation:pysp .9s ease-out forwards}
+.pyspark{position:fixed;z-index:90;pointer-events:none;will-change:transform,opacity;backface-visibility:hidden;font-family:var(--emo);font-size:22px;animation:pysp .9s ease-out forwards}
 @keyframes pysp{from{transform:translate(-50%,-50%) scale(.4);opacity:1}to{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.2);opacity:0}}
 .pyfoot{display:flex;flex-direction:column;gap:8px}
 .pysw{text-align:center;font-weight:700;color:var(--muted)}.pysw span{display:inline-block;background:#fff;border-radius:99px;padding:1px 12px;margin:2px;color:var(--ink);font-family:var(--disp);box-shadow:0 2px 0 var(--line)}
