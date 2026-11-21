@@ -1417,7 +1417,7 @@ body[data-scr=pga] #tabbar{display:none!important}
     <div class="cls-board" id="honorList"></div>
   </section>
   <section class="lcta"><span id="lctaM"></span><div><h2>Ready to play?</h2><p>Log in with your class, your name and your PIN.</p></div><button class="btn btn-ink" id="lctaGo">Start your journey <svg class="i f" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg></button></section>
-  <footer class="foot"><img id="ftLogo" alt="School logo"><b>English Geniuses</b><span>Osama Bin Zaid Primary Boys School – English Department</span><span>School year 2026–2027</span><span>Designed by T. Sayed Mustafa Hasan</span></footer>
+  <footer class="foot"><img id="ftLogo" alt="School logo"><b>English Geniuses</b><span>Osama Bin Zaid Primary Boys School – English Department</span><span>School year 2026–2027</span><span id="ftVer" style="opacity:.7;font-size:12px">Version 21 Nov 2026 (server)</span><span>Designed by T. Sayed Mustafa Hasan</span></footer>
   </div>
 </section>
 
@@ -2332,6 +2332,9 @@ function ensureClsMarks(){const r=roster();if(!r.classes.some(c=>c.mark==null))r
 /* Student login: 3 big taps – class tile, name, PIN keypad */
 function slRender(){
  const r=roster(),last=store.get("eg_lastcls",null);
+ if(!deviceReady()&&/^https?:$/.test(location.protocol)&&!/claude\.ai|claudeusercontent|anthropic/.test(location.host)){
+  if(SRV.on&&!SRV.hasRoster){$("slBody").innerHTML=`<div class="empty" style="box-shadow:none">${mascot("think",90)}<b>No classes on the server yet</b><span>Your teacher needs to log in once on “Teacher login” to upload the classes.</span></div>`;return}
+  if(!SRV.on){$("slBody").innerHTML=`<div class="empty" style="box-shadow:none">${mascot("think",90)}<b>${SRV.checking?"Connecting to the school server…":"Can't reach the school server"}</b><span>${SRV.checking?"":"Check the internet connection, then try again."}</span>${SRV.checking?"":'<button class="btn btn-p" id="slRetry" style="margin-top:10px">Try again</button>'}</div>`;const b=$("slRetry");if(b)b.onclick=()=>location.reload();if(SRV.checking)setTimeout(()=>{if(curScreen==="slogin")slRender()},700);return}}
  if(!deviceReady()){$("slBody").innerHTML=`<div class="empty" style="box-shadow:none">${mascot("think",90)}<b>This device isn't set up yet</b><span>Ask your teacher to set it up once from “Teacher login”.</span>${arHelp("هذا الجهاز غير مُعدّ بعد – اطلب من معلمك إعداده.",{lv:"smart"})}</div>`;return}
  const steps=n=>`<ol class="slsteps" aria-label="Login steps">${["My class","My name","My PIN"].map((t,i)=>`<li class="${i+1<n?"done":i+1===n?"on":""}"><b>${i+1<n?"✓":i+1}</b>${t}</li>`).join("")}</ol>`;
  const help=(en,ar,mood)=>`<div class="helpline" id="slHelp">${mascot(mood||"happy",56)}<span><b>${en}</b>${arHelp(ar,{lv:"smart"})}</span></div>`;
@@ -5875,9 +5878,12 @@ async function srvLoadRoster(){
 async function srvBoot(){
  if(!/^https?:$/.test(location.protocol)||/claude\.ai|claudeusercontent|anthropic/.test(location.host))return;
  SRV.base=location.pathname.replace(/[^/]*$/,"")+"api/";
- let h=null;try{h=await srvFetch("health",{},6000)}catch(e){return}
+ let h=null;SRV.checking=true;
+ for(let i=0;i<3&&!h;i++){try{h=await srvFetch("health",{},8000)}catch(e){SRV.err=e.status?("server error "+e.status):"no connection";await new Promise(r=>setTimeout(r,800))}}
+ SRV.checking=false;
  if(!h||!h.ok||h.mode!=="server")return;
  SRV.on=true;SRV.hasRoster=!!h.hasRoster;
+ try{$("ftVer").textContent="Version 21 Nov 2026 (server) · ✅ online database"+(SRV.hasRoster?"":" – no classes yet")}catch(_){}
  try{if(SRV.hasRoster)await srvLoadRoster()}catch(e){console.warn("class lists",e)}
  setInterval(()=>{if(!document.hidden&&curScreen!=="teacher")srvLoadRoster().then(()=>{if(["landing","slogin"].includes(curScreen))refreshVisible()}).catch(()=>{})},60000);
  cloudStart();}
