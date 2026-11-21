@@ -1703,6 +1703,11 @@ body[data-scr=pga] #tabbar{display:none!important}
       <p class="tnote" style="margin-top:0">Send this link to your students (WhatsApp, Teams, QR code). Opening it once sets up their phone, tablet or computer, then they log in with class → name → PIN. Anyone with this link can reach your class lists, so share it only with your students' families.</p>
       <div class="trow"><input id="lvLink" readonly style="flex:1;min-width:220px;font:inherit;font-size:14px;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;background:#fff"><button class="act p" id="lvLinkCopy">📋 Copy link</button></div>
       <p class="tnote" id="lvLinkNote" style="margin-bottom:0"></p>
+      <div id="lvKeyBox" hidden style="margin-top:10px;border-top:1.5px dashed var(--line);padding-top:10px">
+        <b>🔑 Cloudflare server key</b>
+        <div class="trow" style="margin-top:6px"><input id="lvKey" readonly style="flex:1;min-width:220px;font:inherit;font-size:13px;font-family:monospace;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;background:#fff"><button class="mini-btn" id="lvKeyCopy">📋 Copy</button></div>
+        <p class="tnote" id="lvKeyNote" style="margin:6px 0 0"></p>
+      </div>
     </div>
     <details class="panel lvoff"><summary><b>Offline backup – move classes and results with codes</b><small>Use this only when a device can't go online.</small></summary>
     <div class="panel">
@@ -2183,7 +2188,7 @@ async function refreshSeed(code){const data=await aesDecrypt(SEED_ENC,normCode(c
 function seedOutdated(){return SEED.length&&store.get("eg_seedv",null)!==SEED_V}
 function seedClass(c){return{id:c.id,name:c.name,grade:c.grade,unit:1,students:c.students.map(([id,name,lv,pw])=>({id,name,level:lv,pw}))}}
 function deviceReady(){const r=store.get("eg_roster",null);return!!(r&&r.classes&&r.classes.length)}
-async function setupDevice(code){const data=await aesDecrypt(SEED_ENC,normCode(code));SEED=data;if(!store.set("eg_seed",data))throw new Error("save");store.set("eg_sc",normCode(code));store.set("eg_seedv",SEED_V);roster();try{await pullConfig()}catch(_){}return data}
+async function setupDevice(code){const data=await aesDecrypt(SEED_ENC,normCode(code));SEED=data;if(!store.set("eg_seed",data))throw new Error("save");store.set("eg_sc",normCode(code));store.set("eg_seedv",SEED_V);roster();try{if(!CLOUD.db)await cloudStart();await pullConfig()}catch(_){}return data}
 function roster(){let r=store.get("eg_roster",null);if(!r||!r.classes)r={classes:[],pinHash:null};let ch=false;
  const gone=r.removedSeed||[];
  const nd=r.classes.filter(c=>!/^Demo/i.test(c.name));if(nd.length!==r.classes.length){r.classes=nd;ch=true}
@@ -3665,7 +3670,9 @@ function lvRender(force){const list=$("lvList");if(!list||tTab!=="backup"||curSc
   <span class="lvwho">${avOf(e.sid,34)}<span><b class="ar">${esc(e.name)}</b><small>Class ${esc(e.cls)}</small></span></span>
   <span class="lvwhat"><b><span aria-hidden="true">${e.ic}</span> ${e.title}</b>${e.det?`<small>${e.det}</small>`:""}</span><span class="lvres ${e.lvl}">${e.res}</span></div>`).join(""):`<div class="empty" style="box-shadow:none">${mascot("sleep",80)}<b>No answers yet</b><span>${CLOUD.db?"When students play, read or write, their work appears here within a few seconds.":"Nothing done on this device yet."}</span></div>`}
 function lvLinkRender(){const i=$("lvLink"),n=$("lvLinkNote");if(!i)return;const L=joinLink();i.value=L||"";$("lvLinkCopy").disabled=!L;
- n.innerHTML=L?(onlineConfigured()?"✅ This website is connected to the online database, so work from every device appears in Live answers.":"⚠️ The online database isn't connected yet – work stays on each device until it is."):"The student link appears when the platform is opened from its website address (for example GitHub Pages), not inside claude.ai."}
+ const kb=$("lvKeyBox");if(kb){const code=store.get("eg_sc",null);kb.hidden=!(CLOUD.server||(CLOUD.db&&CLOUD.db.kind==="cloudflare"));if(!kb.hidden&&code)egKey(code).then(k=>{$("lvKey").value=k;$("lvKeyNote").innerHTML=CLOUD.server&&CLOUD.server.locked?"🔒 Your Cloudflare server is locked with this key – only devices with the school code can read or write.":"⚠️ Your Cloudflare server is <b>not locked</b> yet: add this value as the secret <b>EG_KEY</b> in Cloudflare (Settings → Variables and Secrets), then redeploy."})}
+ n.innerHTML=L?((CLOUD.db&&CLOUD.db.kind==="cloudflare")?"✅ Connected to your Cloudflare database – work from every device is saved online and appears in Live answers.":onlineConfigured()?"✅ This website is connected to the online database, so work from every device appears in Live answers.":"⚠️ The online database isn't connected yet – work stays on each device until it is. See the Cloudflare setup in the README."):"The student link appears when the platform is opened from its website address (for example GitHub Pages), not inside claude.ai."}
+$("lvKeyCopy").addEventListener("click",async()=>{const v=$("lvKey").value;try{await navigator.clipboard.writeText(v)}catch(_){$("lvKey").select();document.execCommand("copy")}$("lvKeyCopy").textContent="✓ Copied";setTimeout(()=>$("lvKeyCopy").textContent="📋 Copy",1800)});
 $("lvLinkCopy").addEventListener("click",async()=>{const v=$("lvLink").value;if(!v)return;try{await navigator.clipboard.writeText(v)}catch(_){$("lvLink").select();document.execCommand("copy")}$("lvLinkCopy").textContent="✓ Copied";setTimeout(()=>$("lvLinkCopy").textContent="📋 Copy link",1800)});
 function lvOpen(){lvLinkRender();const sel=$("lvCls");const cur=sel.value;sel.innerHTML=`<option value="">All classes</option>`+roster().classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("");if([...sel.options].some(o=>o.value===cur))sel.value=cur;lvRender(true);clearInterval(LVF.timer);LVF.timer=setInterval(()=>{if(tTab!=="backup"||curScreen!=="teacher"){clearInterval(LVF.timer);LVF.timer=null;return}lvRender()},1000)}
 ["lvCls","lvType"].forEach(id=>$(id).addEventListener("change",()=>lvRender(true)));$("lvQ").addEventListener("input",()=>lvRender(true));$("lvPause").addEventListener("change",()=>lvRender(true));
@@ -5843,6 +5850,37 @@ $("tNewPins").addEventListener("click",()=>{const c=curClass();if(!c)return;ask(
    • config/roster        – class settings (units, PINs, vocabulary), AES-encrypted with the school code
    Works on any device signed in to claude.ai with access to this page; otherwise saves on the device. */
 const PROGRESS_KEYS=["eg_hist","eg_read","eg_best","eg_pb","eg_stories","eg_flash","eg_bonus","eg_prof","eg_certs","eg_speech","eg_pyr","eg_trace","eg_lessons","eg_play"];
+/* ================= ONLINE DATABASE ON CLOUDFLARE (Pages Functions + D1) =================
+   When the app is served from Cloudflare Pages, functions/api/[[path]].js stores every document in a D1 database.
+   Each request carries a key made from the school code (SHA-256), so only devices set up with the school code
+   can read or write. Class lists stay AES-encrypted; progress documents use student ids, not names. */
+async function egKey(code){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("english-geniuses:"+code));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+async function cfDb(){
+ if(!/^https?:$/.test(location.protocol)||/claude\.ai|claudeusercontent|anthropic/.test(location.host))return null;
+ const base=location.pathname.replace(/[^/]*$/,"")+"api/";
+ let h=null;try{const r=await fetch(base+"health",{cache:"no-store"});if(!r.ok)return null;h=await r.json()}catch(e){return null}
+ if(!h||!h.ok)return null;CLOUD.server=h;
+ const code=store.get("eg_sc",null);if(!code)return null;
+ const key=await egKey(code);
+ const api=async(path,opt={})=>{const r=await fetch(base+path,{...opt,cache:"no-store",headers:{...(opt.headers||{}),"x-eg-key":key,"content-type":"application/json"}});
+  if(r.status===403){const e=new Error("forbidden");e.code="forbidden";throw e}if(!r.ok){const e=new Error("http "+r.status);e.code=r.status===413?"quota_exceeded":"http";throw e}return r.json()};
+ await api("list?c=config&since="+(Date.now()+1));
+ const wrap=(id,j)=>({id,exists:j!=null,data:()=>{try{return j==null?undefined:JSON.parse(j)}catch(e){return undefined}}});
+ return{kind:"cloudflare",key,
+  beacon:ids=>{ids.forEach(sid=>{if(!/^[\w.~:@+-]+$/.test(sid))return;try{fetch(base+"doc?p="+encodeURIComponent("progress/"+sid),{method:"PUT",keepalive:true,headers:{"x-eg-key":key,"content-type":"application/json"},body:JSON.stringify({...buildStudentDoc(sid),updated:new Date().toISOString()})})}catch(_){}})},
+  doc:p=>({get:async()=>{const r=await api("doc?p="+encodeURIComponent(p));return wrap(p.split("/").pop(),r.exists?r.j:null)},
+   set:async d=>{await api("doc?p="+encodeURIComponent(p),{method:"PUT",body:JSON.stringify(d)})},
+   delete:async()=>{await api("doc?p="+encodeURIComponent(p),{method:"DELETE"})}}),
+  collection:c=>({get:async()=>{const r=await api("list?c="+encodeURIComponent(c)+"&since=0");const docs=r.docs.map(d=>wrap(d.id,d.j));return{docs,size:docs.length,empty:!docs.length}},
+   onSnapshot:(next,err)=>{let since=0,stop=false,first=true;const seen={};
+    const tick=async()=>{if(stop)return;let more=false;
+     try{const r=await api("list?c="+encodeURIComponent(c)+"&since="+Math.max(0,since-5000));const ch=[];
+      r.docs.forEach(d=>{if(seen[d.id]===d.u)return;ch.push({type:seen[d.id]?"modified":"added",doc:wrap(d.id,d.j)});seen[d.id]=d.u;since=Math.max(since,d.u)});
+      more=r.docs.length>=(r.limit||500);
+      if(ch.length||first){first=false;next({docs:ch.map(x=>x.doc),size:ch.length,empty:!ch.length,docChanges:()=>ch,metadata:{fromCache:false,hasPendingWrites:false}})}}
+     catch(e){if(err)err(e)}
+     finally{if(!stop)setTimeout(tick,more?50:document.hidden?8000:1500)}};
+    tick();return()=>{stop=true}}})}}
 /* ================= ONLINE DATABASE FOR THE PUBLIC WEBSITE (Firebase) =================
    On claude.ai the app uses Claude's own database. On the public website (GitHub Pages) it uses the
    Firebase project below, with anonymous sign-in, so every device sees the same data.
@@ -5869,7 +5907,7 @@ const CLOUD={db:null,state:"local",dirty:new Set(),timer:null,merging:false,push
 function cloudMark(k){if(CLOUD.merging||!CLOUD.db)return;
  if(k==="eg_roster"){clearTimeout(CLOUD.cfgTimer);CLOUD.cfgTimer=setTimeout(pushConfig,2500);return}
  if(!PROGRESS_KEYS.includes(k))return;
- CLOUD.dirty.add(me&&me.st?me.st.id:"*");clearTimeout(CLOUD.timer);CLOUD.timer=setTimeout(pushProgress,800)}
+ CLOUD.dirty.add(me&&me.st?me.st.id:"*");clearTimeout(CLOUD.timer);CLOUD.timer=setTimeout(pushProgress,CLOUD.db&&CLOUD.db.kind==="cloudflare"?350:800)}
 function studentIdsWithData(){const s=new Set();store.get("eg_hist",[]).forEach(h=>s.add(h.sid));["eg_read","eg_stories","eg_flash","eg_bonus","eg_prof","eg_certs","eg_speech","eg_pyr","eg_trace","eg_lessons","eg_play"].forEach(k=>Object.keys(store.get(k,{})).forEach(x=>s.add(x)));Object.keys(store.get("eg_best",{})).forEach(k=>s.add(k.split("|")[0]));return[...s]}
 function buildStudentDoc(sid){
  const pre=sid+"|",pick=o=>Object.fromEntries(Object.entries(o).filter(([k])=>k.startsWith(pre)));
@@ -5938,16 +5976,18 @@ function refreshVisible(){
  try{if(curScreen==="teacher")renderTeacher();else if(curScreen==="home"&&me)renderHome();else if(curScreen==="reading"&&me)renderReadingHub();else if(curScreen==="me"&&me)renderMe();else if(curScreen==="board"&&me)renderBoard();else if(curScreen==="landing")renderLanding()}catch(e){}
 }
 function renderCloud(){
- const t={local:["📱","Saved on this device only",onlineConfigured()?"No internet connection – work is kept here and sent when you are online":"Sign in to claude.ai on this device to save online"],syncing:["☁️","Syncing…",""],saving:["☁️","Saving…",""],synced:["☁️","Progress saved online",""],error:["⚠️","Online save failed – retrying",""]}[CLOUD.state];
+ const t={denied:["⛔","The online server refused this device","The school code on this device doesn't match the server key – ask your teacher"],local:["📱","Saved on this device only",onlineConfigured()?"No internet connection – work is kept here and sent when you are online":"Sign in to claude.ai on this device to save online"],syncing:["☁️","Syncing…",""],saving:["☁️","Saving…",""],synced:["☁️","Progress saved online",""],error:["⚠️","Online save failed – retrying",""]}[CLOUD.state];
  document.querySelectorAll(".cloudchip").forEach(el=>{el.className="cloudchip "+CLOUD.state;el.innerHTML=`<span>${t[0]}</span><span><b>${t[1]}</b>${t[2]?`<small class="en">${t[2]}</small>`:""}</span>`});
 }
-(async()=>{
+async function cloudStart(){
+ if(CLOUD.db||CLOUD.starting)return;CLOUD.starting=true;
  renderCloud();
  try{
   let db=null;
   if(window.claude&&window.claude.use){try{db=await window.claude.use("db")}catch(_){db=null}}
+  if(!db){try{db=await cfDb()}catch(e){console.warn("online database",e);if(e&&e.code==="forbidden"){CLOUD.state="denied";renderCloud();CLOUD.starting=false;return}}}
   if(!db&&onlineConfigured()){CLOUD.state="syncing";renderCloud();try{db=await firebaseDb()}catch(e){console.warn("online database",e);CLOUD.state="error";renderCloud()}}
-  if(!db){if(CLOUD.state==="syncing")CLOUD.state="local";renderCloud();return}
+  if(!db){if(CLOUD.state==="syncing")CLOUD.state="local";renderCloud();CLOUD.starting=false;return}
   CLOUD.db=db;CLOUD.state="syncing";renderCloud();
   await pullConfig();
   let first=true;
@@ -5958,7 +5998,12 @@ function renderCloud(){
    if(changed&&!["game","readrun","story","storyNew","flash","results","lesson","pga"].includes(curScreen))refreshVisible();
   },e=>{CLOUD.state=e&&e.code==="revoked"?"local":"error";if(e&&e.code==="revoked")CLOUD.db=null;renderCloud()});
  }catch(e){CLOUD.db=null;CLOUD.state="local";renderCloud()}
-})();
+ CLOUD.starting=false;
+}
+cloudStart();
+/* save straight away when the tab is hidden or closed, so nothing waits on this device */
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden"&&CLOUD.db&&CLOUD.dirty.size){clearTimeout(CLOUD.timer);pushProgress()}});
+window.addEventListener("pagehide",()=>{if(CLOUD.db&&CLOUD.dirty.size&&CLOUD.db.kind==="cloudflare"){try{clearTimeout(CLOUD.timer);CLOUD.db.beacon(CLOUD.dirty.has("*")?studentIdsWithData():[...CLOUD.dirty]);CLOUD.dirty.clear()}catch(_){}}});
 
 (async()=>{const sc=store.get("eg_sc",null);if(sc&&seedOutdated()){try{await refreshSeed(sc);if(curScreen!=="landing"&&curScreen!=="splash")refreshVisible()}catch(e){}}})();
 (async()=>{const joined=await handleJoin();if(joined&&deviceReady()){Object.assign(SL,{fails:0,step:1,cid:null,sid:null,pin:""});slRender();show("slogin")}else afterSplash()})();
