@@ -35,6 +35,7 @@
   color-scheme:light;
 }
 html.apple{--emo:'Apple Color Emoji','Segoe UI Emoji',sans-serif}
+html.apple .emo,html.apple .ch.emo{font-weight:400;font-synthesis:none}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;min-height:100%}
 body{font-family:var(--font);background:var(--bg);color:var(--ink);overflow-x:hidden;font-size:17px;line-height:1.5}
@@ -5379,7 +5380,7 @@ const pgArt=w=>/^[aeiou]/i.test(w)?"an":"a";
 const pgCap=s=>s.charAt(0).toUpperCase()+s.slice(1);
 /* ---------- simple dictionary for writing feedback (taught words + common words) ---------- */
 const PG_BASIC="a an the and but or because so then also too very not no yes please thank thanks you hello hi bye goodbye sorry ok okay i me my mine you your he him his she her it its we us our they them their this that these those there here what where who when why how which whose is are am was were be been being isn't aren't wasn't weren't i'm you're he's she's it's we're they're that's there's here's what's where's who's let's can can't cannot could will won't do does did don't doesn't didn't have has had haven't hasn't got get gets go goes went going come comes came see sees saw look looks looking like likes liked want wants need needs love loves play plays played playing eat eats ate eating drink drinks drank make makes made read reads write writes wrote run runs ran jump jumps jumped swim swims swam fly flies sing sings sit sits stand walk walks talk talks say says said give gives take takes put find finds help helps open close live lives lived work works use uses wait laugh cry ride rides think know draw paint clean cook wash fix catch kick throw climb in on under next to behind in front of at from of for with without into over near up down out off about after before big small little long short tall old new young good bad happy sad hot cold nice fun funny great beautiful pretty fast slow red blue green yellow orange pink purple black white brown grey gray one two three four five six seven eight nine ten eleven twelve first second third today yesterday tomorrow now morning afternoon evening night day week year time school home class friend friends family boy girl man woman people children child mum dad brother sister baby name lion usama many much some any all every each other more most lots lot of oh wow look yay great hooray please sir miss mr mrs our".split(" ");
-let PG_DICT=null;function pgDict(){if(PG_DICT)return PG_DICT;const d=new Set(PG_BASIC);REALW.forEach(w=>d.add(w));
+let PG_DICT=null;function pgDict(){if(PG_DICT)return PG_DICT;const d=new Set(PG_BASIC);REALW.forEach(w=>d.add(w));PG_REL.forEach(g=>g.forEach(x=>x.split(/[ -]/).forEach(y=>d.add(y))));Object.values(PG_IRREG).forEach(x=>d.add(x));
  for(const g of [1,2,3])Object.values(BOOK[g].units).forEach(u=>{[u.w,u.ph.w,...u.g,...u.s,u.t].join(" ").toLowerCase().replace(/[^a-z' ]+/g," ").split(/\s+/).forEach(w=>{if(w){d.add(w);d.add(w.replace(/'s$/,""))}});u.W.concat(u.P).forEach(x=>{const w=x.w.toLowerCase();d.add(pgPlural(w));d.add(w+"s");d.add(w+"ing");d.add(w+"ed")})});
  PG_DICT=d;return d}
 const PG_VERBISH=/^(is|are|am|was|were|can|can't|cannot|could|will|has|have|had|got|do|does|did|don't|doesn't|didn't|isn't|aren't|wasn't|weren't|haven't|hasn't|i'm|it's|he's|she's|we're|they're|you're|there's|that's|let's|what's|where's|who's|must|mustn't)$/;
@@ -5387,6 +5388,29 @@ function pgWords(t){return(String(t).match(/[A-Za-z']+/g)||[])}
 function pgSentences(t){return(String(t).trim().match(/[^.!?]+[.!?]*/g)||[]).map(s=>s.trim()).filter(s=>pgWords(s).length)}
 function pgUnknown(t){const d=pgDict(),out=[];pgSentences(t).forEach(s=>{pgWords(s).forEach((w,i)=>{const lw=w.toLowerCase().replace(/^'+|'+$/g,"");if(lw.length<2&&lw!=="a"&&lw!=="i")return;if(i>0&&/^[A-Z]/.test(w)&&lw!=="i")return; // names
   if(!d.has(lw)&&!d.has(lw.replace(/(es|s|ing|ed)$/,""))&&!out.includes(w))out.push(w)})});return out}
+/* words that mean the same picture: a child who writes "man" for the dad picture is right */
+const PG_REL=[["dad","daddy","father","man","person","parent"],["mum","mom","mummy","mommy","mother","woman","lady","person","parent"],
+ ["grandma","granny","grandmother","nan","nana","old woman","old lady","woman","lady","person"],["grandpa","grandad","granddad","grandfather","old man","man","person"],
+ ["boy","child","kid","brother","son","person","pupil","student"],["girl","child","kid","sister","daughter","person","pupil","student"],["baby","child","brother","sister","person"],
+ ["brother","boy","child","kid","person"],["sister","girl","child","kid","person"],["man","person","dad","father"],["woman","lady","person","mum","mother"],
+ ["teacher","man","woman","person","lady"],["doctor","man","woman","person"],["family","people","parents"],["friend","boy","girl","child","kid"],
+ ["sofa","couch","settee","seat","chair"],["armchair","chair","seat","sofa"],["chair","seat"],["bed","cot"],["cupboard","wardrobe","closet"],["lamp","light"],
+ ["tv","television","telly"],["television","tv"],["door","doorway"],["window","glass"],["picture","photo","painting","frame"],["rug","carpet","mat"],["mat","rug","carpet"],
+ ["ball","football","toy"],["yoyo","yo-yo","yo yo","toy"],["kite","toy"],["doll","toy"],["teddy","teddy bear","bear","toy"],["car","toy","vehicle"],["train","toy"],
+ ["violin","instrument","fiddle"],["guitar","instrument"],["piano","instrument","keyboard"],["drum","drums","instrument"],
+ ["cow","animal","calf","bull"],["dog","puppy","pet","animal"],["cat","kitten","pet","animal"],["horse","pony","animal"],["sheep","lamb","animal"],["goat","animal"],
+ ["duck","bird","animal"],["chicken","hen","bird","animal"],["bird","animal"],["fish","pet","animal"],["rabbit","bunny","pet","animal"],["mouse","animal","pet"],
+ ["bag","schoolbag","backpack"],["rubber","eraser"],["eraser","rubber"],["pencil","pen"],["pen","pencil"],["book","books"],["ruler"],
+ ["apple","fruit"],["banana","fruit"],["orange","fruit"],["cake","food"],["sandwich","food"],["bathroom","toilet"],["kitchen","room"],["bedroom","room"],["living room","room","lounge"]];
+const PG_IRREG={man:"men",woman:"women",child:"children",person:"people",mouse:"mice",sheep:"sheep",fish:"fish"};
+function pgUsedWords(t,need){const taken=new Set(),used=[];const rx=f=>new RegExp("\\b"+f.replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/ /g,"\\s+")+"(s|es)?\\b","gi");
+ const hits=f=>{const r=[];let m;const x=rx(f);while((m=x.exec(t)))r.push(m.index);return r};
+ // exact picture words first, then same-meaning words, then general words; each written word counts once
+ [0,1].forEach(pass=>need.forEach(w=>{if(used.some(u=>u.w===w))return;const forms=pass?pgRelated(w).slice(1):[String(w).toLowerCase()];
+  for(const f of forms){const at=hits(f).find(i=>!taken.has(i));if(at!=null){taken.add(at);used.push({w,f:t.substr(at,f.length)});return}}}));
+ return used.map(u=>u.f)}
+function pgRelated(w){const k=String(w).toLowerCase().trim(),out=new Set([k]);PG_REL.forEach(g=>{if(g[0]===k)g.forEach(x=>out.add(x))});
+ [...out].forEach(x=>{if(PG_IRREG[x])out.add(PG_IRREG[x])});return[...out]}
 /* the core writing check: returns rows of {k,ok,msg} so the child sees exactly what to fix */
 function pgCheck(t,o={}){const S=pgSentences(t),W=pgWords(t),rows=[],minW=o.minWords||2,minS=o.sentences||1;
  const add=(k,ok,msg)=>rows.push({k,ok,msg});
@@ -5397,7 +5421,7 @@ function pgCheck(t,o={}){const S=pgSentences(t),W=pgWords(t),rows=[],minW=o.minW
  const short=S.filter(s=>pgWords(s).length<minW&&!(/!$/.test(s)&&pgWords(s).length<=2&&S.length>1));const noVerb=o.verb?S.filter(s=>!/\?$/.test(s)&&!pgWords(s).some(w=>PG_VERBISH.test(w.toLowerCase())||/(ing|ed|s)$/.test(w.toLowerCase())&&w.length>3||(o.verbs||[]).includes(w.toLowerCase()))):[];
  add("complete",!short.length&&!noVerb.length,short.length?`Make ${S.length>1?"each sentence":"it"} longer – at least ${minW} words.`:noVerb.length?`“${noVerb[0]}” needs a doing word, like is, are, can or has got.`:"Full sentence ✓");
  const unk=pgUnknown(t);add("spell",!unk.length,unk.length?`Check the spelling: ${unk.slice(0,4).map(w=>`<b>${esc(w)}</b>`).join(", ")}`:"Spelling looks good ✓");
- if(o.need&&o.need.length){const used=o.need.filter(w=>new RegExp("\\b"+w.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(s|es)?\\b","i").test(t));const k=o.needN||1;add("vocab",used.length>=k,used.length>=k?`You used: ${used.slice(0,4).map(esc).join(", ")} ✓`:`Use ${k>1?k+" words":"a word"} from the picture.`)}
+ if(o.need&&o.need.length){const used=pgUsedWords(t,o.need);const k=o.needN||1;add("vocab",used.length>=k,used.length>=k?`You used: ${[...new Set(used.map(x=>x.toLowerCase()))].slice(0,4).map(esc).join(", ")} ✓`:`Use ${k>1?k+" words":"a word"} from the picture.`)}
  if(o.link){const L=pgWords(t).filter(w=>/^(and|but|because|then|also|so|after|first|next)$/i.test(w));add("link",L.length>0,L.length?"Joining word ✓":"Join your ideas with and, but, because or then.")}
  return rows}
 const pgCheckScore=rows=>rows.length?rows.filter(r=>r.ok).length/rows.length:0;
@@ -5420,7 +5444,7 @@ function pgMergeDoc(a,b){a=a||{};b=b||{};const o={acts:{},sk:{},conf:{},wr:[],up
  const ca=a.cur,cb=b.cur;o.cur=(ca&&cb)?((ca.at||0)>(cb.at||0)?ca:cb):(ca||cb||null);return o}
 /* ---------- screens ---------- */
 const PG={act:null,st:1,rounds:[],i:0,res:[],tries:0,hintFn:null,solved:false,world:"word"};
-try{if(localStorage.getItem("eg_debug_pg"))window.__PG=PG}catch(_){}
+try{if(localStorage.getItem("eg_debug_pg")){window.__PG=PG;window.__pgCheck=pgCheck}}catch(_){}
 function pgHomeCard(){if(!me)return"";const m=pgMine();const n=PG_ORDER.filter(id=>pgStatusOf(m.acts[id]).k!=="none").length;
  return `<button class="card hxc pgh" id="hPlay"><span class="pghic" aria-hidden="true"><i>🔤</i><i>🔬</i><i>🏰</i><i>🎨</i></span><span class="t"><small>The English Playground</small><b>4 worlds to explore</b><span class="cr">${n?`${n} of ${PG_ORDER.length} activities started`:"Build, find, fix and write!"}</span></span>${icon("play","f")}</button>`}
 function openPlayground(){renderPlayHub();show("play","up")}
