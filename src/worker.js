@@ -1,13 +1,13 @@
-// English Geniuses – online database API (Cloudflare Pages Function + D1).
-//   GET    /api/health                  -> { ok, locked }
-//   GET    /api/doc?p=progress/<id>     -> { exists, j, u }
-//   PUT    /api/doc?p=progress/<id>     body: JSON document   -> { ok, u }
-//   DELETE /api/doc?p=progress/<id>     -> { ok }
-//   GET    /api/list?c=progress&since=<ms> -> { docs:[{id,j,u}], now, limit }
-// Bindings (Cloudflare dashboard → your Pages project → Settings):
-//   D1 database binding named  DB
-//   Secret                     EG_KEY  (shown in the teacher dashboard → Online & backup)
-// Every request except /health must send the header  x-eg-key: <EG_KEY>.
+// English Geniuses – Cloudflare Worker.
+// Serves the app (public/index.html) and the online database API in /api/*, stored in a D1 database.
+//   GET    /api/health                       -> { ok, locked }
+//   GET    /api/doc?p=progress/<id>          -> { exists, j, u }
+//   PUT    /api/doc?p=progress/<id>  (JSON)  -> { ok, u }
+//   DELETE /api/doc?p=progress/<id>          -> { ok }
+//   GET    /api/list?c=progress&since=<ms>   -> { docs:[{id,j,u}], now, limit }
+// Bindings (see wrangler.jsonc): D1 database "DB", static files "ASSETS".
+// Secret EG_KEY (Worker → Settings → Variables and Secrets): the key shown in the teacher dashboard.
+// Once EG_KEY is set, every request except /api/health must send the header  x-eg-key: <EG_KEY>.
 
 const LIMIT = 500;
 const MAX_DOC = 900000; // characters
@@ -28,9 +28,9 @@ async function setup(db) {
   ready = true;
 }
 
-export async function onRequest({ request, env, params }) {
+async function api(request, env) {
   const url = new URL(request.url);
-  const route = (params.path || []).join("/");
+  const route = url.pathname.replace(/^\/api\/?/, "").replace(/\/+$/, "");
   if (!env.DB) return json({ error: "No D1 database is bound as DB" }, 500);
   if (route === "health") return json({ ok: true, locked: !!env.EG_KEY });
 
@@ -75,3 +75,14 @@ export async function onRequest({ request, env, params }) {
 
   return json({ error: "not found" }, 404);
 }
+
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    if (url.pathname === "/api" || url.pathname.startsWith("/api/")) {
+      try { return await api(request, env); }
+      catch (e) { return json({ error: "server", detail: String(e && e.message || e) }, 500); }
+    }
+    return env.ASSETS.fetch(request);
+  },
+};
