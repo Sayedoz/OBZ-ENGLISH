@@ -1435,6 +1435,7 @@ body[data-scr=pga] #tabbar{display:none!important}
     <h3 id="tlTitle"></h3>
     <div class="pinbox"><input id="tlPin" type="password" inputmode="numeric" maxlength="6" autocomplete="off" aria-label="PIN"><button class="btn btn-p" id="tlGo">Log in</button></div>
     <div class="err-t" id="tlErr"></div>
+    <button class="linkbtn" id="tlAlt" hidden style="margin-top:10px;background:none;border:0;color:var(--p-d,#2F6FB8);font:inherit;font-weight:700;text-decoration:underline;cursor:pointer">No school code? Use a class code from your other device</button>
   </div>
 </section>
 
@@ -2390,14 +2391,15 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"){const p=$("meSet");
 /* ================= TEACHER LOGIN ================= */
 $("tlMascot").innerHTML=mascot("think",90);
 let TPIN=null;const TL={mode:"pin"};
-function tlPrepare(){const r=roster(),inp=$("tlPin");inp.value="";$("tlErr").textContent="";
+function tlPrepare(){const r=roster(),inp=$("tlPin");inp.value="";$("tlErr").textContent="";$("tlAlt").hidden=true;
  if(SRV.on&&SRV.hasRoster){TL.mode="srv";$("tlTitle").innerHTML="Enter the teacher PIN";inp.type="password";inp.setAttribute("inputmode","numeric");inp.maxLength=6;inp.placeholder="";setTimeout(()=>inp.focus(),50);return}
- if(!deviceReady()){TL.mode="setup";$("tlTitle").innerHTML=SRV.on?'First-time setup<br><small class="muted" style="font-size:15px">Enter the school code (it looks like OBZ-XXXX-XXXX – not your PIN). This uploads your classes to the online database once.</small>':'Set up this device<br><small class="muted" style="font-size:15px">Enter the school code to load the class lists securely (once per device)</small>';inp.type="text";inp.removeAttribute("inputmode");inp.maxLength=20;inp.placeholder="OBZ-XXXX-XXXX";inp.style.letterSpacing="3px";$("tlGo").textContent="Set up device"}
+ if(!deviceReady()){TL.mode="setup";$("tlTitle").innerHTML=SRV.on?'First-time setup<br><small class="muted" style="font-size:15px">Enter the school code (it looks like OBZ-XXXX-XXXX – not your PIN). This uploads your classes to the online database once.</small>':'Set up this device<br><small class="muted" style="font-size:15px">Enter the school code to load the class lists securely (once per device)</small>';inp.type="text";inp.removeAttribute("inputmode");inp.maxLength=20;inp.placeholder="OBZ-XXXX-XXXX";inp.style.letterSpacing="3px";$("tlGo").textContent="Set up device";$("tlAlt").hidden=false}
  else{TL.mode=(r.pinHash||r.pin)?"pin":"create";$("tlTitle").innerHTML=TL.mode==="pin"?'Enter the teacher PIN':'Create a teacher PIN (4–6 digits)';inp.type="password";inp.setAttribute("inputmode","numeric");inp.maxLength=6;inp.placeholder="";inp.style.letterSpacing="";$("tlGo").textContent="Log in"}
  setTimeout(()=>inp.focus(),50)}
 $("goTeacher").addEventListener("click",()=>{tlPrepare();show("tlogin")});
 $("tlBack").addEventListener("click",()=>show("landing","b"));
 async function tlGo(){const r=roster(),v=$("tlPin").value.trim(),err=m=>{$("tlErr").textContent=m;sfx.bad()};
+ if(TL.mode==="ccode"){$("tlErr").textContent="Checking…";await tlClassCode(v);return}
  if(TL.mode==="srv"){$("tlErr").textContent="Checking…";try{await srvTeacherLogin(v);$("tlErr").textContent="";TPIN=v;openTeacher()}catch(e){$("tlPin").value="";err(e.status===401?"Wrong PIN":e.status===429?"Too many tries – wait 10 minutes":"No internet connection")}return}
  if(TL.mode==="setup"){$("tlErr").textContent="Checking…";try{const d=await setupDevice(v);sfx.ok();tlPrepare();$("tlErr").innerHTML=`<span style="color:var(--ok-d)">✅ Loaded ${d.length} classes (${d.reduce((a,c)=>a+c.students.length,0)} students)</span>`}catch(e){err(e&&e.message==="save"?"Could not save on this device":/^\d{1,6}$/.test(v)?"That looks like a PIN. Enter the school code (OBZ-XXXX-XXXX).":"Wrong school code")}return}
  if(TL.mode==="create"){if(!/^\d{4,6}$/.test(v))return err("Use 4 to 6 digits");r.salt=ub64(crypto.getRandomValues(new Uint8Array(12)));r.pinHash=await sha256(r.salt+"|"+v);delete r.pin;if(!saveRoster(r))return err("Could not save");TPIN=v;openTeacher();return}
@@ -2405,6 +2407,19 @@ async function tlGo(){const r=roster(),v=$("tlPin").value.trim(),err=m=>{$("tlEr
  if(r.pinHash)ok=(await sha256(r.salt+"|"+v))===r.pinHash;
  else if(r.pin){ok=v===r.pin;if(ok){r.salt=ub64(crypto.getRandomValues(new Uint8Array(12)));r.pinHash=await sha256(r.salt+"|"+v);delete r.pin;saveRoster(r)}}
  if(ok){TPIN=v;openTeacher()}else{err("Wrong PIN");$("tlPin").value=""}}
+$("tlAlt").addEventListener("click",()=>{const inp=$("tlPin");TL.mode="ccode";inp.value="";inp.type="text";inp.removeAttribute("inputmode");inp.maxLength=200000;inp.placeholder="Paste the class code (EGC2:…)";inp.style.letterSpacing="";$("tlGo").textContent="Load classes";$("tlAlt").hidden=true;$("tlErr").textContent="";
+ $("tlTitle").innerHTML='Load classes from a class code<br><small class="muted" style="font-size:15px">On the device you used before: Teacher login → My class → Online &amp; backup → Offline backup → 📋 Copy class code. Paste it here.</small>';setTimeout(()=>inp.focus(),50)});
+async function tlClassCode(raw){raw=raw.replace(/\s+/g,"");const err=m=>{$("tlErr").textContent=m;sfx.bad()};
+ let inc=null,pin="";
+ try{if(raw.startsWith("EGC2:")){const blob=JSON.parse(atob(raw.slice(5)));pin=await askPin("Enter the teacher PIN of the device the code came from");if(!pin)return;try{inc=await aesDecrypt(blob,pin)}catch(e){return err("Wrong PIN for this class code")}}
+  else if(raw.startsWith("EGC1:"))inc=dec(raw.slice(5));else return err("That isn't a class code. It starts with EGC2:")}catch(e){return err("The class code is incomplete. Copy it again.")}
+ if(!validRoster(inc))return err("The class code is incomplete. Copy it again.");
+ const r={classes:inc.classes,lessons:Array.isArray(inc.lessons)?inc.lessons:[],vocab:inc.vocab||{},lres:inc.lres||{},certTeacher:inc.certTeacher};
+ if(inc.pinHash&&inc.salt){r.pinHash=inc.pinHash;r.salt=inc.salt}
+ if(!saveRoster(r))return err("Could not save on this device");sfx.ok();
+ const n=r.classes.reduce((a,c)=>a+c.students.length,0);
+ if(r.pinHash&&pin&&await sha256(r.salt+"|"+pin)===r.pinHash){TPIN=pin;openTeacher();return}
+ tlPrepare();$("tlErr").innerHTML=`<span style="color:var(--ok-d)">✅ Loaded ${r.classes.length} classes (${n} students)</span>`}
 $("tlGo").addEventListener("click",tlGo);$("tlPin").addEventListener("keydown",e=>{if(e.key==="Enter")tlGo()});
 
 /* ================= PROGRESS HELPERS ================= */
