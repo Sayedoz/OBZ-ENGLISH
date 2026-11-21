@@ -1700,7 +1700,7 @@ body[data-scr=pga] #tabbar{display:none!important}
     </div>
     <div class="panel" id="lvLinkBox">
       <h3 style="margin:0 0 4px">📱 Student link</h3>
-      <p class="tnote" style="margin-top:0">Send this link to your students (WhatsApp, Teams, QR code). Opening it once sets up their phone, tablet or computer, then they log in with class → name → PIN. Anyone with this link can reach your class lists, so share it only with your students' families.</p>
+      <p class="tnote" style="margin-top:0">Send this link to your students (WhatsApp, Teams, QR code). They open it on any phone, tablet or computer and log in with class → name → PIN.</p>
       <div class="trow"><input id="lvLink" readonly style="flex:1;min-width:220px;font:inherit;font-size:14px;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;background:#fff"><button class="act p" id="lvLinkCopy">📋 Copy link</button></div>
       <p class="tnote" id="lvLinkNote" style="margin-bottom:0"></p>
       <div id="lvKeyBox" hidden style="margin-top:10px;border-top:1.5px dashed var(--line);padding-top:10px">
@@ -2194,7 +2194,7 @@ function roster(){let r=store.get("eg_roster",null);if(!r||!r.classes)r={classes
  const nd=r.classes.filter(c=>!/^Demo/i.test(c.name));if(nd.length!==r.classes.length){r.classes=nd;ch=true}
  SEED.forEach((c,i)=>{if(!gone.includes(c.id)&&!r.classes.some(x=>x.id===c.id)){r.classes.splice(Math.min(i,r.classes.length),0,seedClass(c));ch=true}});
  SEED.forEach(sc=>{const c=r.classes.find(x=>x.id===sc.id);if(!c)return;if(c.name!==sc.name){c.name=sc.name;ch=true}const m=new Map(sc.students.map(a=>[a[0],a[1]]));c.students.forEach(st=>{const n=(r.nameFix&&r.nameFix[st.id])||m.get(st.id);if(n&&st.name!==n){st.name=n;ch=true}})});
- r.classes.forEach(c=>c.students.forEach(st=>{if(typeof st.pw!=="string"||!/^\d{4}$/.test(st.pw)){st.pw=newPw();ch=true}}));
+ if(!r.pub)r.classes.forEach(c=>c.students.forEach(st=>{if(typeof st.pw!=="string"||!/^\d{4}$/.test(st.pw)){st.pw=newPw();ch=true}}));
  if(ch&&r.classes.length)store.set("eg_roster",r);return r}
 /* save failures are shown, never hidden */
 let _sfT=0;
@@ -2360,6 +2360,10 @@ document.addEventListener("keydown",e=>{if(curScreen!=="slogin"||SL.step!==3)ret
 function slGo(){
  if(SL.step!==3)return;const f=findStudent(SL.sid);
  if(SL.pin.length!==4){$("slErr").textContent="Your PIN has 4 numbers";sfx.bad();return}
+ if(SRV.on){const sid=SL.sid,pin=SL.pin;const msg=$("slErr");if(msg)msg.textContent="Checking…";
+  srvLogin(sid,pin).then(()=>{sfx.ok();SL.step=1;SL.sid=null;SL.pin="";SL.fails=0;loginAs(sid,true)}).catch(e=>{SL.pin="";
+   if(e.status===401){SL.fails++;sfx.bad();slRender();const p=$("slPinBoxes");if(p){p.classList.add("shake");setTimeout(()=>p.classList.remove("shake"),450)}}
+   else{slRender();$("slErr").textContent=e.status===429?"Too many tries. Wait 10 minutes or ask your teacher.":"No internet connection. Connect and try again."}});return}
  if(f&&String(f.st.pw)===SL.pin){sfx.ok();const sid=SL.sid;SL.step=1;SL.sid=null;SL.pin="";SL.fails=0;loginAs(sid,true);return}
  SL.fails++;SL.pin="";sfx.bad();slRender();const p=$("slPinBoxes");if(p){p.classList.add("shake");setTimeout(()=>p.classList.remove("shake"),450)}
 }
@@ -2371,7 +2375,7 @@ function loginAs(sid,welcome){
  ov.classList.add("on");sfx.win();
  setTimeout(()=>{ov.classList.remove("on");renderHome();show("home","up")},1700);
 }
-$("logout").addEventListener("click",()=>{me=null;sess.set(null);show("landing","b")});
+$("logout").addEventListener("click",()=>{me=null;sess.set(null);const t=srvTok();if(t&&t.r==="s")store.set("eg_tok",null);show("landing","b")});
 /* Me: small settings gear on the profile card */
 function meSetOpen(on){const p=$("meSet"),g=$("meGear");if(!p)return;p.hidden=!on;g.setAttribute("aria-expanded",on);if(on)setTimeout(()=>{const f=p.querySelector("input,button");if(f)f.focus()},50)}
 $("meGear").addEventListener("click",e=>{e.stopPropagation();sfx.tap();meSetOpen($("meSet").hidden)});
@@ -2384,12 +2388,14 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"){const p=$("meSet");
 $("tlMascot").innerHTML=mascot("think",90);
 let TPIN=null;const TL={mode:"pin"};
 function tlPrepare(){const r=roster(),inp=$("tlPin");inp.value="";$("tlErr").textContent="";
+ if(SRV.on&&SRV.hasRoster){TL.mode="srv";$("tlTitle").innerHTML="Enter the teacher PIN";inp.type="password";inp.setAttribute("inputmode","numeric");inp.maxLength=6;inp.placeholder="";setTimeout(()=>inp.focus(),50);return}
  if(!deviceReady()){TL.mode="setup";$("tlTitle").innerHTML='Set up this device<br><small class="muted" style="font-size:15px">Enter the school code to load the class lists securely (once per device)</small>';inp.type="text";inp.removeAttribute("inputmode");inp.maxLength=20;inp.placeholder="OBZ-XXXX-XXXX";inp.style.letterSpacing="3px";$("tlGo").textContent="Set up device"}
  else{TL.mode=(r.pinHash||r.pin)?"pin":"create";$("tlTitle").innerHTML=TL.mode==="pin"?'Enter the teacher PIN':'Create a teacher PIN (4–6 digits)';inp.type="password";inp.setAttribute("inputmode","numeric");inp.maxLength=6;inp.placeholder="";inp.style.letterSpacing="";$("tlGo").textContent="Log in"}
  setTimeout(()=>inp.focus(),50)}
 $("goTeacher").addEventListener("click",()=>{tlPrepare();show("tlogin")});
 $("tlBack").addEventListener("click",()=>show("landing","b"));
 async function tlGo(){const r=roster(),v=$("tlPin").value.trim(),err=m=>{$("tlErr").textContent=m;sfx.bad()};
+ if(TL.mode==="srv"){$("tlErr").textContent="Checking…";try{await srvTeacherLogin(v);$("tlErr").textContent="";TPIN=v;openTeacher()}catch(e){$("tlPin").value="";err(e.status===401?"Wrong PIN":e.status===429?"Too many tries – wait 10 minutes":"No internet connection")}return}
  if(TL.mode==="setup"){$("tlErr").textContent="Checking…";try{const d=await setupDevice(v);sfx.ok();tlPrepare();$("tlErr").innerHTML=`<span style="color:var(--ok-d)">✅ Loaded ${d.length} classes (${d.reduce((a,c)=>a+c.students.length,0)} students)</span>`}catch(e){err(e&&e.message==="save"?"Could not save on this device":"Wrong school code")}return}
  if(TL.mode==="create"){if(!/^\d{4,6}$/.test(v))return err("Use 4 to 6 digits");r.salt=ub64(crypto.getRandomValues(new Uint8Array(12)));r.pinHash=await sha256(r.salt+"|"+v);delete r.pin;if(!saveRoster(r))return err("Could not save");TPIN=v;openTeacher();return}
  let ok=false;
@@ -3568,8 +3574,8 @@ function finishRead(){
 /* ================= TEACHER ================= */
 function badge(L){return `<span class="badge b${L}" title="${LV[L].ar}">${LV[L].en}</span>`}
 let tCls=null,tTab="students";
-function openTeacher(){const r=roster();if(!tCls||!r.classes.some(c=>c.id===tCls))tCls=r.classes[0]?r.classes[0].id:null;renderTeacher();show("teacher")}
-$("tOut").addEventListener("click",()=>{TPIN=null;show("landing")});
+function openTeacher(){if(SRV.on&&!SRV.hasRoster)srvClaim();const r=roster();if(!tCls||!r.classes.some(c=>c.id===tCls))tCls=r.classes[0]?r.classes[0].id:null;renderTeacher();show("teacher")}
+$("tOut").addEventListener("click",()=>{TPIN=null;const t=srvTok();if(t&&t.r==="t"){store.set("eg_tok",null);try{if(SRV.on)srvLoadRoster()}catch(_){}}show("landing")});
 const TB_GROUP={students:"class",backup:"class",lessons:"teach",reading:"teach",vocab:"teach",results:"prog",play:"prog",certs:"prog"};const TB_LAST={};
 function tbOpen(g){const nav=$("tTabs");if(!nav)return;g=g||TB_GROUP[tTab]||"class";nav.dataset.open=g;nav.querySelectorAll(".tbr").forEach(b=>{b.classList.toggle("on",b.dataset.g===(TB_GROUP[tTab]||"class"));b.classList.toggle("peek",b.dataset.g===g);b.setAttribute("aria-expanded",b.dataset.g===g)});
  const br=nav.querySelector(`.tbr[data-g="${g}"]`),sub=nav.querySelector(`.tbsub[data-g="${g}"]`);if(br&&sub){requestAnimationFrame(()=>{const a=br.getBoundingClientRect(),c=sub.getBoundingClientRect();sub.style.setProperty("--x",Math.max(16,Math.min(c.width-16,a.left+a.width/2-c.left))+"px")})}}
@@ -3670,6 +3676,7 @@ function lvRender(force){const list=$("lvList");if(!list||tTab!=="backup"||curSc
   <span class="lvwho">${avOf(e.sid,34)}<span><b class="ar">${esc(e.name)}</b><small>Class ${esc(e.cls)}</small></span></span>
   <span class="lvwhat"><b><span aria-hidden="true">${e.ic}</span> ${e.title}</b>${e.det?`<small>${e.det}</small>`:""}</span><span class="lvres ${e.lvl}">${e.res}</span></div>`).join(""):`<div class="empty" style="box-shadow:none">${mascot("sleep",80)}<b>No answers yet</b><span>${CLOUD.db?"When students play, read or write, their work appears here within a few seconds.":"Nothing done on this device yet."}</span></div>`}
 function lvLinkRender(){const i=$("lvLink"),n=$("lvLinkNote");if(!i)return;const L=joinLink();i.value=L||"";$("lvLinkCopy").disabled=!L;
+ if(SRV.on){const u=location.href.split("#")[0];i.value=u;$("lvLinkCopy").disabled=false;const kb2=$("lvKeyBox");if(kb2)kb2.hidden=true;n.innerHTML="✅ Everything is saved in your Cloudflare database. Students open this address on any device and log in with class → name → PIN – no setup needed.";return}
  const kb=$("lvKeyBox");if(kb){const code=store.get("eg_sc",null);kb.hidden=!(CLOUD.server||(CLOUD.db&&CLOUD.db.kind==="cloudflare"));if(!kb.hidden&&code)egKey(code).then(k=>{$("lvKey").value=k;$("lvKeyNote").innerHTML=CLOUD.server&&CLOUD.server.locked?"🔒 Your Cloudflare server is locked with this key – only devices with the school code can read or write.":"⚠️ Your Cloudflare server is <b>not locked</b> yet: add this value as the secret <b>EG_KEY</b> in Cloudflare (Settings → Variables and Secrets), then redeploy."})}
  n.innerHTML=L?((CLOUD.db&&CLOUD.db.kind==="cloudflare")?"✅ Connected to your Cloudflare database – work from every device is saved online and appears in Live answers.":onlineConfigured()?"✅ This website is connected to the online database, so work from every device appears in Live answers.":"⚠️ The online database isn't connected yet – work stays on each device until it is. See the Cloudflare setup in the README."):"The student link appears when the platform is opened from its website address (for example GitHub Pages), not inside claude.ai."}
 $("lvKeyCopy").addEventListener("click",async()=>{const v=$("lvKey").value;try{await navigator.clipboard.writeText(v)}catch(_){$("lvKey").select();document.execCommand("copy")}$("lvKeyCopy").textContent="✓ Copied";setTimeout(()=>$("lvKeyCopy").textContent="📋 Copy",1800)});
@@ -5850,35 +5857,55 @@ $("tNewPins").addEventListener("click",()=>{const c=curClass();if(!c)return;ask(
    • config/roster        – class settings (units, PINs, vocabulary), AES-encrypted with the school code
    Works on any device signed in to claude.ai with access to this page; otherwise saves on the device. */
 const PROGRESS_KEYS=["eg_hist","eg_read","eg_best","eg_pb","eg_stories","eg_flash","eg_bonus","eg_prof","eg_certs","eg_speech","eg_pyr","eg_trace","eg_lessons","eg_play"];
-/* ================= ONLINE DATABASE ON CLOUDFLARE (Pages Functions + D1) =================
-   When the app is served from Cloudflare Pages, functions/api/[[path]].js stores every document in a D1 database.
-   Each request carries a key made from the school code (SHA-256), so only devices set up with the school code
-   can read or write. Class lists stay AES-encrypted; progress documents use student ids, not names. */
-async function egKey(code){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("english-geniuses:"+code));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+async function egKey(code){return sha256("english-geniuses:"+code)}
+/* ================= SERVER MODE (Cloudflare Worker + D1) =================
+   When the app is opened from its website, the server keeps everything: classes, students, PINs, lessons and
+   all progress. Any device shows the classes straight away; the server checks every PIN and gives a login token.
+   Students can only save their own work; only the teacher can change classes. */
+const SRV={on:false,hasRoster:false,base:""};
+const srvTok=()=>{const t=store.get("eg_tok",null);return t&&t.t?t:null};
+const srvTeacher=()=>{const t=srvTok();return!!(t&&t.r==="t")};
+async function srvFetch(path,opt={},timeout=12000){const ctl=new AbortController();const tm=setTimeout(()=>ctl.abort(),timeout);
+ try{const t=srvTok();const r=await fetch(SRV.base+path,{...opt,cache:"no-store",signal:ctl.signal,keepalive:!!opt.keepalive,headers:{"content-type":"application/json",...(t?{authorization:"Bearer "+t.t}:{}),...(opt.headers||{})}});
+  let j=null;try{j=await r.json()}catch(_){}if(!r.ok){const e=new Error((j&&j.error)||("http "+r.status));e.status=r.status;e.data=j;throw e}return j}finally{clearTimeout(tm)}}
+function srvSaveRoster(r,pub){if(pub)r.pub=true;else delete r.pub;CLOUD.merging=true;try{store.set("eg_roster",r)}finally{CLOUD.merging=false}}
+async function srvLoadRoster(){
+ if(srvTeacher()){try{const r=await srvFetch("roster");if(r&&r.classes){const loc=store.get("eg_roster",null);if(!loc||loc.pub||!loc.updated||r.updated>=loc.updated)srvSaveRoster(r,false)}return}catch(e){if(e.status===401||e.status===403)store.set("eg_tok",null)}}
+ const r=await srvFetch("public");if(r&&r.classes){const loc=store.get("eg_roster",null);if(!loc||loc.pub||!srvTeacher())srvSaveRoster(r,true)}}
+async function srvBoot(){
+ if(!/^https?:$/.test(location.protocol)||/claude\.ai|claudeusercontent|anthropic/.test(location.host))return;
+ SRV.base=location.pathname.replace(/[^/]*$/,"")+"api/";
+ let h=null;try{h=await srvFetch("health",{},6000)}catch(e){return}
+ if(!h||!h.ok||h.mode!=="server")return;
+ SRV.on=true;SRV.hasRoster=!!h.hasRoster;
+ try{if(SRV.hasRoster)await srvLoadRoster()}catch(e){console.warn("class lists",e)}
+ setInterval(()=>{if(!document.hidden&&curScreen!=="teacher")srvLoadRoster().then(()=>{if(["landing","slogin"].includes(curScreen))refreshVisible()}).catch(()=>{})},60000);
+ cloudStart();}
+async function srvLogin(sid,pin){const j=await srvFetch("login",{method:"POST",body:JSON.stringify({sid,pin})});store.set("eg_tok",{t:j.token,r:"s",sid});return true}
+async function srvTeacherLogin(pin){const j=await srvFetch("teacher/login",{method:"POST",body:JSON.stringify({pin})});store.set("eg_tok",{t:j.token,r:"t"});srvSaveRoster(j.roster,false);if(!CLOUD.db)cloudStart();return true}
+async function srvClaim(){if(!SRV.on||SRV.hasRoster)return;const r=roster();if(!r.classes.length||!r.pinHash)return;
+ try{const j=await srvFetch("teacher/setup",{method:"POST",body:JSON.stringify({roster:r})});store.set("eg_tok",{t:j.token,r:"t"});SRV.hasRoster=true;if(!CLOUD.db)cloudStart();CLOUD.dirty.add("*");pushProgress()}catch(e){if(e.status===409)SRV.hasRoster=true}}
+async function srvPushRoster(){if(!SRV.on||!srvTeacher())return;const r=store.get("eg_roster",null);if(!r||r.pub||!r.classes)return;
+ try{const j=await srvFetch("roster",{method:"PUT",body:JSON.stringify({roster:r})});if(j&&j.updated){r.updated=j.updated;srvSaveRoster(r,false)}}catch(e){if(e.status===401)store.set("eg_tok",null)}}
 async function cfDb(){
- if(!/^https?:$/.test(location.protocol)||/claude\.ai|claudeusercontent|anthropic/.test(location.host))return null;
- const base=location.pathname.replace(/[^/]*$/,"")+"api/";
- let h=null;try{const r=await fetch(base+"health",{cache:"no-store"});if(!r.ok)return null;h=await r.json()}catch(e){return null}
- if(!h||!h.ok)return null;CLOUD.server=h;
- const code=store.get("eg_sc",null);if(!code)return null;
- const key=await egKey(code);
- const api=async(path,opt={})=>{const r=await fetch(base+path,{...opt,cache:"no-store",headers:{...(opt.headers||{}),"x-eg-key":key,"content-type":"application/json"}});
-  if(r.status===403){const e=new Error("forbidden");e.code="forbidden";throw e}if(!r.ok){const e=new Error("http "+r.status);e.code=r.status===413?"quota_exceeded":"http";throw e}return r.json()};
- await api("list?c=config&since="+(Date.now()+1));
+ if(!SRV.on)return null;
  const wrap=(id,j)=>({id,exists:j!=null,data:()=>{try{return j==null?undefined:JSON.parse(j)}catch(e){return undefined}}});
- return{kind:"cloudflare",key,
-  beacon:ids=>{ids.forEach(sid=>{if(!/^[\w.~:@+-]+$/.test(sid))return;try{fetch(base+"doc?p="+encodeURIComponent("progress/"+sid),{method:"PUT",keepalive:true,headers:{"x-eg-key":key,"content-type":"application/json"},body:JSON.stringify({...buildStudentDoc(sid),updated:new Date().toISOString()})})}catch(_){}})},
-  doc:p=>({get:async()=>{const r=await api("doc?p="+encodeURIComponent(p));return wrap(p.split("/").pop(),r.exists?r.j:null)},
-   set:async d=>{await api("doc?p="+encodeURIComponent(p),{method:"PUT",body:JSON.stringify(d)})},
-   delete:async()=>{await api("doc?p="+encodeURIComponent(p),{method:"DELETE"})}}),
-  collection:c=>({get:async()=>{const r=await api("list?c="+encodeURIComponent(c)+"&since=0");const docs=r.docs.map(d=>wrap(d.id,d.j));return{docs,size:docs.length,empty:!docs.length}},
+ const need=()=>{if(!srvTok()){const e=new Error("login needed");e.code="noauth";throw e}};
+ return{kind:"cloudflare",
+  canWrite:sid=>srvTeacher()||((srvTok()||{}).sid===sid),
+  beacon:ids=>{const t=srvTok();if(!t)return;ids.forEach(sid=>{if(!/^[\w.~:@+-]+$/.test(sid)||!(t.r==="t"||t.sid===sid))return;try{fetch(SRV.base+"doc?p="+encodeURIComponent("progress/"+sid),{method:"PUT",keepalive:true,headers:{authorization:"Bearer "+t.t,"content-type":"application/json"},body:JSON.stringify({...buildStudentDoc(sid),updated:new Date().toISOString()})})}catch(_){}})},
+  doc:p=>({get:async()=>{need();const r=await srvFetch("doc?p="+encodeURIComponent(p));return wrap(p.split("/").pop(),r.exists?r.j:null)},
+   set:async d=>{need();await srvFetch("doc?p="+encodeURIComponent(p),{method:"PUT",body:JSON.stringify(d)})},
+   delete:async()=>{need();await srvFetch("doc?p="+encodeURIComponent(p),{method:"DELETE"})}}),
+  collection:c=>({get:async()=>{need();const r=await srvFetch("list?c="+encodeURIComponent(c)+"&since=0");const docs=r.docs.map(d=>wrap(d.id,d.j));return{docs,size:docs.length,empty:!docs.length}},
    onSnapshot:(next,err)=>{let since=0,stop=false,first=true;const seen={};
     const tick=async()=>{if(stop)return;let more=false;
-     try{const r=await api("list?c="+encodeURIComponent(c)+"&since="+Math.max(0,since-5000));const ch=[];
+     if(!srvTok()){if(first){first=false;next({docs:[],size:0,empty:true,docChanges:()=>[],metadata:{fromCache:false}})}setTimeout(tick,1500);return}
+     try{const r=await srvFetch("list?c="+encodeURIComponent(c)+"&since="+Math.max(0,since-5000));const ch=[];
       r.docs.forEach(d=>{if(seen[d.id]===d.u)return;ch.push({type:seen[d.id]?"modified":"added",doc:wrap(d.id,d.j)});seen[d.id]=d.u;since=Math.max(since,d.u)});
       more=r.docs.length>=(r.limit||500);
       if(ch.length||first){first=false;next({docs:ch.map(x=>x.doc),size:ch.length,empty:!ch.length,docChanges:()=>ch,metadata:{fromCache:false,hasPendingWrites:false}})}}
-     catch(e){if(err)err(e)}
+     catch(e){if(e.status===401)store.set("eg_tok",null);else if(err)err(e)}
      finally{if(!stop)setTimeout(tick,more?50:document.hidden?8000:1500)}};
     tick();return()=>{stop=true}}})}}
 /* ================= ONLINE DATABASE FOR THE PUBLIC WEBSITE (Firebase) =================
@@ -5918,7 +5945,7 @@ function buildStudentDoc(sid){
 async function pushProgress(){
  if(!CLOUD.db)return;const list=CLOUD.dirty.has("*")?studentIdsWithData():[...CLOUD.dirty];CLOUD.dirty.clear();
  CLOUD.state="saving";renderCloud();let ok=true;
- for(const sid of list){if(!/^[\w.~:@+-]+$/.test(sid))continue;const d=buildStudentDoc(sid),j=JSON.stringify(d);if(CLOUD.pushed[sid]===j)continue;
+ for(const sid of list){if(!/^[\w.~:@+-]+$/.test(sid))continue;if(CLOUD.db.canWrite&&!CLOUD.db.canWrite(sid))continue;const d=buildStudentDoc(sid),j=JSON.stringify(d);if(CLOUD.pushed[sid]===j)continue;
   try{await CLOUD.db.doc("progress/"+sid).set({...d,updated:new Date().toISOString()});CLOUD.pushed[sid]=j}
   catch(e){ok=false;CLOUD.dirty.add(sid);if(e&&e.code==="quota_exceeded")saveFailed()}}
  CLOUD.state=ok?"synced":"error";CLOUD.last=Date.now();renderCloud();
@@ -5961,10 +5988,12 @@ function mergeSpeech(m,d){let ch=false;["w","snd","self","ver","rd","sndw"].forE
  Object.entries(d.rd||{}).forEach(([k,v])=>{if(!m.rd[k]||(v.date>m.rd[k].date)||(v.n>m.rd[k].n)){m.rd[k]=v;ch=true}});
  return ch}
 async function pushConfig(){
+ if(SRV.on){await srvPushRoster();return}
  const code=store.get("eg_sc",null);if(!CLOUD.db||!code)return;
  try{const r=roster();if(!r.classes.length)return;r.updated=r.updated||Date.now();const blob=await aesEncrypt(r,code);await CLOUD.db.doc("config/roster").set({blob,updated:r.updated})}catch(e){}
 }
 async function pullConfig(){
+ if(SRV.on){try{await srvLoadRoster()}catch(_){}return}
  const code=store.get("eg_sc",null);if(!CLOUD.db||!code)return;
  try{const snap=await CLOUD.db.doc("config/roster").get();const local=store.get("eg_roster",null);
   if(snap.exists){const c=snap.data();if(c&&c.blob&&(!local||!local.updated||c.updated>local.updated)){const r=await aesDecrypt(c.blob,code);if(validRoster(r)){CLOUD.merging=true;try{store.set("eg_roster",r)}finally{CLOUD.merging=false}refreshVisible()}}
@@ -6000,13 +6029,13 @@ async function cloudStart(){
  }catch(e){CLOUD.db=null;CLOUD.state="local";renderCloud()}
  CLOUD.starting=false;
 }
-cloudStart();
+if(!/^https?:$/.test(location.protocol)||/claude\.ai|claudeusercontent|anthropic/.test(location.host))cloudStart();
 /* save straight away when the tab is hidden or closed, so nothing waits on this device */
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden"&&CLOUD.db&&CLOUD.dirty.size){clearTimeout(CLOUD.timer);pushProgress()}});
 window.addEventListener("pagehide",()=>{if(CLOUD.db&&CLOUD.dirty.size&&CLOUD.db.kind==="cloudflare"){try{clearTimeout(CLOUD.timer);CLOUD.db.beacon(CLOUD.dirty.has("*")?studentIdsWithData():[...CLOUD.dirty]);CLOUD.dirty.clear()}catch(_){}}});
 
 (async()=>{const sc=store.get("eg_sc",null);if(sc&&seedOutdated()){try{await refreshSeed(sc);if(curScreen!=="landing"&&curScreen!=="splash")refreshVisible()}catch(e){}}})();
-(async()=>{const joined=await handleJoin();if(joined&&deviceReady()){Object.assign(SL,{fails:0,step:1,cid:null,sid:null,pin:""});slRender();show("slogin")}else afterSplash()})();
+(async()=>{try{await srvBoot()}catch(e){}const joined=SRV.on?false:await handleJoin();if(joined&&deviceReady()){Object.assign(SL,{fails:0,step:1,cid:null,sid:null,pin:""});slRender();show("slogin")}else afterSplash()})();
 })();
 </script>
 </body>

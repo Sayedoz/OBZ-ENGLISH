@@ -13,22 +13,22 @@ An English learning platform for Grades 1–3 (Look 1, 2 and 3) at Osama Bin Zai
 | Server + online database API | `src/worker.js` | Cloudflare Worker: serves the app and saves/loads every document in a **D1** database (`/api/*`) |
 | Settings | `wrangler.jsonc` | Worker name, static files folder and the D1 database binding `DB` |
 
-**Where data is saved:** every answer is saved on the device *and* sent to the D1 database within about half a second
-(also when the tab or app is closed). Every device loads from the database, so progress is never lost and follows the
-student to any phone, tablet or computer. The teacher's *Live answers* list updates every 1–2 seconds.
+**Where data is saved:** everything lives in the D1 database – classes, students, PINs, the teacher PIN (hashed),
+lessons and all progress. Every answer is sent within about half a second (also when the tab or app is closed).
+Any phone, tablet or computer that opens the site sees the classes straight away – no setup, no school code.
 
-**Privacy:** class lists (names and PINs) are stored only AES-encrypted with the school code. Progress records use
-student numbers, not names. Once the `EG_KEY` secret is set, the server only answers devices that have the school code.
+**Logins:** the server checks every PIN and gives the device a login token. A student can only save his own
+progress; only the teacher can change classes or see other students. Wrong PINs are limited to 6 tries per 10 minutes.
+The class and student names (without PINs) are visible on the login screen to anyone with the site address.
 
 ## Publish on Cloudflare
 The repository is connected to a Cloudflare Worker (Workers Builds, deploy command `npx wrangler deploy`).
 1. Push to `main` → Cloudflare builds and deploys. On the first deploy Wrangler **creates the D1 database
-   `english-geniuses-db` automatically** and binds it as `DB` (the table is created on first use).
+   `english-geniuses-db` automatically** and binds it as `DB` (tables are created on first use).
 2. The Worker's name in Cloudflare must match `"name"` in `wrangler.jsonc` (`obz-english`). If yours is different, change it there.
-3. Open the site → **Teacher login** → school code, then PIN → **My class → Online & backup** → copy the **Cloudflare server key**.
-4. Worker → **Settings → Variables and Secrets → Add → Type: Secret, Name: `EG_KEY`, Value: the key** → Deploy.
-   The teacher page then shows *🔒 locked*. Secrets are kept on later deploys.
-5. Copy the **Student link** from *Online & backup* and send it to families. Opening it once sets up the device;
-   students then log in with class → name → PIN.
+3. **First time only:** open the site → **Teacher login** → enter the school code → create your teacher PIN.
+   This uploads all classes to the database. Do this before you share the link.
+4. From then on, on any device: **Teacher login** → your PIN only. Students: class → name → PIN.
+5. Share the site address with families (it is shown in **My class → Online & backup → Student link**).
 
 Designed by T. Sayed Mustafa Hasan.
