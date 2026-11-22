@@ -927,6 +927,56 @@ body.has-mic .micbtn{display:inline-flex}
 @media (max-width:380px){.dcard{min-height:118px;padding:12px}.dce{font-size:36px}.dcard b{font-size:21px}.nxart{font-size:60px}}
 .spk{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:#fff;color:var(--primary,#2F6FB8);border:2.5px solid #D6E4F5;box-shadow:0 3px 0 #D6E4F5;vertical-align:middle;margin-inline-start:8px;flex:none}
 .spk .i{width:22px;height:22px}.spk.sm{width:38px;height:38px}.spk.on{background:var(--primary,#2F6FB8);color:#fff;border-color:var(--primary,#2F6FB8);animation:lvpulse 1.2s ease-in-out infinite}
+/* ===== one set of progress words ===== */
+.pchip{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 10px;font-size:13px;font-weight:800;white-space:nowrap;line-height:1.2}
+.pchip i{font-style:normal;font-size:14px}
+.pchip.p-none{background:#EEF2F7;color:#5B6B86}.pchip.p-prog{background:#FFF1D6;color:#8A5300}.pchip.p-done{background:#DDF3E4;color:#1D6B3A}.pchip.p-mast{background:#FFE9A8;color:#6B4A00}
+/* home */
+.nxc{min-height:178px;padding:22px 20px}.nxt h2{font-size:clamp(27px,7vw,34px)}
+.jsay{margin:0;font-weight:700;font-size:15px;color:var(--ink)}
+.jkey{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;font-weight:700;color:var(--muted)}.jkey span{display:inline-flex;align-items:center;gap:5px}
+.jkey .jd{width:16px;height:16px;font-size:9px;font-style:normal;box-shadow:none;border-width:2px}
+/* learn */
+.lunit{display:flex;flex-direction:column;gap:12px;padding:16px;border:3px solid var(--d-learn-s)}
+.luh{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.luh small{font-weight:800;color:var(--d-learn);font-size:14px}.luh h2{margin:0;font-family:var(--disp);font-size:24px;line-height:1.15}
+.lus{display:inline-flex;align-items:center;gap:5px;background:#FFF2D6;color:#7a4d00;border-radius:999px;padding:6px 12px;font-weight:800;white-space:nowrap}.lus .i{width:18px;height:18px;color:#F5A524}
+.lacts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.lact{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:start;background:var(--zs);border-radius:20px;padding:12px;border:3px solid transparent}
+.lact.next{border-color:var(--d-play);box-shadow:0 0 0 4px #FFE8B8}
+.lnext{position:absolute;top:-11px;inset-inline-end:10px;display:inline-flex;align-items:center;gap:4px;background:var(--d-play);color:#3d2800;font-weight:800;font-size:13px;border-radius:999px;padding:3px 10px}.lnext .i{width:13px;height:13px}
+.lart svg{width:52px;height:52px}.lt{display:flex;flex-direction:column}.lt b{font-size:16px;color:var(--zd);line-height:1.2}.lt small{font-size:13px;font-weight:600;color:var(--muted)}
+.lrev{display:flex;align-items:center;gap:12px;text-align:start;background:var(--zs);border-radius:18px;padding:10px 12px;border:3px solid transparent}.lrev .lt{flex:1}.lrev.next{border-color:var(--d-play)}
+.lchg{align-self:center;font-weight:800;color:var(--d-learn);font-size:15px;padding:6px 10px}
+.lmorew{display:flex;flex-direction:column;gap:8px}
+.lrow{display:flex;align-items:center;gap:12px;text-align:start;background:#fff;border-radius:16px;padding:10px 14px;border:2px solid #E3EAF4}
+.lrow .emo{font-size:28px}.lrow>span:nth-child(2){flex:1;display:flex;flex-direction:column}.lrow small{color:var(--muted);font-weight:600}.lrow>.i{width:18px;height:18px;color:var(--d-learn)}
+.lrowwrap .hxc{box-shadow:none;border:2px solid #E3EAF4;padding:10px 14px;min-height:0}
+/* read */
+.rnext{display:flex;align-items:center;gap:14px;text-align:start;background:var(--d-read);color:#fff;border-radius:26px;padding:16px 18px;box-shadow:0 6px 0 var(--d-read-d)}
+.rne{font-size:50px;line-height:1}.rnt{flex:1;display:flex;flex-direction:column}.rnt small{font-weight:800;opacity:.9}.rnt b{font-family:var(--disp);font-size:24px;line-height:1.15}.rnt span{font-weight:600;opacity:.95}
+.rngo{width:50px;height:50px;border-radius:50%;background:#fff;color:var(--d-read-d);display:flex;align-items:center;justify-content:center}.rngo .i{width:22px;height:22px}
+.rempty{display:flex;align-items:center;gap:12px}.rempty div{display:flex;flex-direction:column;gap:4px}.rempty b{font-family:var(--disp);font-size:20px}.rempty span{color:var(--muted);font-weight:600}
+.rwk0{margin:-4px 4px 0;text-align:center;font-weight:600}
+/* play */
+#pgHub .pgwart{top:8px;bottom:auto;right:6px;font-size:64px;opacity:.9;z-index:0}
+#pgHub .pgwt,#pgHub .pgwgames,#pgHub .pgwstart,#pgHub .pgwmeta{position:relative;z-index:1}
+#pgHub .pgwt{padding-inline-end:70px}
+.pgwgames{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.pgg{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.16);border-radius:12px;padding:6px 10px;font-weight:800;font-size:15px}
+.pgg .emo{font-size:20px}.pgg i{margin-inline-start:auto;font-style:normal;background:#fff;color:var(--c2);border-radius:999px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:12px}
+.pgwstart{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;margin-top:auto}.pgwstart .i{width:15px;height:15px}
+/* create */
+.crjour{display:flex;flex-direction:column;gap:12px;padding:16px;border:3px solid var(--d-create-s)}
+.crh{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.crhi{font-size:42px}.crh div{flex:1;min-width:150px}.crh h2{margin:0;font-family:var(--disp);font-size:22px}.crh p{margin:0;color:var(--muted);font-weight:600}
+.crsteps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+.crs{display:flex;align-items:center;gap:12px;padding:10px 0;position:relative}
+.crs:not(:last-child)::after{content:"";position:absolute;inset-inline-start:19px;top:52px;bottom:-8px;width:3px;background:#F2D8CF;border-radius:2px}
+.crn{flex:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;background:var(--d-create-s);color:var(--d-create-d);z-index:1}
+.crs.done .crn{background:var(--d-create);color:#fff}.crs.lock .crn{background:#EEF2F7;color:#8A96AB;font-size:15px}.crs.open .crn,.crs.prog .crn{box-shadow:0 0 0 4px #FFE8B8}
+.crt{flex:1;display:flex;flex-direction:column;gap:2px}.crt b{font-size:17px}.crt span{font-weight:600;font-size:14px}.crt small{font-weight:700;color:var(--muted);font-size:13px}
+.crs.lock .crt{opacity:.7}
+.crgo{background:var(--d-create);color:#fff;box-shadow:0 4px 0 var(--d-create-d);padding:9px 16px;font-size:16px}
+.crrule{margin:0;font-size:13px;color:var(--muted);font-weight:600;background:#FFF8F5;border-radius:12px;padding:8px 10px}
 .hx{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
 .hxc{display:flex;align-items:center;gap:12px;text-align:start;padding:14px 16px;transition:transform .1s}.hxc:hover{transform:translateY(-2px)}
 .hxc .t{flex:1;display:flex;flex-direction:column;line-height:1.2}.hxc small{color:var(--muted);font-weight:700}.hxc b{font-size:18px}.hxc .cr{font-size:14px;color:var(--muted);font-weight:700}
@@ -2583,21 +2633,30 @@ function missionFor(sid){
    Presentation only: every number comes from the existing records (eg_hist, eg_read, eg_pyr, eg_play, eg_stories,
    eg_certs, eg_bonus). The old daily mission is folded into "Your next challenge": finishing it once a day adds the same
    +2 ⭐ bonus record (eg_bonus) the mission used, so star totals stay comparable. */
-const DEST={learn:{t:"Learn",d:"Words, sounds and sentences",e:"🎒",go:"units"},read:{t:"Read",d:"Stories and reading steps",e:"📖",go:"reading"},
- play:{t:"Play",d:"Fun English games",e:"🧩",go:"play"},create:{t:"Create",d:"Write your own",e:"🎨",go:"create"}};
+/* one set of progress words for the whole student app – mapped only from existing records:
+   Learn activity: 0⭐ not started · 1–2⭐ in progress · 3⭐ completed. Games/writing (pgStatusOf): practised = in progress,
+   80% in Play or Master = completed, Master on 2 different days = mastered. Stories / reading steps / pyramid days: in progress or completed. */
+const PST={none:{en:"Not started",ic:"○"},prog:{en:"In progress",ic:"◐"},done:{en:"Completed",ic:"✓"},mast:{en:"Mastered",ic:"★"}};
+const pchip=(k,x)=>`<span class="pchip p-${k}"><i aria-hidden="true">${PST[k].ic}</i>${PST[k].en}${x?` · ${x}`:""}</span>`;
+const zoneState=b=>b>=3?"done":b>0?"prog":"none";
+const pgState=r=>({none:"none",practised:"prog",shown:"done",mastered:"mast"})[pgStatusOf(r).k];
+const ZPLAIN={sounds:"Letters and sounds",words:"New words",spelling:"Spell the words",sentences:"Make sentences",mixed:"A mix of all your units"};
+const PG_PLAIN={word:"Learn new words",sound:"Explore letters and sounds",gram:"Build correct sentences",story:"Look, think and write"};
+const DEST={learn:{t:"Learn",d:"Learn new words and sounds",e:"🎒",go:"units"},read:{t:"Read",d:"Read stories and practise",e:"📖",go:"reading"},
+ play:{t:"Play",d:"Practise with games",e:"🧩",go:"play"},create:{t:"Create",d:"Write your own English",e:"🎨",go:"create"}};
 function nextChallenge(){
  const s=me.st,sid=s.id,t=today(),g=state.grade;
  try{const L=lmAvailable(sid).filter(l=>["new","started","reopened"].includes(lmStatus(l,sid)));
-  if(L.length){const l=L[0];return{kind:"lesson",key:l.id,art:"📘",dest:"learn",small:"From your teacher",title:l.title,sub:"Your lesson",go:()=>openLessonPlayer(l.id)}}}catch(e){}
+  if(L.length){const l=L[0];return{kind:"lesson",key:l.id,art:"📘",dest:"learn",small:"From your teacher",title:l.title,sub:"Your teacher sent you this lesson",go:()=>openLessonPlayer(l.id)}}}catch(e){}
  const r=recommendNext();
- if(r.k!=="mixed")return{kind:"game",key:r.k+"|"+r.u,artHtml:zoneArt(r.k,84),dest:"learn",small:"Learn",title:ZONES[r.k].en,sub:"Unit "+r.u+": "+unitOf(g,r.u).t,go:()=>r.go()};
+ if(r.k!=="mixed"){const b=store.get("eg_best",{})[bestKey(sid,s.level,r.k,r.u)]||0;return{kind:"game",key:r.k+"|"+r.u,artHtml:zoneArt(r.k,84),dest:"learn",small:"Learn",title:ZONES[r.k].en,sub:`Next in Unit ${r.u} · ${b?`you have ${b} of 3 stars`:"get your first stars"}`,go:()=>r.go()}}
  try{const rec=store.get("eg_read",{})[sid],n=rec?rec.unlocked:{1:1,2:4,3:7}[s.level];
-  if(!(rec&&rec.log.some(x=>x.date===t)))return{kind:"read",key:"step"+n,art:RSTEPS[n-1].ic,dest:"read",small:"Read",title:"Reading step "+n,sub:RSTEPS[n-1].en,go:()=>openRun(n)}}catch(e){}
+  if(!(rec&&rec.log.some(x=>x.date===t)))return{kind:"read",key:"step"+n,art:RSTEPS[n-1].ic,dest:"read",small:"Read",title:"Reading step "+n,sub:"Today's reading: "+RSTEPS[n-1].en,go:()=>openRun(n)}}catch(e){}
  try{const S=pyrDefault(),i=pyrNext(sid,S.id),o=pyrStore.get(sid)[pyrKey(S.id,i)];
-  if(!(o&&o.d===t)&&pyrCrowns(o)<3)return{kind:"pyr",key:S.id+"|"+i,art:"🔺",dest:"read",small:"Read",title:"Fluency Pyramid",sub:"Day "+(i+1)+": "+S.days[i].f,go:()=>openPyr(S.id,i)}}catch(e){}
+  if(!(o&&o.d===t)&&pyrCrowns(o)<3)return{kind:"pyr",key:S.id+"|"+i,art:"🔺",dest:"read",small:"Read",title:"Fluency Pyramid",sub:"Read faster and smoother · Day "+(i+1),go:()=>openPyr(S.id,i)}}catch(e){}
  try{const m=pgMine(),id=PG_ORDER.find(x=>PG_ACTS[x].world!=="story"&&pgStatusOf(m.acts[x]).k==="none");
-  if(id){const A=PG_ACTS[id];return{kind:"play",key:id,art:A.ic,dest:"play",small:"Play",title:A.t,sub:A.goal,go:()=>pgStart(id,1)}}}catch(e){}
- return{kind:"game",key:"mixed|R"+state.unit,artHtml:zoneArt("mixed",84),dest:"learn",small:"Learn",title:ZONES.mixed.en,sub:"Units 1–"+(me.cls.unit||1),go:()=>r.go()};
+  if(id){const A=PG_ACTS[id];return{kind:"play",key:id,art:A.ic,dest:"play",small:"Play",title:A.t,sub:"A new game to try: "+A.goal,go:()=>pgStart(id,1)}}}catch(e){}
+ return{kind:"game",key:"mixed|R"+state.unit,artHtml:zoneArt("mixed",84),dest:"learn",small:"Learn",title:ZONES.mixed.en,sub:"Great work! Now mix all your units 1–"+(me.cls.unit||1),go:()=>r.go()};
 }
 /* how far the child got in a challenge – compared before and after, so only real work earns the daily bonus */
 function ncMeasure(nc,sid){
@@ -2627,11 +2686,13 @@ function renderHome(){
   <div class="t"><b>Hi, ${nm(firstName(s.name))}!</b><span>Grade ${g} · Class ${esc(me.cls.name)}</span></div>
   <button class="hstar" id="hStars" aria-label="${total} stars – my profile">${icon("star","f")} ${total}</button></div>
  <div class="nxc" style="${dc(NC.dest)}"><div class="nxt"><small>Your next challenge</small><h2>${esc(NC.title)}</h2><span class="nxs">${esc(NC.sub)}</span>
-   <div class="nxr"><button class="btn nxgo" id="hGo">${icon("play","f")} Start</button>${bon?`<span class="nxb ok">${icon("check")} Bonus done today</span>`:`<span class="nxb">+2 ${icon("star","f")} bonus</span>`}</div></div>
+   <div class="nxr"><button class="btn nxgo" id="hGo">${icon("play","f")} Start</button>${bon?`<span class="nxb ok">${icon("check")} Today's bonus earned</span>`:`<span class="nxb">Finish it today: +2 ${icon("star","f")}</span>`}</div></div>
   <div class="nxart" aria-hidden="true">${NC.artHtml||`<span class="emo">${NC.art}</span>`}</div></div>
  <div class="dgrid">${Object.entries(DEST).map(([k,d])=>`<button class="dcard" data-d="${k}" style="${dc(k)}"><span class="emo dce" aria-hidden="true">${d.e}</span><b>${d.t}</b><span>${d.d}</span></button>`).join("")}</div>
- <button class="card jrny" id="hJourney" aria-label="My journey – ${BOOK[g].name}, unit ${curU} of 12"><div class="sec-t" style="margin:0"><h2>My journey</h2><span class="muted">${BOOK[g].name} · Unit ${curU} of 12</span></div>
-  <div class="jpath">${Array.from({length:12},(_,i)=>i+1).map(n=>{const st=out[n]||0,cls=n>curU?"lock":st>=12?"done":n===curU?"cur":st>0?"part":"";return `<span class="jd ${cls}" title="Unit ${n}: ${st}/12 stars">${st>=12?"✓":n}</span>`}).join(`<i></i>`)}</div></button>
+ <button class="card jrny" id="hJourney" aria-label="My journey – ${BOOK[g].name}, unit ${curU} of 12"><div class="sec-t" style="margin:0"><h2>My journey</h2><span class="muted">${BOOK[g].name}</span></div>
+  <div class="jpath">${Array.from({length:12},(_,i)=>i+1).map(n=>{const st=out[n]||0,cls=n>curU?"lock":st>=12?"done":n===curU?"cur":st>0?"part":"";return `<span class="jd ${cls}" title="Unit ${n}: ${st}/12 stars">${st>=12?"✓":n}</span>`}).join(`<i></i>`)}</div>
+  <p class="jsay">${(()=>{const fin=Array.from({length:12},(_,i)=>i+1).filter(n=>(out[n]||0)>=12).length;return `You are on <b>Unit ${curU}</b>. ${fin?`${fin} unit${fin>1?"s":""} finished!`:"Let's finish it!"}`})()}</p>
+  <div class="jkey"><span><i class="jd done">✓</i>finished</span><span><i class="jd cur">●</i>now</span><span><i class="jd lock">·</i>later</span></div></button>
  ${W.length?`<div class="card hrec"><h2>Recently</h2>${W.map(w=>`<div class="hrw"><span class="emo">${w.e}</span><span>${esc(w.x)}</span></div>`).join("")}</div>`:""}`;
  $("hGo").onclick=()=>{const all=store.get("eg_ncs",{});all[sid]={d:today(),kind:NC.kind,key:NC.key,base:ncMeasure(NC,sid)};store.set("eg_ncs",all);sfx.tap();NC.go()};
  $("hAv").onclick=()=>go("me");$("hStars").onclick=()=>go("me");$("hJourney").onclick=()=>{sfx.tap();go("units")};
@@ -2642,16 +2703,20 @@ function renderHome(){
 /* ================= UNITS JOURNEY ================= */
 const UNIT_COL=["#2F6FB8","#FF7A59","#3FA9F5","#2EC4A0","#FFB627","#E05A3A","#1F86D1","#1C9D7E","#D99100","#1F4E86","#FF9F1C","#3FA9F5"];
 function learnTop(){
- const s=me.st,g=state.grade,curU=me.cls.unit||1,U=unitOf(g,state.unit),best=store.get("eg_best",{});
+ const s=me.st,g=state.grade,curU=me.cls.unit||1,u=state.unit,U=unitOf(g,u),best=store.get("eg_best",{});
  const tr=g===1?(()=>{const t=traceStore.get(s.id);return Object.keys(t).filter(k=>/^[A-Z]$/.test(k)&&t[k]&&t[k.toLowerCase()]).length})():0;
- $("uLearn").innerHTML=`<div class="dhead" style="--dc:var(--d-learn);--dcs:var(--d-learn-s)"><span class="emo dhe" aria-hidden="true">🎒</span><div><h1>Learn</h1><p>${BOOK[g].name} · Unit ${state.unit}: ${esc(U.t)}</p></div></div>
- <div class="sec-t"><h2>This unit</h2><button id="lChange">Change unit ▾</button></div>
- <div class="zones">${ZKEYS.map(k=>{const b=best[bestKey(s.id,s.level,k)]||0,Z=ZONES[k];return `<button class="zone${k==="mixed"?" wide":""}" data-z="${k}" style="--z:var(--z-${k});--zd:var(--z-${k}-d);--zs:var(--z-${k}-s)">${zoneArt(k,62)}<span class="t"><b>${Z.en}</b>${k==="mixed"?`<br><span class="en">Units 1–${curU}</span>`:""}</span>${stars3(b)}</button>`}).join("")}</div>
+ const four=ZKEYS.slice(0,4),bs=k=>best[bestKey(s.id,s.level,k)]||0,sum=four.reduce((a,k)=>a+bs(k),0);
+ const nextK=four.find(k=>bs(k)<3)||"mixed",rb=bs("mixed");
+ $("uLearn").innerHTML=`<div class="dhead" style="--dc:var(--d-learn);--dcs:var(--d-learn-s)"><span class="emo dhe" aria-hidden="true">🎒</span><div><h1>Learn</h1><p>What am I learning?${audBtn("What am I learning?","sm")} Unit ${u}: ${esc(U.t)}</p></div></div>
+ <div class="card lunit"><div class="luh"><div><small>Unit ${u}${u===curU?" · now":""}</small><h2>${esc(U.t)}</h2></div><span class="lus">${icon("star","f")} ${sum} of 12</span></div>
+  <div class="lacts">${four.map((k,i)=>{const b=bs(k),Z=ZONES[k];return `<button class="lact${k===nextK?" next":""}" data-z="${k}" style="--z:var(--z-${k});--zd:var(--z-${k}-d);--zs:var(--z-${k}-s)">${k===nextK?`<span class="lnext">${icon("play","f")} Next</span>`:""}<span class="lart">${zoneArt(k,56)}</span><span class="lt"><b>${i+1}. ${Z.en}</b><small>${ZPLAIN[k]}</small></span>${stars3(b)}${pchip(zoneState(b))}</button>`}).join("")}</div>
+  <button class="lrev${nextK==="mixed"?" next":""}" data-z="mixed" style="--z:var(--z-mixed);--zd:var(--z-mixed-d);--zs:var(--z-mixed-s)"><span class="lart">${zoneArt("mixed",48)}</span><span class="lt"><b>${ZONES.mixed.en}</b><small>${nextK==="mixed"?"You finished this unit! Now mix units 1–"+curU:"A mix of units 1–"+curU+" · best after the 4 activities"}</small></span>${stars3(rb)}</button>
+  <button class="lchg" id="lChange">Choose another unit ▾</button></div>
  <div class="sec-t"><h2>More ways to learn</h2></div>
- <div class="hx"><button class="card hxc" id="lCards"><span class="emo hxi">🃏</span><span class="t"><small>Word cards</small><b>Unit ${state.unit} words</b><span class="cr">${U.W.length} words with pictures</span></span>${icon("play","f")}</button>
-  ${lmHomeCard()}
-  ${g===1?`<button class="card hxc tr" id="hTrace"><span class="emo hxi">✏️</span><span class="t"><small>Write letters</small><b>How to write letters</b><span class="cr">${tr}/26 letters</span></span>${icon("play","f")}</button>`:""}</div>`;
- $("uLearn").querySelectorAll(".zone").forEach(z=>z.onclick=()=>{state.skill=z.dataset.z;sfx.tap();startGame()});
+ <div class="lmorew"><button class="lrow" id="lCards"><span class="emo">🃏</span><span><b>Word cards</b><small>${U.W.length} words with pictures</small></span>${icon("play","f")}</button>
+  ${(()=>{const h=lmHomeCard();return h?`<div class="lrowwrap">${h}</div>`:""})()}
+  ${g===1?`<button class="lrow" id="hTrace"><span class="emo">✏️</span><span><b>Write letters</b><small>${tr} of 26 letters</small></span>${icon("play","f")}</button>`:""}</div>`;
+ $("uLearn").querySelectorAll(".lact,.lrev").forEach(z=>z.onclick=()=>{state.skill=z.dataset.z;sfx.tap();startGame()});
  $("lChange").onclick=()=>{sfx.tap();$("uAllT").scrollIntoView({behavior:"smooth",block:"start"})};
  $("lCards").onclick=()=>{sfx.tap();FL_FROM="learn";openFlash()};
  if($("hLessons"))$("hLessons").onclick=()=>{sfx.tap();openLessonList()};
@@ -4617,11 +4682,22 @@ function renderReadingHub(){
  const stories=myStories(),rec=store.get("eg_read",{})[s.id];
  const doneWk=stories.filter(x=>x.done&&x.doneDate>=ws).length,pagesWk=stories.reduce((a,x)=>a+(x.dates||[]).filter(d=>d>=ws).length,0),passWk=rec?rec.log.filter(x=>x.pass&&x.date>=ws).length:0;
  const dn=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],t=today();
- $("rhHead").innerHTML=`<div class="dhead" style="--dc:var(--d-read);--dcs:var(--d-read-s)"><span class="emo dhe" aria-hidden="true">📖</span><div><h1>Read</h1><p>Stories, reading steps and the fluency pyramid</p></div></div>
-  <div class="card wkcard"><div class="sec-t" style="margin:0"><h2 style="font-size:18px">${new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"})}</h2><span class="chip" style="color:#E8650C">${streak} ${icon("flame")}</span></div>
+ /* fluency practice this week = Fluency Pyramid days practised (eg_pyr .d) + reading-step tries (eg_read log). Counts only – no rule changes. */
+ const pyrWk=Object.values(pyrStore.get(s.id)||{}).filter(o=>o&&o.d&&o.d>=ws).length,stepWk=rec?rec.log.filter(x=>x.date>=ws).length:0,fluWk=pyrWk+stepWk;
+ const RN=(()=>{const open=stories.find(x=>!x.done);if(open)return{e:"📖",t:"Finish your story",d:storyTitle(open),go:()=>openStory(open.id)};
+  const n=rec?rec.unlocked:{1:1,2:4,3:7}[s.level];if(!(rec&&rec.log.some(x=>x.date===t)))return{e:RSTEPS[n-1].ic,t:"Reading step "+n,d:"Today's reading: "+RSTEPS[n-1].en,go:()=>openRun(n)};
+  const PS=pyrDefault(),pi=pyrNext(s.id,PS.id),po=pyrStore.get(s.id)[pyrKey(PS.id,pi)];if(!(po&&po.d===t)&&pyrCrowns(po)<3)return{e:"🔺",t:"Fluency Pyramid",d:"Read faster and smoother · Day "+(pi+1),go:()=>openPyr(PS.id,pi)};
+  return{e:"✨",t:"Make a new story",d:"Choose a place and a hero",go:()=>newStory()}})();
+ const empty=!ds.size&&!stories.length&&!(rec&&rec.log.length)&&!pyrWk;
+ $("rhHead").innerHTML=`<div class="dhead" style="--dc:var(--d-read);--dcs:var(--d-read-s)"><span class="emo dhe" aria-hidden="true">📖</span><div><h1>Read</h1><p>What can I read and practise?${audBtn("What can I read and practise?","sm")}</p></div></div>
+  <button class="rnext" id="rhNext"><span class="emo rne" aria-hidden="true">${RN.e}</span><span class="rnt"><small>Read next</small><b>${esc(RN.t)}</b><span>${esc(RN.d)}</span></span><span class="rngo">${icon("play","f")}</span></button>
+  ${empty?`<div class="card rempty">${mascot("read",80)}<div><b>Your reading adventure starts here!</b><span>Read one page today and your first reading day lights up 🔥</span></div></div>`:`
+  <div class="card wkcard"><div class="sec-t" style="margin:0"><h2 style="font-size:18px">My reading days</h2><span class="chip" style="color:#E8650C">${icon("flame")} ${streak} ${streak===1?"day":"days"} in a row</span></div>
    <div class="wdays">${wk.map((d,i)=>{const k=fmtD(d),on=ds.has(k);return `<span class="wd${on?" on":""}${k===t?" today":""}"><i>${on?"🔥":""}</i>${dn[i]}</span>`}).join("")}</div></div>
   <div class="sec-t"><h2>This week</h2></div>
-  <div class="growth"><div style="background:#FFF2C2"><b>${doneWk}</b><span>stories finished</span></div><div style="background:#E3EDF9"><b>${pagesWk}</b><span>pages read</span></div><div style="background:#D7F5EA"><b>${passWk}</b><span>fluency passes</span></div></div>`;
+  <div class="growth"><div style="background:#FFF2C2"><b>${doneWk}</b><span>📚 stories finished</span></div><div style="background:#E3EDF9"><b>${pagesWk}</b><span>📄 pages read</span></div><div style="background:#D7F5EA"><b>${fluWk}</b><span>🔺 fluency practice</span></div></div>
+  ${doneWk+pagesWk+fluWk===0?`<p class="muted rwk0">A new week! Finish a story or climb a pyramid to fill these boxes.</p>`:""}`}`;
+ $("rhNext").onclick=()=>{sfx.tap();RN.go()};
  const inprog=stories.filter(x=>!x.done).slice(0,4);
  const rUn=rec?rec.unlocked:{1:1,2:4,3:7}[s.level],RS=RSTEPS[rUn-1];
  $("rhKeep").innerHTML=`<div class="sec-t"><h2>Keep Reading!</h2></div><div class="hscroll">
@@ -4641,7 +4717,7 @@ function drawRTab(){
   $("rhStories").innerHTML=`<div class="themegrid">${Object.entries(ST_THEMES).map(([id,t],i)=>{const n=stories.filter(x=>x.theme===id).length;return `<button class="tcard${i%3===0?" tall":""}" data-t="${id}">${sceneHtml({theme:id,time:i===2?"night":"morning",hero:[0,2,3,4,1,5][i]},null,false)}<span class="tl"><b>${t.en}</b><small class="en">${n} ${n===1?"story":"stories"}</small></span></button>`}).join("")}</div>`;
   $("rhStories").querySelectorAll(".tcard").forEach(b=>b.onclick=()=>newStory(b.dataset.t));
  }else if(RTAB==="mine"){
-  $("rhMine").innerHTML=stories.length?stories.map(st=>{const R=runStory(st,st.level||me.st.level);return `<button class="mine" data-s="${st.id}">${sceneHtml(st,null,false)}<span class="t"><b class="en">${esc(storyTitle(st))}</b><small>${R.pages.length} pages · ${st.done?"✅ Complete":st.ended?"❓ Answer the questions":"⏳ In progress"}${st.quiz?" · Questions "+st.quiz:""}</small></span>${icon("play","f")}</button>`}).join(""):`<div class="empty">${mascot("happy",80)}<b>No stories yet</b><span>Choose a place in “Stories” to start your first story.</span></div>`;
+  $("rhMine").innerHTML=stories.length?stories.map(st=>{const R=runStory(st,st.level||me.st.level);return `<button class="mine" data-s="${st.id}">${sceneHtml(st,null,false)}<span class="t"><b class="en">${esc(storyTitle(st))}</b><small>${R.pages.length} pages · ${st.done?"✓ Completed":st.ended?"◐ In progress – answer the questions":"◐ In progress"}${st.quiz?" · Questions "+st.quiz:""}</small></span>${icon("play","f")}</button>`}).join(""):`<div class="empty">${mascot("happy",80)}<b>No stories yet</b><span>Choose a place in “Stories” to start your first story.</span></div>`;
   $("rhMine").querySelectorAll(".mine").forEach(b=>b.onclick=()=>openStory(b.dataset.s));
  }else{renderPyrHub();renderLadder()}
 }
@@ -5508,7 +5584,7 @@ const PG_WORLDS={
  sound:{t:"Sound Lab",sub:"Phonics",ic:"🔬",c1:"#119C84",c2:"#0B6E5D",soft:"#DDF5EF",art:"🧪"},
  gram:{t:"Grammar Kingdom",sub:"Grammar",ic:"🏰",c1:"#D6336C",c2:"#A61E4D",soft:"#FCE4EC",art:"👑"},
  story:{t:"Story Studio",sub:"Writing",ic:"🎨",c1:"#E08A00",c2:"#B26B00",soft:"#FFF1D6",art:"✏️"}};
-const PG_STAGES={1:{en:"Explore",ic:"🧭",d:"Hints and examples"},2:{en:"Play",ic:"🎮",d:"Fewer hints, harder words"},3:{en:"Master",ic:"🏆",d:"On your own"}};
+const PG_STAGES={1:{en:"Explore",ic:"🧭",d:"Learn with help"},2:{en:"Play",ic:"🎮",d:"Fewer hints"},3:{en:"Master",ic:"🏆",d:"On your own"}};
 const PG_ACTS={}; // filled by each world: {id,world,t,ic,goal,skill,writing,rounds(st),gen(ctx,st),draw(r,api)}
 const PG_ORDER=["magic","shop","repair","train","build","talk","p2p"]; // Comic Strip Studio removed from the menu; old saved comics still show in "My writing"
 /* ---------- taught content: only units up to the class's current unit ---------- */
@@ -5594,26 +5670,43 @@ function pgHomeCard(){if(!me)return"";const m=pgMine();const n=PG_ORDER.filter(i
  return `<button class="card hxc pgh" id="hPlay"><span class="pghic" aria-hidden="true"><i>🔤</i><i>🔬</i><i>🏰</i><i>🎨</i></span><span class="t"><small>The English Playground</small><b>4 worlds to explore</b><span class="cr">${n?`${n} of ${PG_ORDER.length} activities started`:"Build, find, fix and write!"}</span></span>${icon("play","f")}</button>`}
 function openPlayground(){renderPlayHub();show("play","up")}
 function renderPlayHub(){const m=pgMine();const ctx=pgCtx();
- $("pgHub").innerHTML=`<div class="dhead" style="--dc:var(--d-play);--dcs:var(--d-play-s)"><span class="emo dhe" aria-hidden="true">🧩</span><div><h1>Play</h1><p>English games · ${BOOK[ctx.g].name} · Units 1–${ctx.cu}</p></div></div>
- <div class="pgworlds">${Object.entries(PG_WORLDS).filter(([k])=>k!=="story").map(([k,w])=>{const acts=PG_ORDER.filter(id=>PG_ACTS[id].world===k);const done=acts.filter(id=>pgStatusOf(m.acts[id]).k!=="none").length;const mast=acts.filter(id=>pgStatusOf(m.acts[id]).k==="mastered").length;
-  return `<button class="pgworld pgw-${k}" data-w="${k}" style="--c1:${w.c1};--c2:${w.c2};--soft:${w.soft}"><span class="pgwart" aria-hidden="true">${w.ic}</span><span class="pgwt"><b>${w.t}</b><small>${w.sub}</small></span><span class="pgwacts">${acts.map(id=>`<i title="${esc(PG_ACTS[id].t)}">${PG_ACTS[id].ic}</i>`).join("")}</span><span class="pgwbar"><i style="width:${acts.length?Math.round(done/acts.length*100):0}%"></i></span><span class="pgwmeta">${done}/${acts.length} started${mast?` · ${mast} mastered ⭐`:""}</span></button>`}).join("")}</div>
+ $("pgHub").innerHTML=`<div class="dhead" style="--dc:var(--d-play);--dcs:var(--d-play-s)"><span class="emo dhe" aria-hidden="true">🧩</span><div><h1>Play</h1><p>Practise English with games${audBtn("Practise English with games","sm")} · Units 1–${ctx.cu}</p></div></div>
+ <div class="pgworlds">${Object.entries(PG_WORLDS).filter(([k])=>k!=="story").map(([k,w])=>{const acts=PG_ORDER.filter(id=>PG_ACTS[id].world===k);const mast=acts.filter(id=>pgStatusOf(m.acts[id]).k==="mastered").length;
+  const stt=acts.map(id=>pgState(m.acts[id])),nDone=stt.filter(x=>x==="done"||x==="mast").length,nProg=stt.filter(x=>x==="prog").length,first=acts.find((id,i)=>stt[i]==="none"||stt[i]==="prog");
+  return `<button class="pgworld pgw-${k}" data-w="${k}" style="--c1:${w.c1};--c2:${w.c2};--soft:${w.soft}"><span class="pgwart" aria-hidden="true">${w.ic}</span><span class="pgwt"><b>${w.t}</b><small>${PG_PLAIN[k]}</small></span>
+   <span class="pgwgames">${acts.map((id,i)=>`<span class="pgg p-${stt[i]}"><span class="emo" aria-hidden="true">${PG_ACTS[id].ic}</span>${esc(PG_ACTS[id].t)}<i aria-label="${PST[stt[i]].en}">${PST[stt[i]].ic}</i></span>`).join("")}</span>
+   <span class="pgwstart">${first?`${icon("play","f")} Start with: <b>${esc(PG_ACTS[first].t)}</b>`:`${icon("check")} All games completed – play again any time`}</span>
+   <span class="pgwmeta">${nDone||nProg?`${nDone} of ${acts.length} completed${nProg?` · ${nProg} in progress`:""}${mast?` · ${mast} mastered`:""}`:"Not started yet"}</span></button>`}).join("")}</div>
  `;
  $("pgHub").querySelectorAll(".pgworld").forEach(b=>b.onclick=()=>{sfx.tap();openWorld(b.dataset.w)});
  $("pgHub").querySelectorAll(".pgwrc").forEach(b=>b.onclick=()=>{sfx.tap();pgShowWriting(b.dataset.wr)})}
 /* CREATE: the writing activities (Story Studio world) and the child's writing book – same records as before (eg_play) */
 function renderCreate(){if(!me)return;const m=pgMine();
- $("crBody").innerHTML=`<div class="dhead" style="--dc:var(--d-create);--dcs:var(--d-create-s)"><span class="emo dhe" aria-hidden="true">🎨</span><div><h1>Create</h1><p>Write your own English</p></div></div>
+ $("crBody").innerHTML=`<div class="dhead" style="--dc:var(--d-create);--dcs:var(--d-create-s)"><span class="emo dhe" aria-hidden="true">🎨</span><div><h1>Create</h1><p>What can I make using English?${audBtn("What can I make using English?","sm")}</p></div></div>
   <div id="crActs"></div>
   <div class="panel pgmine"><h2>📚 My writing book</h2>${m.wr.length?`<div class="pgwr">${m.wr.slice(0,24).map(w=>`<button class="pgwrc" data-wr="${w.id}"><span class="emo">${PG_ACTS[w.act]?PG_ACTS[w.act].ic:"📝"}</span><b>${esc(w.title)}</b><small>${new Date(w.at||Date.now()).toLocaleDateString("en-GB",{day:"numeric",month:"short"})}</small></button>`).join("")}</div>`:`<p class="muted" style="margin:6px 0 0">Your writing will be kept here. Start with Picture to Paragraph!</p>`}</div>`;
- const keep=PG.world;PG.world="story";renderWorld($("crActs"));PG.world=keep;
+ const SD={1:{t:"Explore",ic:"🧭",d:"Look carefully at the picture. Tap things to see their names."},2:{t:"Play",ic:"🎮",d:"Discover words and build sentences."},3:{t:"Master",ic:"🏆",d:"Write on your own."}};
+ $("crActs").innerHTML=PG_ORDER.filter(id=>PG_ACTS[id].world==="story").map(id=>{const A=PG_ACTS[id],r=pgActRec(JSON.parse(JSON.stringify(m)),id),stt=pgState(m.acts[id]),cur=m.cur&&m.cur.act===id;
+  const md=r.s[3]&&r.s[3].days?r.s[3].days.length:0;
+  return `<div class="card crjour"><div class="crh"><span class="emo crhi" aria-hidden="true">${A.ic}</span><div><h2>${A.t}</h2><p>${PG_PLAIN.story}</p></div>${pchip(stt)}</div>
+   <ol class="crsteps">${[1,2,3].map(k=>{const ok=pgUnlocked(r,k),x=r.s[k],passed=x.n&&x.best>=60;
+    const need=k===1?"":k===2?"Get 60% in Explore to open":"Get 60% in Play to open";
+    const st=!ok?"lock":passed?"done":x.n?"prog":"open";
+    return `<li class="crs ${st}"><span class="crn">${st==="done"?"✓":st==="lock"?"🔒":k}</span><div class="crt"><b>${SD[k].ic} ${SD[k].t}</b><span>${SD[k].d}${audBtn(SD[k].d,"sm")}</span>
+     <small>${!ok?need:x.n?`Best ${x.best}%${k<3?(passed?" · next step is open":" · get 60% to open the next step"):""}`:"Open – start here"}</small></div>
+     ${ok?`<button class="btn crgo" data-a="${id}" data-s="${k}">${x.n?"Again":"Start"}</button>`:""}</li>`}).join("")}</ol>
+   <p class="crrule">✓ <b>Completed</b> = 80% in Play or Master · ★ <b>Mastered</b> = Master on 2 different days${md?` (you have ${md})`:""}</p>
+   ${cur?`<button class="mini-btn pgres" data-a="${id}">↺ Continue where you stopped (${PG_STAGES[m.cur.stage].en}, ${m.cur.i+1}/${m.cur.rounds.length})</button>`:""}</div>`}).join("");
+ $("crActs").querySelectorAll(".crgo").forEach(b=>b.onclick=()=>{sfx.tap();pgStart(b.dataset.a,+b.dataset.s)});
+ $("crActs").querySelectorAll(".pgres").forEach(b=>b.onclick=()=>{sfx.tap();pgResume()});
  $("crBody").querySelectorAll(".pgwrc").forEach(b=>b.onclick=()=>{sfx.tap();pgShowWriting(b.dataset.wr)})}
 function openWorld(w){if(w==="story"){go("create");return}PG.world=w;renderWorld();show("pgw","up")}
 function renderWorld(target){const w=PG_WORLDS[PG.world],m=pgMine();const box=target||$("pgwBody");if(target){box.style.setProperty("--c1",w.c1);box.style.setProperty("--c2",w.c2);box.style.setProperty("--soft",w.soft);box.dataset.world=PG.world}$("pgw").style.setProperty("--c1",w.c1);$("pgw").style.setProperty("--c2",w.c2);$("pgw").style.setProperty("--soft",w.soft);$("pgw").dataset.world=PG.world;
  $("pgwTitle").innerHTML=`<b>${w.ic} ${w.t}</b>`;
- box.innerHTML=`<div class="pgwhead pgw-${PG.world}"><span class="pgwbig" aria-hidden="true">${w.ic}</span><div><h1>${w.t}</h1><p>${{word:"Find, choose and use new words.",sound:"Fix words and build them sound by sound.",gram:"Build sentences and make people talk.",story:"Look at pictures and write about them."}[PG.world]}</p></div></div>
+ box.innerHTML=`<div class="pgwhead pgw-${PG.world}"><span class="pgwbig" aria-hidden="true">${w.ic}</span><div><h1>${w.t}</h1><p>${PG_PLAIN[PG.world]}</p></div></div>
  <div class="pgacts">${PG_ORDER.filter(id=>PG_ACTS[id].world===PG.world).map(id=>{const A=PG_ACTS[id],r=pgActRec(JSON.parse(JSON.stringify(m)),id),st=pgStatusOf(m.acts[id]);const cur=m.cur&&m.cur.act===id;
-  return `<div class="card pgact"><div class="pgacth"><span class="pgaic" aria-hidden="true">${A.ic}</span><div><b>${A.t}</b><small>${A.goal}</small></div><span class="pgst ${st.k}">${st.k==="mastered"?"⭐ ":""}${st.en}</span></div>
-   <div class="pgstages">${[1,2,3].map(k=>{const ok=pgUnlocked(r,k),s=r.s[k];return `<button class="pgstage s${k}${ok?"":" lock"}" data-a="${id}" data-s="${k}" ${ok?"":"disabled aria-disabled=\"true\""}><span>${ok?PG_STAGES[k].ic:"🔒"}</span><b>${PG_STAGES[k].en}</b><small>${s.n?`Best ${s.best}%`:ok?PG_STAGES[k].d:k===2?"Finish Explore":"Score 60% in Play"}</small></button>`}).join("")}</div>
+  return `<div class="card pgact"><div class="pgacth"><span class="pgaic" aria-hidden="true">${A.ic}</span><div><b>${A.t}</b><small>${A.goal}</small></div>${pchip(pgState(m.acts[id]))}</div>
+   <div class="pgstages">${[1,2,3].map(k=>{const ok=pgUnlocked(r,k),s=r.s[k];return `<button class="pgstage s${k}${ok?"":" lock"}" data-a="${id}" data-s="${k}" ${ok?"":"disabled aria-disabled=\"true\""}><span>${ok?PG_STAGES[k].ic:"🔒"}</span><b>${PG_STAGES[k].en}</b><small>${s.n?`Best ${s.best}%`:ok?PG_STAGES[k].d:k===2?"Get 60% in Explore to open":"Get 60% in Play to open"}</small></button>`}).join("")}</div>
    ${cur?`<button class="mini-btn pgres" data-a="${id}">↺ Continue where you stopped (${PG_STAGES[m.cur.stage].en}, ${m.cur.i+1}/${m.cur.rounds.length})</button>`:""}</div>`}).join("")}</div>`;
  box.querySelectorAll(".pgstage:not(.lock)").forEach(b=>b.onclick=()=>{sfx.tap();pgStart(b.dataset.a,+b.dataset.s)});
  box.querySelectorAll(".pgres").forEach(b=>b.onclick=()=>{sfx.tap();pgResume()})}

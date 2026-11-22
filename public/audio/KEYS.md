@@ -30,6 +30,16 @@ Single words start with `w-`: cat → `w-cat.mp3`.
 - `you-built-the-pyramid-great-reading.mp3` – You built the pyramid! Great reading!
 - `your-turn-make-your-own-talk-write-a-question-and-an-answer.mp3` – Your turn! Make your own talk. Write a question and an answer.
 
+## Screen headers and writing steps
+
+- `what-am-i-learning.mp3` – What am I learning?
+- `what-can-i-read-and-practise.mp3` – What can I read and practise?
+- `practise-english-with-games.mp3` – Practise English with games
+- `what-can-i-make-using-english.mp3` – What can I make using English?
+- `look-carefully-at-the-picture-tap-things-to-see-their-names.mp3` – Look carefully at the picture. Tap things to see their names.
+- `discover-words-and-build-sentences.mp3` – Discover words and build sentences.
+- `write-on-your-own.mp3` – Write on your own.
+
 ## Unit words (speaker on the Word Cards)
 
 
