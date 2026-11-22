@@ -2,6 +2,8 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
+<meta name="author" content="T. Sayed Mustafa Hasan">
+<meta name="copyright" content="© 2026 T. Sayed Mustafa Hasan. All rights reserved.">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>English Geniuses</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,6 +54,9 @@ svg.i.f{fill:currentColor;stroke:none}
 html{touch-action:manipulation;-webkit-text-size-adjust:100%;overflow-x:hidden}
 body,button,a,input,select,textarea,label{touch-action:manipulation}
 button{-webkit-tap-highlight-color:transparent}
+.copyr{display:block;text-align:center;font-size:12px;line-height:1.4;color:var(--muted,#6b7280);opacity:.85;margin-top:auto;padding:14px 8px 0;font-weight:500;direction:ltr}
+.screen > .copyr{font-size:11px;line-height:1.2;padding:2px 8px 0;margin-bottom:-24px}
+.foot .copyr{margin-top:0;padding-top:4px}
 .screen{display:none;min-height:100vh;min-height:100dvh;padding:16px 16px 40px;margin:0 auto;flex-direction:column;gap:16px}
 .screen.on{display:flex}
 .app{max-width:680px}
@@ -1428,7 +1433,7 @@ body[data-scr=pga] #tabbar{display:none!important}
     <div class="cls-board" id="honorList"></div>
   </section>
   <section class="lcta"><span id="lctaM"></span><div><h2>Ready to play?</h2><p>Log in with your class, your name and your PIN.</p></div><button class="btn btn-ink" id="lctaGo">Start your journey <svg class="i f" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg></button></section>
-  <footer class="foot"><img id="ftLogo" alt="School logo"><b>English Geniuses</b><span>Osama Bin Zaid Primary Boys School – English Department</span><span>School year 2026–2027</span><span id="ftVer" style="opacity:.7;font-size:12px">Version 21 Nov 2026 (server)</span><span>Designed by T. Sayed Mustafa Hasan</span></footer>
+  <footer class="foot"><img id="ftLogo" alt="School logo"><b>English Geniuses</b><span>Osama Bin Zaid Primary Boys School – English Department</span><span>School year 2026–2027</span><span id="ftVer" style="opacity:.7;font-size:12px">Version 21 Nov 2026 (server)</span><span>Designed by T. Sayed Mustafa Hasan</span><span class="copyr">© 2026 T. Sayed Mustafa Hasan. All rights reserved.</span></footer>
   </div>
 </section>
 
@@ -2264,12 +2269,16 @@ function fitNow(){fitRaf=0;const el=document.querySelector(".screen.on");documen
  const vh=(window.visualViewport?window.visualViewport.height:window.innerHeight);
  el.style.zoom="";el.style.minHeight="0px";const h=el.scrollHeight;
  const z=h>vh+2?Math.max(.72,Math.floor((vh-14)/h*100)/100):1;
- if(z<1){el.style.zoom=z;el.style.minHeight=(vh/z)+"px"}else{el.style.zoom="";el.style.minHeight=""}}
+ if(z<1){el.style.zoom=z;el.style.minHeight=(vh/z)+"px";
+  let zz=z;while(zz>.72&&document.documentElement.scrollHeight>vh+1){zz=Math.max(.72,+(zz-.02).toFixed(2));el.style.zoom=zz;el.style.minHeight=(vh/zz)+"px"}}
+ else{el.style.zoom="";el.style.minHeight=""}}
 function fitSoon(){if(!fitRaf)fitRaf=requestAnimationFrame(()=>setTimeout(fitNow,30))}
 function fitWatch(){if(fitObs)fitObs.disconnect();const el=document.querySelector(".screen.on");if(!el||!FIT_SCREENS.includes(el.id))return;
  fitObs=new MutationObserver(fitSoon);fitObs.observe(el,{childList:true,subtree:true,attributes:true,attributeFilter:["hidden","class"]});fitSoon()}
 window.addEventListener("resize",fitSoon);window.addEventListener("orientationchange",fitSoon);document.addEventListener("focusout",fitSoon);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitSoon);
+const COPYRIGHT="© 2026 T. Sayed Mustafa Hasan. All rights reserved.";
+function copyMark(el){if(!el||el.id==="landing")return;let c=el.querySelector(":scope > .copyr");if(!c){c=document.createElement("p");c.className="copyr";c.textContent=COPYRIGHT}if(el.lastElementChild!==c)el.appendChild(c)}
 function show(id,dir="f"){
  curScreen=id;document.body.dataset.scr=id;
  document.querySelectorAll(".screen").forEach(s=>{const on=s.id===id;s.classList.toggle("on",on);s.classList.remove("enter-f","enter-b","enter-up");if(on){void s.offsetWidth;s.classList.add(dir==="b"?"enter-b":dir==="up"?"enter-up":"enter-f")}});
@@ -2278,7 +2287,7 @@ function show(id,dir="f"){
  document.body.classList.toggle("ingame",id==="game"||id==="results");
  if(id!=="game"&&id!=="results")setZone("mixed");
  renderTabs();renderTop();if(id==="landing")renderLanding();
- window.scrollTo(0,0);fitWatch();
+ window.scrollTo(0,0);copyMark($(id));fitWatch();
 }
 function renderTabs(){
  const T=[["home","home","Home"],["units","map","Units"],["reading","book","Reading"],["board","trophy","Heroes"],["me","user","Me"]];
@@ -2737,7 +2746,7 @@ ${CERT_CSS}
 <div class="bar"><span>${one?"Your certificate is ready. Choose Print, or “Save as PDF” in the print window.":items.length+" certificates · A4 landscape, one per page"}</span><button onclick="window.print()">🖨️ Print / Save as PDF</button></div>
 ${pages}
 <script>window.addEventListener("load",function(){setTimeout(function(){window.print()},900)});<\/script>
-</body></html>`;
+<div style="position:fixed;bottom:3mm;left:0;right:0;text-align:center;font:500 9px/1.2 Arial,sans-serif;color:#8a8f98;direction:ltr;pointer-events:none">${COPYRIGHT}</div></body></html>`;
 }
 async function saveCertFile(items,msgEl){
  const say=t=>{if(msgEl)msgEl.textContent=t};
@@ -3854,7 +3863,7 @@ h1 small{font-size:13px;color:#66707F;font-weight:600}
 <div class="bar"><span>Login cards – ${classes.length===1?"Class "+esc(classes[0].name):"all classes"} · cut along the dashed lines</span><button onclick="window.print()">🖨️ Print</button></div>
 ${pages}
 <script>window.addEventListener("load",function(){setTimeout(function(){window.print()},700)});<\/script>
-</body></html>`;
+<div style="position:fixed;bottom:3mm;left:0;right:0;text-align:center;font:500 9px/1.2 Arial,sans-serif;color:#8a8f98;direction:ltr;pointer-events:none">${COPYRIGHT}</div></body></html>`;
 }
 async function printCards(all){
  const r=roster(),classes=all?r.classes:[curClass()].filter(Boolean);
@@ -5279,7 +5288,7 @@ function lmWorksheet(l,idxs,cls){const names=cls?cls.students.map(s=>s.name):[""
  .bank{border:1.5px dashed #1F4E86;border-radius:3mm;padding:2mm 4mm;font-size:13pt;text-align:center;margin:0 0 3mm}.line{font-size:14pt;margin:0 0 4mm;line-height:1.6}.scr{font-size:13pt;color:#333}.wline{border-bottom:1.5px solid #999;height:9mm;margin:0 0 2mm}
  table.sort{width:100%;border-collapse:collapse}table.sort th,table.sort td{border:1.5px solid #999;padding:2mm;font-size:13pt}table.sort td{height:30mm}
  .teach{margin-top:auto;border:2px solid #16213A;border-radius:3mm;padding:3mm 4mm;display:flex;flex-wrap:wrap;gap:3mm 8mm;font-size:12pt}.teach b{width:100%}.teach .cm{width:100%}
- @media print{.bar{display:none}.sheet{margin:0}}</style></head><body><div class="bar"><span>${pages.length} page${pages.length>1?"s":""} · A4</span><button onclick="window.print()">🖨️ Print</button></div>${pages.join("")}</body></html>`}
+ @media print{.bar{display:none}.sheet{margin:0}}</style></head><body><div class="bar"><span>${pages.length} page${pages.length>1?"s":""} · A4</span><button onclick="window.print()">🖨️ Print</button></div>${pages.join("")}<div style="position:fixed;bottom:3mm;left:0;right:0;text-align:center;font:500 9px/1.2 Arial,sans-serif;color:#8a8f98;direction:ltr;pointer-events:none">${COPYRIGHT}</div></body></html>`}
 async function lmPrint(l,idxs){const clsSel=$("lmPrCls");let cls=null;
  const r=roster(),opts=r.classes.filter(c=>gradeOf(c)===l.grade);
  const go=async(cid)=>{cls=r.classes.find(c=>c.id===cid)||null;const html=lmWorksheet(l,idxs,cls);let dl=null;try{dl=window.claude&&window.claude.use?await window.claude.use("downloads"):null}catch(e){dl=null}

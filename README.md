@@ -32,3 +32,5 @@ The repository is connected to a Cloudflare Worker (Workers Builds, deploy comma
 5. Share the site address with families (it is shown in **My class → Online & backup → Student link**).
 
 Designed by T. Sayed Mustafa Hasan.
+
+© 2026 T. Sayed Mustafa Hasan. All rights reserved. See [LICENSE](LICENSE) – no use, copying or distribution without written permission.
