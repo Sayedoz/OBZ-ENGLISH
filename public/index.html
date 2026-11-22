@@ -2381,7 +2381,21 @@ function copyMark(el){if(!el||el.id==="landing")return;let c=el.querySelector(":
    picture.") = "read-the-word-choose-the-picture" → audio/read-the-word-choose-the-picture.mp3; words use "w-" + word. */
 const AUD={files:new Set(),a:null,btn:null,key:""};
 function audKey(t){return String(t||"").replace(/<[^>]*>/g," ").replace(/&[a-z]+;/g," ").toLowerCase().replace(/[’‘]/g,"'").replace(/'/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,80)}
-function audBtn(text,cls){const k=audKey(text);return k&&AUD.files.has(k)?`<button type="button" class="spk${cls?" "+cls:""}" data-aud="${k}" aria-label="Listen">${icon("vol")}</button>`:""}
+/* the teacher's recordings are general phrases: an instruction gets a speaker when a recording says the same thing */
+const AUD_ALIAS=[[/^what is it\b/,"what-is-this"],[/^look at the picture\. is the sentence right/,"look-at-the-picture"],[/^look and answer/,"look-at-the-picture"],
+ [/^which word (starts|ends) with the same letter/,"find-the-word-with-the-same-sound"],[/^which word (has|starts with|ends with) /,"find-the-word-with-the-same-sound"],
+ [/^find the missing letter/,"put-the-missing-letter-in-its-place"],[/^choose the missing word/,"which-word-is-missing"],[/^(choose the correct word|which spelling is correct)/,"choose-the-correct-answer"],
+ [/^(put the words in order|are the words in the right order)/,"put-the-words-in-the-correct-order"],[/^which picture matches the sentence/,"read-the-sentence-carefully"],
+ [/^(make the word|look and build the word)/,"lets-build-a-word"],[/^read the order\. tap the things/,"put-the-items-in-the-basket"],[/^build the word for this picture/,"put-the-sound-together"],
+ [/^the robot.?s word is broken/,"oh-no-the-word-is-broken"],[/^fix the word\. type the missing/,"put-the-missing-letter-in-its-place"],[/^build the sentence/,"put-the-words-in-the-correct-order"],
+ [/^(help your friend answer|look at the picture\. help your friend answer)/,"what-should-he-say"],[/^look at the picture\. what can you see/,"look-at-the-picture"],
+ [/^complete the sentence/,"complete-the-sentence"],[/^is it one or more/,"is-it-one-or-more-than-one"],[/^what question would you ask/,"what-question-would-you-ask"],
+ [/^what is the first sound/,"what-is-the-first-sound"],[/^what is the last sound/,"what-is-the-last-sound"],[/^who is this/,"who-is-this"],[/^what are these/,"what-are-these"]];
+function audFind(text){const k=audKey(text);if(k&&AUD.files.has(k))return k;const t=String(text||"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim().toLowerCase();
+ for(const [rx,f] of AUD_ALIAS)if(rx.test(t)&&AUD.files.has(f))return f;return ""}
+/* short automatic lines (respects the Sound switch, one at a time, never after every tap) */
+function audSay(k){try{if(!k||!AUD.files.has(k)||!$("optSound").checked)return;audPlay(k,null)}catch(e){}}
+function audBtn(text,cls){const k=audFind(text);return k?`<button type="button" class="spk${cls?" "+cls:""}" data-aud="${k}" aria-label="Listen">${icon("vol")}</button>`:""}
 const audWord=w=>audBtn("w "+w,"sm");
 function audStop(){if(AUD.a){try{AUD.a.pause()}catch(_){}AUD.a=null}if(AUD.btn){AUD.btn.classList.remove("on");AUD.btn=null}AUD.key=""}
 function audPlay(k,btn){const same=AUD.key===k&&AUD.a&&!AUD.a.paused;audStop();if(same)return;
@@ -2679,6 +2693,7 @@ function renderHome(){
  if(!syncState()){show("landing");return}
  const s=me.st,sid=s.id,g=state.grade,curU=me.cls.unit||1;
  const won=ncCheck(sid);
+ try{const W=store.get("eg_welc",{});if(W[sid]!==today()){W[sid]=today();store.set("eg_welc",W);setTimeout(()=>audSay("welcome"),300)}}catch(e){}
  const total=starsFor(sid),NC=nextChallenge(),bon=bonusToday(sid),{out}=unitStars(sid,s.level),W=recentWins(sid);
  const dc=k=>`--dc:var(--d-${k});--dcd:var(--d-${k}-d);--dcs:var(--d-${k}-s)`;
  $("homeBody").innerHTML=`
@@ -3069,7 +3084,7 @@ function startGame(skipFlash){
  const ov=$("intro");
  ov.innerHTML=`<div class="big">${zoneArt(k,150)}</div><h2>${Z.en}</h2><p>${Z.d}${arHelp(Z.dar)}</p>
   <div class="tags"><span>${k==="mixed"?"Units 1–"+state.unit:"Unit "+state.unit+": "+esc(U.t)}</span><span>${n} questions</span><span>${L.ic} ${L.en}</span></div>
-  <button class="btn btn-w" id="introGo" style="margin-top:10px;font-size:22px;padding:14px 40px">Let's go! ${icon("play","f")}</button>`;
+  <button class="btn btn-w" id="introGo" style="margin-top:10px;font-size:22px;padding:14px 40px">Let's go! ${icon("play","f")}</button>${audBtn("Ready to play")}`;
  ov.classList.add("on");sfx.tap();
  $("introGo").onclick=()=>{ov.classList.remove("on");show("game","up");renderQ(true)};
  setTimeout(()=>$("introGo")&&$("introGo").focus(),60);
@@ -3247,7 +3262,7 @@ function finish(){
    ${stars<3?`<button class="btn btn-z block" id="rAgain">${icon("refresh")} Try again for 3 stars</button>`:`<button class="btn btn-z block" id="rNext">${icon("play","f")} Next: ${next.label}</button>`}
    <div class="row">${stars<3?`<button class="btn btn-w" id="rNext">Next: ${next.short}</button>`:`<button class="btn btn-w" id="rAgain">${icon("refresh")} Play again</button>`}<button class="btn btn-w" id="rHome">${icon("map")} Unit</button></div>
   </div>`;
- show("results","up");
+ show("results","up");setTimeout(()=>audSay(["try-again","finished","excellent-work","fantastic-you-did-it"][stars]),500);
  if(newCerts.length){$("rCert").onclick=()=>openCert(s.id,certKey(newCerts[0].grade,newCerts[0].unit),"me",true);setTimeout(()=>celebrateCert(newCerts[0]),1600)}
  document.querySelectorAll("#resBox .resrow").forEach((el,i)=>el.style.animationDelay=(1.2+i*.15)+"s");
  const sv=document.querySelectorAll("#resBox .bigstars svg");sv.forEach((el,i)=>setTimeout(()=>{el.classList.add("show");if(i<stars)sfx.tap()},300+i*280));
@@ -5716,7 +5731,9 @@ function pgStart(id,st){const A=PG_ACTS[id],ctx=pgCtx();let rounds=[];try{rounds
 function pgResume(){const m=pgMine();if(!m.cur||!PG_ACTS[m.cur.act]||!PG_ORDER.includes(m.cur.act))return;Object.assign(PG,{act:m.cur.act,st:m.cur.stage,rounds:m.cur.rounds,i:m.cur.i,res:m.cur.res||[],ctx:pgCtx(),draft:m.cur.draft||null});pgOpenAct()}
 function toastMsg(t){const d=document.createElement("div");d.className="pgtoast";d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),3600)}
 function pgOpenAct(){const A=PG_ACTS[PG.act],w=PG_WORLDS[A.world];const s=$("pga");s.style.setProperty("--c1",w.c1);s.style.setProperty("--c2",w.c2);s.style.setProperty("--soft",w.soft);s.dataset.world=A.world;
- $("pgaTitle").innerHTML=`<b>${A.ic} ${A.t}</b><small>${PG_STAGES[PG.st].ic} ${PG_STAGES[PG.st].en}</small>`;show("pga","up");pgRound()}
+ $("pgaTitle").innerHTML=`<b>${A.ic} ${A.t}</b><small>${PG_STAGES[PG.st].ic} ${PG_STAGES[PG.st].en}</small>`;show("pga","up");pgRound();if(!PG.i)setTimeout(()=>audSay((PG_VOICE[PG.act]||[])[0]),350)}
+const PG_VOICE={magic:["something-is-hiding","great-you-found-it"],shop:["a-customer-needs-your-help","thank-you-come-again"],repair:["oh-no-the-word-is-broken","you-fixed-the-word"],
+ train:["lets-build-a-word","the-train-is-ready"],build:["welcome-to-the-construction-site","look-your-sentence-is-complete"],talk:["","great-they-understand-eachother"],p2p:["look-at-the-picture","excellent-work"]};
 const PG_PRAISE=["Brilliant!","You did it!","Super!","Fantastic!","Great work!","Well done!","Amazing!","Excellent!"],PG_TRY=["Not quite – try again!","Look again!","Almost! Have another go.","Hmm, check again."];
 function pgRound(){if(PG.cleanup){PG.cleanup();PG.cleanup=null}const A=PG_ACTS[PG.act];const r=PG.rounds[PG.i];PG.tries=0;PG.solved=false;PG.hintFn=null;PG.fixes=0;
  $("pgaDots").innerHTML=PG.rounds.map((_,k)=>`<i class="${k<PG.i?(PG.res[k]>=1?"ok":"half"):k===PG.i?"on":""}"></i>`).join("");
@@ -5735,7 +5752,7 @@ function pgRound(){if(PG.cleanup){PG.cleanup();PG.cleanup=null}const A=PG_ACTS[P
   draft:()=>{const d=PG.draft;PG.draft=null;return d}};
  try{A.draw(r,api,$("pgStage"))}catch(e){console.error(e);$("pgStage").innerHTML=`<div class="panel">Something went wrong with this round. <button class="btn" id="pgSkip">Skip</button></div>`;$("pgSkip").onclick=()=>{PG.res[PG.i]=0;pgNextRound()}}}
 function pgNextRound(){PG.i++;if(PG.i>=PG.rounds.length){pgFinish();return}pgPut(m=>{if(m.cur&&m.cur.act===PG.act){m.cur.i=PG.i;m.cur.res=PG.res.slice();m.cur.draft=null;m.cur.at=Date.now()}});pgRound()}
-function pgFinish(){const A=PG_ACTS[PG.act],n=PG.rounds.length,pct=Math.round(PG.res.reduce((a,b)=>a+(b||0),0)/n*100);let unlocked="";
+function pgFinish(){const A=PG_ACTS[PG.act],n=PG.rounds.length,pct=Math.round(PG.res.reduce((a,b)=>a+(b||0),0)/n*100);let unlocked="";setTimeout(()=>audSay(pct>=60?(PG_VOICE[PG.act]||[])[1]||"fantastic-you-did-it":"try-again"),400);
  pgPut(m=>{const r=pgActRec(m,PG.act),s=r.s[PG.st];const before=pgUnlocked(r,PG.st+1);s.n++;s.last=pct;s.best=Math.max(s.best,pct);s.at=Date.now();if(PG.st===3&&pct>=80){const d=today();if(!s.days.includes(d))s.days.push(d)}
   if(PG.st<3&&!before&&pgUnlocked(r,PG.st+1))unlocked=PG_STAGES[PG.st+1].en;m.cur=null});
  const st=pgStatusOf(pgMine().acts[PG.act]);if(pct>=60){sfx.win();confetti()}
