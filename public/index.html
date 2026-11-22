@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>English Geniuses</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -49,7 +49,10 @@ svg.i{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2.2;stro
 svg.i.f{fill:currentColor;stroke:none}
 
 /* ---------- SCREENS + TRANSITIONS ---------- */
-.screen{display:none;min-height:100vh;padding:16px 16px 40px;margin:0 auto;flex-direction:column;gap:16px}
+html{touch-action:manipulation;-webkit-text-size-adjust:100%;overflow-x:hidden}
+body,button,a,input,select,textarea,label{touch-action:manipulation}
+button{-webkit-tap-highlight-color:transparent}
+.screen{display:none;min-height:100vh;min-height:100dvh;padding:16px 16px 40px;margin:0 auto;flex-direction:column;gap:16px}
 .screen.on{display:flex}
 .app{max-width:680px}
 .wide{max-width:1120px}
@@ -2248,6 +2251,25 @@ const firstName=n=>{const p=n.trim().split(/\s+/);return p[0]==="السيد"&&p[
 const TOP_SCREENS=[],TAB_SCREENS=["home","units","unit","reading","board","me"];
 const TAB_OF={home:"home",units:"units",unit:"units",reading:"reading",board:"board",me:"me",flash:"units",story:"reading",storyNew:"reading",pyr:"reading",trace:"home",lessons:"home",lesson:"home",play:"home",pgw:"home",pga:"home"};
 let curScreen="splash";
+/* no zooming: block pinch and double-tap zoom (iPhone ignores user-scalable=no) */
+(function(){const stop=e=>{e.preventDefault()};["gesturestart","gesturechange","gestureend"].forEach(ev=>document.addEventListener(ev,stop,{passive:false}));
+ document.addEventListener("touchmove",e=>{if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});
+ let last=0;document.addEventListener("touchend",e=>{const now=Date.now();if(now-last<320&&!e.target.closest("input,textarea,select,[contenteditable]"))e.preventDefault();last=now},{passive:false});})();
+/* activity screens shrink to fit the phone screen, so children never scroll to reach the answers or the Next button */
+const FIT_SCREENS=["game","results","pga","lesson","pyr","trace","flash","slogin","tlogin"];
+let fitRaf=0,fitObs=null;
+function fitNow(){fitRaf=0;const el=document.querySelector(".screen.on");document.querySelectorAll(".screen").forEach(s=>{if(s!==el&&s.style.zoom){s.style.zoom="";s.style.minHeight=""}});
+ if(!el||!FIT_SCREENS.includes(el.id))return;
+ const ae=document.activeElement;if(ae&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName))return; // keyboard open: keep as is
+ const vh=(window.visualViewport?window.visualViewport.height:window.innerHeight);
+ el.style.zoom="";el.style.minHeight="0px";const h=el.scrollHeight;
+ const z=h>vh+2?Math.max(.72,Math.floor((vh-14)/h*100)/100):1;
+ if(z<1){el.style.zoom=z;el.style.minHeight=(vh/z)+"px"}else{el.style.zoom="";el.style.minHeight=""}}
+function fitSoon(){if(!fitRaf)fitRaf=requestAnimationFrame(()=>setTimeout(fitNow,30))}
+function fitWatch(){if(fitObs)fitObs.disconnect();const el=document.querySelector(".screen.on");if(!el||!FIT_SCREENS.includes(el.id))return;
+ fitObs=new MutationObserver(fitSoon);fitObs.observe(el,{childList:true,subtree:true,attributes:true,attributeFilter:["hidden","class"]});fitSoon()}
+window.addEventListener("resize",fitSoon);window.addEventListener("orientationchange",fitSoon);document.addEventListener("focusout",fitSoon);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitSoon);
 function show(id,dir="f"){
  curScreen=id;document.body.dataset.scr=id;
  document.querySelectorAll(".screen").forEach(s=>{const on=s.id===id;s.classList.toggle("on",on);s.classList.remove("enter-f","enter-b","enter-up");if(on){void s.offsetWidth;s.classList.add(dir==="b"?"enter-b":dir==="up"?"enter-up":"enter-f")}});
@@ -2256,7 +2278,7 @@ function show(id,dir="f"){
  document.body.classList.toggle("ingame",id==="game"||id==="results");
  if(id!=="game"&&id!=="results")setZone("mixed");
  renderTabs();renderTop();if(id==="landing")renderLanding();
- window.scrollTo(0,0);
+ window.scrollTo(0,0);fitWatch();
 }
 function renderTabs(){
  const T=[["home","home","Home"],["units","map","Units"],["reading","book","Reading"],["board","trophy","Heroes"],["me","user","Me"]];
