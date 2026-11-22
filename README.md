@@ -6,6 +6,17 @@ An English learning platform for Grades 1–3 (Look 1, 2 and 3) at Osama Bin Zai
 - The English Playground (Word World, Sound Lab, Grammar Kingdom, Story Studio)
 - Teacher dashboard: Lesson Maker, live answers, reports and certificates
 
+## Student app structure
+Home (your next challenge, Learn · Read · Play · Create, my journey, recently) and four tabs:
+- **Learn** – this unit's Sounds, Words, Spelling and Sentences, Review, Word cards, teacher lessons, Write letters (Grade 1), all units
+- **Read** – stories, my stories, reading steps and fluency pyramids
+- **Play** – the Playground games (Word World, Sound Lab, Grammar Kingdom)
+- **Create** – Picture to Paragraph and the child's writing book
+- **Me** (tap the avatar) – profile, certificates, achievements, class heroes, settings
+
+**Narration:** put MP3 files in `public/audio/` and list them in `public/audio/index.json` – see `public/audio/KEYS.md`
+for the exact file names. A speaker button appears only for listed files.
+
 ## How it is built
 | Part | File | What it does |
 |---|---|---|

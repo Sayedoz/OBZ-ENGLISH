@@ -893,6 +893,40 @@ body.has-mic .micbtn{display:inline-flex}
 .pydone .crowns span{font-size:54px;filter:grayscale(1);opacity:.25;transform:scale(.4);animation:crownin .6s cubic-bezier(.2,1.7,.4,1) forwards}
 .pydone .crowns span.on{filter:none;opacity:1}
 @keyframes crownin{to{transform:scale(1)}}
+/* ===== four destinations: one family, four personalities (royal blue · teal · golden orange · coral) ===== */
+:root{--d-learn:#2F6FB8;--d-learn-d:#1F4E86;--d-learn-s:#E3EEFA;--d-read:#119C84;--d-read-d:#0B6E5D;--d-read-s:#DDF5EF;
+ --d-play:#F5A524;--d-play-d:#B97700;--d-play-s:#FFF1D6;--d-create:#E0623F;--d-create-d:#A9401F;--d-create-s:#FCE7E1}
+.hwel{display:flex;align-items:center;gap:12px;padding:2px 4px}
+.hav{border-radius:50%;padding:0;flex:none;line-height:0}
+.hwel .t{flex:1;min-width:0;display:flex;flex-direction:column}.hwel .t b{font-family:var(--disp);font-size:26px;line-height:1.15}.hwel .t span{color:var(--muted);font-size:15px;font-weight:600}
+.hstar{display:flex;align-items:center;gap:6px;background:#FFF2D6;color:#7a4d00;border-radius:999px;padding:8px 14px;font-weight:800;font-size:18px;box-shadow:0 3px 0 #F3D9A3}
+.hstar .i{width:20px;height:20px;color:#F5A524}
+.nxc{position:relative;overflow:hidden;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border-radius:28px;padding:20px 18px;background:var(--dc);color:#fff;box-shadow:0 6px 0 var(--dcd)}
+.nxt small{font-weight:700;opacity:.92;font-size:14px;letter-spacing:.2px}.nxt h2{font-family:var(--disp);font-size:clamp(24px,6vw,30px);line-height:1.1;margin:2px 0 4px;color:#fff}
+.nxs{display:block;font-size:15px;opacity:.95;font-weight:600}
+.nxr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+.nxgo{background:#fff;color:var(--dcd);box-shadow:0 4px 0 rgba(0,0,0,.18);font-size:19px;padding:12px 22px}
+.nxb{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:700;background:rgba(255,255,255,.2);border-radius:999px;padding:5px 10px}.nxb .i{width:15px;height:15px}
+.nxart{font-size:76px;line-height:1;filter:drop-shadow(0 4px 0 rgba(0,0,0,.12))}.nxart svg{width:92px;height:92px}
+.dgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dcard{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:start;background:var(--dcs);border-radius:24px;padding:14px 16px 16px;min-height:132px;box-shadow:0 5px 0 color-mix(in srgb,var(--dc) 30%,transparent);transition:transform .1s}
+.dcard:active{transform:translateY(3px);box-shadow:0 2px 0 color-mix(in srgb,var(--dc) 30%,transparent)}
+.dce{font-size:42px;line-height:1.1}.dcard b{font-family:var(--disp);font-size:24px;color:var(--dcd);line-height:1.15;margin-top:4px}.dcard span:last-child{font-size:14px;color:var(--dcd);font-weight:600;opacity:.85;line-height:1.3}
+.jrny{display:flex;flex-direction:column;gap:12px;text-align:start;padding:14px 16px}
+.jpath{display:flex;align-items:center}.jpath i{flex:1;height:3px;background:#DCE5F1;min-width:2px}
+.jd{flex:none;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;background:#fff;border:2.5px solid #C9D7E8;color:#5B6B86}
+.jd.part{border-color:var(--d-learn);color:var(--d-learn)}.jd.done{background:var(--d-learn);border-color:var(--d-learn);color:#fff}
+.jd.cur{width:32px;height:32px;font-size:14px;background:#F5A524;border-color:#F5A524;color:#3d2800;box-shadow:0 0 0 4px #FFE8B8}.jd.lock{opacity:.45;border-style:dashed}
+.hrec{display:flex;flex-direction:column;gap:8px;padding:14px 16px}.hrec h2{margin:0;font-size:18px}
+.hrw{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px}.hrw .emo{font-size:24px;width:30px;text-align:center}
+.dhead{display:flex;align-items:center;gap:14px;background:var(--dcs);border-radius:24px;padding:14px 18px}
+.dhead h1{margin:0;font-family:var(--disp);font-size:30px;line-height:1.1;color:var(--dc)}.dhead p{margin:2px 0 0;font-weight:600;color:var(--muted);font-size:14px}
+.dhe{font-size:46px;line-height:1}
+#crActs .pgwhead{display:none}
+.mehero{display:flex;flex-direction:column;gap:8px}.mhr{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:14px}.mhr.me2{background:#FFF2D6}.mhr .r{width:22px;font-weight:800;color:var(--muted)}.mhr b{flex:1}
+@media (max-width:380px){.dcard{min-height:118px;padding:12px}.dce{font-size:36px}.dcard b{font-size:21px}.nxart{font-size:60px}}
+.spk{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:#fff;color:var(--primary,#2F6FB8);border:2.5px solid #D6E4F5;box-shadow:0 3px 0 #D6E4F5;vertical-align:middle;margin-inline-start:8px;flex:none}
+.spk .i{width:22px;height:22px}.spk.sm{width:38px;height:38px}.spk.on{background:var(--primary,#2F6FB8);color:#fff;border-color:var(--primary,#2F6FB8);animation:lvpulse 1.2s ease-in-out infinite}
 .hx{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
 .hxc{display:flex;align-items:center;gap:12px;text-align:start;padding:14px 16px;transition:transform .1s}.hxc:hover{transform:translateY(-2px)}
 .hxc .t{flex:1;display:flex;flex-direction:column;line-height:1.2}.hxc small{color:var(--muted);font-weight:700}.hxc b{font-size:18px}.hxc .cr{font-size:14px;color:var(--muted);font-weight:700}
@@ -1462,6 +1496,8 @@ body[data-scr=pga] #tabbar{display:none!important}
 
 <!-- UNITS JOURNEY -->
 <section id="units" class="screen app">
+  <div id="uLearn" style="display:flex;flex-direction:column;gap:14px"></div>
+  <div class="sec-t" id="uAllT"><h2>All units</h2></div>
   <div class="banner" id="uBanner"></div>
   <div class="path" id="uPath"></div>
 </section>
@@ -1495,7 +1531,7 @@ body[data-scr=pga] #tabbar{display:none!important}
 <section id="reading" class="screen app">
   <div id="rhHead" style="display:flex;flex-direction:column;gap:14px"></div>
   <div id="rhKeep"></div>
-  <div class="tabs" id="rhTabs" style="align-self:stretch;justify-content:space-between"><button data-t="stories" class="on">📚 Stories</button><button data-t="mine">⭐ My stories</button><button data-t="fluency">🔺 Fluency</button></div>
+  <div class="tabs" id="rhTabs" style="align-self:stretch;justify-content:space-between"><button data-t="stories" class="on">📚 Read a story</button><button data-t="mine">⭐ My stories</button><button data-t="fluency">🔺 Steps &amp; pyramid</button></div>
   <div id="rhStories"></div>
   <div id="rhMine" style="display:none;flex-direction:column;gap:10px"></div>
   <div id="rhFluency" style="display:none;flex-direction:column;gap:14px">
@@ -1516,6 +1552,9 @@ body[data-scr=pga] #tabbar{display:none!important}
 <section id="pgw" class="screen app">
   <div class="bar"><button class="iconbtn back" id="pgBack1" aria-label="Back"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><div class="t" id="pgwTitle"></div></div>
   <div id="pgwBody" style="display:flex;flex-direction:column;gap:14px"></div>
+</section>
+<section id="create" class="screen app">
+  <div id="crBody" style="display:flex;flex-direction:column;gap:14px"></div>
 </section>
 <section id="pga" class="screen app">
   <div class="bar"><button class="iconbtn back" id="pgBack2" aria-label="Back"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><div class="t" id="pgaTitle"></div><div class="pgdots" id="pgaDots"></div></div>
@@ -1583,6 +1622,7 @@ body[data-scr=pga] #tabbar{display:none!important}
 
 <!-- LEADERBOARD -->
 <section id="board" class="screen app">
+  <div class="bar"><button class="iconbtn back" id="bdBack" aria-label="Back to Me"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><div class="t"><b>Class heroes</b></div></div>
   <div class="banner" style="background:#FFB627;box-shadow:0 5px 0 #D99100;color:#16213A"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg><div><b>Heroes Board</b><small id="bClass"></small></div></div>
   <div class="tabs"><button class="tab on" data-p="week">This week</button><button class="tab" data-p="all">All time</button></div>
   <div id="boardBody"></div>
@@ -1590,6 +1630,7 @@ body[data-scr=pga] #tabbar{display:none!important}
 
 <!-- ME / SETTINGS -->
 <section id="me" class="screen app">
+  <div class="bar"><button class="iconbtn back" id="meBack" aria-label="Back to Home"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><div class="t"><b>Me</b></div></div>
   <div class="card mecard"><button class="megear" id="meGear" aria-label="Settings" aria-expanded="false"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
   <div class="mesetpop" id="meSet" hidden role="dialog" aria-label="Settings">
     <div class="mesethd"><b>⚙️ Settings</b><button class="iconbtn" id="meSetX" aria-label="Close settings">✕</button></div>
@@ -1601,7 +1642,8 @@ body[data-scr=pga] #tabbar{display:none!important}
   <div id="meCard" class="mecardin"></div></div>
   <div class="cloudchip"></div>
   <div class="card" id="meCerts"></div>
-  <div class="card"><h3>My badges</h3><div class="badges" id="meBadges"></div></div>
+  <div class="card"><h3>My achievements</h3><div class="badges" id="meBadges"></div></div>
+  <div class="card" id="meHeroes"></div>
   <button class="btn btn-w block" id="logout"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/></svg> Log out</button>
 </section>
 
@@ -2124,6 +2166,9 @@ const IC={
  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
  cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
  play:'<path d="M8 5l11 7-11 7z"/>',
+ learn:'<path d="M2 9l10-5 10 5-10 5zM6 11v5c3 2.5 9 2.5 12 0v-5M22 9v6"/>',
+ puzzle:'<path d="M4 7h4a2 2 0 1 1 4 0h4v4a2 2 0 1 1 0 4v4h-4a2 2 0 1 0-4 0H4v-4a2 2 0 1 0 0-4z"/>',
+ pen:'<path d="M4 20l4-1 11-11-3-3L5 16zM14 6l3 3"/>',
  refresh:'<path d="M4 4v6h6M20 20v-6h-6M5.6 15a7 7 0 0 0 12.8 1.5M18.4 9A7 7 0 0 0 5.6 7.5"/>',
  spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>',
  eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'
@@ -2253,8 +2298,8 @@ const avOf=(sid,size)=>avatarSvg(AVATARS[avIndex(sid)],size);
 const firstName=n=>{const p=n.trim().split(/\s+/);return p[0]==="السيد"&&p[1]?p[1]:p[0]};
 
 /* ================= NAV SHELL ================= */
-const TOP_SCREENS=[],TAB_SCREENS=["home","units","unit","reading","board","me"];
-const TAB_OF={home:"home",units:"units",unit:"units",reading:"reading",board:"board",me:"me",flash:"units",story:"reading",storyNew:"reading",pyr:"reading",trace:"home",lessons:"home",lesson:"home",play:"home",pgw:"home",pga:"home"};
+const TOP_SCREENS=[],TAB_SCREENS=["home","units","unit","reading","play","pgw","create","board","me"];
+const TAB_OF={home:"home",units:"units",unit:"units",reading:"reading",board:"",me:"",flash:"units",story:"reading",storyNew:"reading",pyr:"reading",readrun:"reading",trace:"units",lessons:"units",lesson:"units",play:"play",pgw:"play",pga:"play",create:"create",game:"units",results:"units"};
 let curScreen="splash";
 /* no zooming: block pinch and double-tap zoom (iPhone ignores user-scalable=no) */
 (function(){const stop=e=>{e.preventDefault()};["gesturestart","gesturechange","gestureend"].forEach(ev=>document.addEventListener(ev,stop,{passive:false}));
@@ -2279,8 +2324,26 @@ window.addEventListener("resize",fitSoon);window.addEventListener("orientationch
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitSoon);
 const COPYRIGHT="© 2026 T. Sayed Mustafa Hasan. All rights reserved.";
 function copyMark(el){if(!el||el.id==="landing")return;let c=el.querySelector(":scope > .copyr");if(!c){c=document.createElement("p");c.className="copyr";c.textContent=COPYRIGHT}if(el.lastElementChild!==c)el.appendChild(c)}
+/* ================= NARRATION (teacher's MP3 files) =================
+   One speaker button style everywhere. A button appears ONLY when its MP3 exists (listed in audio/index.json on the
+   website), so there are never dead buttons. One sound at a time: a new sound, a second tap or changing screen stops
+   the old one. Nothing plays by itself. File names come from the English text: audKey("Read the word. Choose the
+   picture.") = "read-the-word-choose-the-picture" → audio/read-the-word-choose-the-picture.mp3; words use "w-" + word. */
+const AUD={files:new Set(),a:null,btn:null,key:""};
+function audKey(t){return String(t||"").replace(/<[^>]*>/g," ").replace(/&[a-z]+;/g," ").toLowerCase().replace(/[’‘]/g,"'").replace(/'/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,80)}
+function audBtn(text,cls){const k=audKey(text);return k&&AUD.files.has(k)?`<button type="button" class="spk${cls?" "+cls:""}" data-aud="${k}" aria-label="Listen">${icon("vol")}</button>`:""}
+const audWord=w=>audBtn("w "+w,"sm");
+function audStop(){if(AUD.a){try{AUD.a.pause()}catch(_){}AUD.a=null}if(AUD.btn){AUD.btn.classList.remove("on");AUD.btn=null}AUD.key=""}
+function audPlay(k,btn){const same=AUD.key===k&&AUD.a&&!AUD.a.paused;audStop();if(same)return;
+ const a=new Audio("audio/"+encodeURIComponent(k)+".mp3");AUD.a=a;AUD.key=k;AUD.btn=btn||null;if(btn)btn.classList.add("on");
+ a.onended=a.onerror=()=>{if(AUD.a===a)audStop()};const pr=a.play();if(pr&&pr.catch)pr.catch(()=>{if(AUD.a===a)audStop()})}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".spk");if(!b)return;e.preventDefault();e.stopPropagation();audPlay(b.dataset.aud,b)},true);
+async function audLoad(){if(!/^https?:$/.test(location.protocol)||/claude\.ai|claudeusercontent|anthropic/.test(location.host))return;
+ try{const r=await fetch("audio/index.json",{cache:"no-cache"});if(!r.ok)return;const j=await r.json();(Array.isArray(j)?j:(j.files||[])).forEach(f=>AUD.files.add(String(f).replace(/\.mp3$/i,"")));
+  if(AUD.files.size&&typeof refreshVisible==="function")refreshVisible()}catch(e){}}
+audLoad();
 function show(id,dir="f"){
- curScreen=id;document.body.dataset.scr=id;
+ audStop();curScreen=id;document.body.dataset.scr=id;
  document.querySelectorAll(".screen").forEach(s=>{const on=s.id===id;s.classList.toggle("on",on);s.classList.remove("enter-f","enter-b","enter-up");if(on){void s.offsetWidth;s.classList.add(dir==="b"?"enter-b":dir==="up"?"enter-up":"enter-f")}});
  document.body.classList.toggle("top-on",TOP_SCREENS.includes(id));
  document.body.classList.toggle("tabs-on",TAB_SCREENS.includes(id)&&!!me);
@@ -2290,7 +2353,7 @@ function show(id,dir="f"){
  window.scrollTo(0,0);copyMark($(id));fitWatch();
 }
 function renderTabs(){
- const T=[["home","home","Home"],["units","map","Units"],["reading","book","Reading"],["board","trophy","Heroes"],["me","user","Me"]];
+ const T=[["home","home","Home"],["units","learn","Learn"],["reading","book","Read"],["play","puzzle","Play"],["create","pen","Create"]];
  const act=TAB_OF[curScreen];
  $("tabbar").innerHTML=`<i class="tbglow" aria-hidden="true"></i>`+T.map(([k,ic,l])=>`<button data-k="${k}" class="${k===act?"on":""}" aria-label="${l}" ${k===act?'aria-current="page"':""}>${icon(ic)}<span>${l}</span></button>`).join("");
 }
@@ -2300,6 +2363,7 @@ $("tabbar").addEventListener("click",e=>{const b=e.target.closest("button");if(!
 function go(k,dir){
  if(k==="home"){renderHome();show("home",dir)}else if(k==="units"){renderUnits();show("units",dir)}else if(k==="reading"){renderReadingHub();show("reading",dir)}
  else if(k==="board"){renderBoard();show("board",dir)}else if(k==="me"){renderMe();show("me",dir)}else if(k==="unit"){renderUnit();show("unit",dir)}
+ else if(k==="play"){renderPlayHub();show("play",dir)}else if(k==="create"){renderCreate();show("create",dir)}
 }
 function renderTop(){
  const L=[["landing","Home"],["about","About"],["how","How to log in"],["achv","Achievements"],["honor","Honour Board"],["teacher","Teacher login","dim"]];
@@ -2515,47 +2579,90 @@ function missionFor(sid){
 }
 
 /* ================= DASHBOARD ================= */
+/* ================= STUDENT HOME: who I am · my next challenge · four destinations · my journey · recently =================
+   Presentation only: every number comes from the existing records (eg_hist, eg_read, eg_pyr, eg_play, eg_stories,
+   eg_certs, eg_bonus). The old daily mission is folded into "Your next challenge": finishing it once a day adds the same
+   +2 ⭐ bonus record (eg_bonus) the mission used, so star totals stay comparable. */
+const DEST={learn:{t:"Learn",d:"Words, sounds and sentences",e:"🎒",go:"units"},read:{t:"Read",d:"Stories and reading steps",e:"📖",go:"reading"},
+ play:{t:"Play",d:"Fun English games",e:"🧩",go:"play"},create:{t:"Create",d:"Write your own",e:"🎨",go:"create"}};
+function nextChallenge(){
+ const s=me.st,sid=s.id,t=today(),g=state.grade;
+ try{const L=lmAvailable(sid).filter(l=>["new","started","reopened"].includes(lmStatus(l,sid)));
+  if(L.length){const l=L[0];return{kind:"lesson",key:l.id,art:"📘",dest:"learn",small:"From your teacher",title:l.title,sub:"Your lesson",go:()=>openLessonPlayer(l.id)}}}catch(e){}
+ const r=recommendNext();
+ if(r.k!=="mixed")return{kind:"game",key:r.k+"|"+r.u,artHtml:zoneArt(r.k,84),dest:"learn",small:"Learn",title:ZONES[r.k].en,sub:"Unit "+r.u+": "+unitOf(g,r.u).t,go:()=>r.go()};
+ try{const rec=store.get("eg_read",{})[sid],n=rec?rec.unlocked:{1:1,2:4,3:7}[s.level];
+  if(!(rec&&rec.log.some(x=>x.date===t)))return{kind:"read",key:"step"+n,art:RSTEPS[n-1].ic,dest:"read",small:"Read",title:"Reading step "+n,sub:RSTEPS[n-1].en,go:()=>openRun(n)}}catch(e){}
+ try{const S=pyrDefault(),i=pyrNext(sid,S.id),o=pyrStore.get(sid)[pyrKey(S.id,i)];
+  if(!(o&&o.d===t)&&pyrCrowns(o)<3)return{kind:"pyr",key:S.id+"|"+i,art:"🔺",dest:"read",small:"Read",title:"Fluency Pyramid",sub:"Day "+(i+1)+": "+S.days[i].f,go:()=>openPyr(S.id,i)}}catch(e){}
+ try{const m=pgMine(),id=PG_ORDER.find(x=>PG_ACTS[x].world!=="story"&&pgStatusOf(m.acts[x]).k==="none");
+  if(id){const A=PG_ACTS[id];return{kind:"play",key:id,art:A.ic,dest:"play",small:"Play",title:A.t,sub:A.goal,go:()=>pgStart(id,1)}}}catch(e){}
+ return{kind:"game",key:"mixed|R"+state.unit,artHtml:zoneArt("mixed",84),dest:"learn",small:"Learn",title:ZONES.mixed.en,sub:"Units 1–"+(me.cls.unit||1),go:()=>r.go()};
+}
+/* how far the child got in a challenge – compared before and after, so only real work earns the daily bonus */
+function ncMeasure(nc,sid){
+ try{if(nc.kind==="game"){const [k,u]=nc.key.split("|");return store.get("eg_hist",[]).filter(h=>h.sid===sid&&h.skill===k&&String(h.unit)===u&&(h.stars||0)>=1).length}
+  if(nc.kind==="read"){const rec=store.get("eg_read",{})[sid];return rec?rec.log.length:0}
+  if(nc.kind==="pyr"){const [sr,i]=nc.key.split("|");return pyrCrowns(pyrStore.get(sid)[pyrKey(sr,+i)])}
+  if(nc.kind==="play"){const a=pgMine().acts[nc.key];return a&&a.s&&a.s[1]?a.s[1].n||0:0}
+  if(nc.kind==="lesson"){const l=lmLessons().find(x=>x.id===nc.key);return l&&lmStatus(l,sid)==="done"?1:0}}catch(e){}return 0}
+const bonusToday=sid=>(store.get("eg_bonus",{})[sid]||[]).includes(today());
+function ncCheck(sid){const all=store.get("eg_ncs",{}),nc=all[sid];if(!nc||nc.d!==today()||bonusToday(sid))return false;
+ if(ncMeasure(nc,sid)>nc.base){const b=store.get("eg_bonus",{});(b[sid]=b[sid]||[]).push(today());store.set("eg_bonus",b);delete all[sid];store.set("eg_ncs",all);return true}return false}
+function recentWins(sid){const ev=[];
+ try{Object.values(store.get("eg_certs",{})[sid]||{}).forEach(c=>ev.push({t:c.awarded||c.date,e:"🏅",x:"Certificate: Unit "+c.unit}))}catch(e){}
+ try{store.get("eg_hist",[]).filter(h=>h.sid===sid&&h.stars===3&&ZONES[h.skill]).slice(-6).forEach(h=>ev.push({t:h.date,e:"⭐",x:"3 stars in "+ZONES[h.skill].en}))}catch(e){}
+ try{(store.get("eg_stories",{})[sid]||[]).filter(x=>x.done&&x.doneDate).forEach(x=>ev.push({t:x.doneDate,e:"📚",x:"Finished a story: "+storyTitle(x)}))}catch(e){}
+ try{const rec=store.get("eg_read",{})[sid];if(rec)rec.log.filter(x=>x.pass).slice(-4).forEach(x=>ev.push({t:x.date,e:"🧗",x:"Passed a reading step"}))}catch(e){}
+ try{const m=pgMine();Object.entries(m.acts||{}).forEach(([id,r])=>{if(PG_ACTS[id]&&pgStatusOf(r).k==="mastered"){const d=Math.max(...[1,2,3].map(k=>(r.s[k]&&r.s[k].at)||0));if(d)ev.push({t:new Date(d).toISOString(),e:PG_ACTS[id].ic,x:"Mastered "+PG_ACTS[id].t})}})}catch(e){}
+ const seen=new Set();return ev.filter(x=>x.t).sort((a,b)=>String(b.t).localeCompare(String(a.t))).filter(x=>{if(seen.has(x.x))return false;seen.add(x.x);return true}).slice(0,3)}
 function renderHome(){
  if(!syncState()){show("landing");return}
- const s=me.st,g=state.grade,L=LV[s.level],U=unitOf(g,state.unit),curU=me.cls.unit||1;
- const {out}=unitStars(s.id,s.level),us=out[state.unit]||0,total=starsFor(s.id),streak=dayStreak(s.id);
- const best=store.get("eg_best",{}),next=recommendNext(),M=missionFor(s.id);
- const rec=store.get("eg_read",{})[s.id],rUn=rec?rec.unlocked:{1:1,2:4,3:7}[s.level],rP=rec?(rec.passes[rUn]||[]).length:0;
- const B=badgesFor(s.id),h=store.get("eg_hist",[]).filter(x=>x.sid===s.id);
- const bestStreak=h.reduce((a,x)=>Math.max(a,x.streak||0),0),bestPct=h.reduce((a,x)=>Math.max(a,x.pct),0);
+ const s=me.st,sid=s.id,g=state.grade,curU=me.cls.unit||1;
+ const won=ncCheck(sid);
+ const total=starsFor(sid),NC=nextChallenge(),bon=bonusToday(sid),{out}=unitStars(sid,s.level),W=recentWins(sid);
+ const dc=k=>`--dc:var(--d-${k});--dcd:var(--d-${k}-d);--dcs:var(--d-${k}-s)`;
  $("homeBody").innerHTML=`
- <div class="hello"><button onclick="" id="hAv" aria-label="My profile">${avOf(s.id,64)}</button><div class="t"><b>Hello, ${nm(firstName(s.name))}!</b><span>Class ${esc(me.cls.name)} · <span class="chip lv">${L.ic} ${L.en}</span></span></div>
-  <div class="stats"><span class="chip sun">${icon("star","f")} ${total}</span><span class="chip" style="color:#E8650C">${icon("flame")} ${streak}</span></div></div>
- <div class="continue" style="--z:var(--z-${next.k});--zd:var(--z-${next.k}-d)"><div><small>${icon("play","f")} Keep learning!</small><h3>${ZONES[next.k].en}</h3><div class="en">${next.k==="mixed"?"Units 1–"+curU:"Unit "+next.u+": "+esc(unitOf(g,next.u).t)}</div></div>${zoneArt(next.k,110)}
-  <div class="row"><button class="btn" id="hGo">Start ${icon("back")}</button>${next.k!=="mixed"?stars3(best[bestKey(s.id,s.level,next.k,next.u)]||0):""}</div></div>
- <div class="card mission"><span class="ic">${icon(M.done?"gift":"target")}</span><div class="t"><small>Today's mission · +2 ⭐</small><b>${M.en}${arHelp(M.ar)}</b><div class="pbar"><i style="width:${M.v/M.goal*100}%"></i></div><small class="en">${M.v}/${M.goal}</small></div>
-  ${M.claimed?`<span class="chip" style="background:var(--ok-s);color:var(--ok-d);box-shadow:none">${icon("check")} Done</span>`:M.done?`<button class="btn btn-sun" id="mClaim">Get ⭐</button>`:`<button class="btn btn-w" id="mGo">Go</button>`}</div>
- ${homeExtras()}
- <div class="sec-t"><h2>Learning zones</h2><button id="hUnits">Unit ${state.unit}: ${esc(U.t)} ▾</button></div>
- <div class="zones">${ZKEYS.map(k=>{const b=best[bestKey(s.id,s.level,k)]||0,Z=ZONES[k];return `<button class="zone${k==="mixed"?" wide":""}" data-z="${k}" style="--z:var(--z-${k});--zd:var(--z-${k}-d);--zs:var(--z-${k}-s)">${zoneArt(k,62)}<span class="t"><b>${Z.en}</b>${k==="mixed"?`<br><span class="en">Units 1–${curU}</span>`:""}</span>${stars3(b)}</button>`}).join("")}</div>
- <div class="card rjourney"><div class="sec-t" style="margin:0"><h2>Reading Steps</h2><span class="en">Step ${rUn} of 9</span></div>
-  <div class="minipath">${RSTEPS.map(x=>`<span class="p${x.n<rUn||(rec&&(rec.passes[x.n]||[]).length>=2)?" done":""}${x.n===rUn?" cur":""}">${x.n}</span>`).join("")}</div>
-  <div style="display:flex;align-items:center;gap:12px"><span class="emo" style="font-size:40px">${RSTEPS[rUn-1].ic}</span><div style="flex:1"><b>Next step: ${RSTEPS[rUn-1].en}</b><div class="muted" style="font-size:14px">Pass it ${rP===1?"once more":"twice"}, on two different days · ${rec&&rec.log.some(x=>x.date===today())?"✅ You read today":"Not read today yet"}</div></div><button class="btn btn-p" id="hRead">Read</button></div></div>
- <div class="card"><div class="sec-t" style="margin:0 0 10px"><h2>My achievements</h2><button id="hAll">All badges</button></div>
-  <div class="achv"><div class="rec"><b>${total}</b><span>stars</span></div><div class="rec"><b>${bestStreak}</b><span>best streak</span></div><div class="rec"><b>${bestPct}%</b><span>best score</span></div></div>
-  <div class="badges">${B.slice().sort((a,b)=>b.on-a.on).slice(0,4).map(badgeHtml).join("")}</div></div>`;
- $("hGo").onclick=()=>next.go();
- if($("hPyr"))$("hPyr").onclick=()=>{const S=pyrDefault();sfx.tap();openPyr(S.id,pyrNext(me.st.id,S.id))};
- if($("hTrace"))$("hTrace").onclick=()=>{sfx.tap();openTraceHub("home")};
- if($("hLessons"))$("hLessons").onclick=()=>{sfx.tap();openLessonList()};
- if($("hPlay"))$("hPlay").onclick=()=>{sfx.tap();openPlayground()};
- $("hAv").onclick=()=>go("me");$("hUnits").onclick=()=>go("units");$("hRead").onclick=()=>go("reading");$("hAll").onclick=()=>go("me");
- if($("mGo"))$("mGo").onclick=()=>M.go();
- if($("mClaim"))$("mClaim").onclick=()=>{const b=store.get("eg_bonus",{});(b[s.id]=b[s.id]||[]).push(today());store.set("eg_bonus",b);sfx.win();confetti();renderHome()};
- document.querySelectorAll("#homeBody .zone").forEach(z=>z.onclick=()=>{state.skill=z.dataset.z;sfx.tap();startGame()});
+ <div class="hwel"><button class="hav" id="hAv" aria-label="My profile">${avOf(sid,62)}</button>
+  <div class="t"><b>Hi, ${nm(firstName(s.name))}!</b><span>Grade ${g} · Class ${esc(me.cls.name)}</span></div>
+  <button class="hstar" id="hStars" aria-label="${total} stars – my profile">${icon("star","f")} ${total}</button></div>
+ <div class="nxc" style="${dc(NC.dest)}"><div class="nxt"><small>Your next challenge</small><h2>${esc(NC.title)}</h2><span class="nxs">${esc(NC.sub)}</span>
+   <div class="nxr"><button class="btn nxgo" id="hGo">${icon("play","f")} Start</button>${bon?`<span class="nxb ok">${icon("check")} Bonus done today</span>`:`<span class="nxb">+2 ${icon("star","f")} bonus</span>`}</div></div>
+  <div class="nxart" aria-hidden="true">${NC.artHtml||`<span class="emo">${NC.art}</span>`}</div></div>
+ <div class="dgrid">${Object.entries(DEST).map(([k,d])=>`<button class="dcard" data-d="${k}" style="${dc(k)}"><span class="emo dce" aria-hidden="true">${d.e}</span><b>${d.t}</b><span>${d.d}</span></button>`).join("")}</div>
+ <button class="card jrny" id="hJourney" aria-label="My journey – ${BOOK[g].name}, unit ${curU} of 12"><div class="sec-t" style="margin:0"><h2>My journey</h2><span class="muted">${BOOK[g].name} · Unit ${curU} of 12</span></div>
+  <div class="jpath">${Array.from({length:12},(_,i)=>i+1).map(n=>{const st=out[n]||0,cls=n>curU?"lock":st>=12?"done":n===curU?"cur":st>0?"part":"";return `<span class="jd ${cls}" title="Unit ${n}: ${st}/12 stars">${st>=12?"✓":n}</span>`}).join(`<i></i>`)}</div></button>
+ ${W.length?`<div class="card hrec"><h2>Recently</h2>${W.map(w=>`<div class="hrw"><span class="emo">${w.e}</span><span>${esc(w.x)}</span></div>`).join("")}</div>`:""}`;
+ $("hGo").onclick=()=>{const all=store.get("eg_ncs",{});all[sid]={d:today(),kind:NC.kind,key:NC.key,base:ncMeasure(NC,sid)};store.set("eg_ncs",all);sfx.tap();NC.go()};
+ $("hAv").onclick=()=>go("me");$("hStars").onclick=()=>go("me");$("hJourney").onclick=()=>{sfx.tap();go("units")};
+ document.querySelectorAll("#homeBody .dcard").forEach(b=>b.onclick=()=>{sfx.tap();go(DEST[b.dataset.d].go)});
+ if(won)setTimeout(()=>{sfx.win();confetti();toastMsg("Challenge done! +2 ⭐ bonus")},250);
 }
 
 /* ================= UNITS JOURNEY ================= */
 const UNIT_COL=["#2F6FB8","#FF7A59","#3FA9F5","#2EC4A0","#FFB627","#E05A3A","#1F86D1","#1C9D7E","#D99100","#1F4E86","#FF9F1C","#3FA9F5"];
+function learnTop(){
+ const s=me.st,g=state.grade,curU=me.cls.unit||1,U=unitOf(g,state.unit),best=store.get("eg_best",{});
+ const tr=g===1?(()=>{const t=traceStore.get(s.id);return Object.keys(t).filter(k=>/^[A-Z]$/.test(k)&&t[k]&&t[k.toLowerCase()]).length})():0;
+ $("uLearn").innerHTML=`<div class="dhead" style="--dc:var(--d-learn);--dcs:var(--d-learn-s)"><span class="emo dhe" aria-hidden="true">🎒</span><div><h1>Learn</h1><p>${BOOK[g].name} · Unit ${state.unit}: ${esc(U.t)}</p></div></div>
+ <div class="sec-t"><h2>This unit</h2><button id="lChange">Change unit ▾</button></div>
+ <div class="zones">${ZKEYS.map(k=>{const b=best[bestKey(s.id,s.level,k)]||0,Z=ZONES[k];return `<button class="zone${k==="mixed"?" wide":""}" data-z="${k}" style="--z:var(--z-${k});--zd:var(--z-${k}-d);--zs:var(--z-${k}-s)">${zoneArt(k,62)}<span class="t"><b>${Z.en}</b>${k==="mixed"?`<br><span class="en">Units 1–${curU}</span>`:""}</span>${stars3(b)}</button>`}).join("")}</div>
+ <div class="sec-t"><h2>More ways to learn</h2></div>
+ <div class="hx"><button class="card hxc" id="lCards"><span class="emo hxi">🃏</span><span class="t"><small>Word cards</small><b>Unit ${state.unit} words</b><span class="cr">${U.W.length} words with pictures</span></span>${icon("play","f")}</button>
+  ${lmHomeCard()}
+  ${g===1?`<button class="card hxc tr" id="hTrace"><span class="emo hxi">✏️</span><span class="t"><small>Write letters</small><b>How to write letters</b><span class="cr">${tr}/26 letters</span></span>${icon("play","f")}</button>`:""}</div>`;
+ $("uLearn").querySelectorAll(".zone").forEach(z=>z.onclick=()=>{state.skill=z.dataset.z;sfx.tap();startGame()});
+ $("lChange").onclick=()=>{sfx.tap();$("uAllT").scrollIntoView({behavior:"smooth",block:"start"})};
+ $("lCards").onclick=()=>{sfx.tap();FL_FROM="learn";openFlash()};
+ if($("hLessons"))$("hLessons").onclick=()=>{sfx.tap();openLessonList()};
+ if($("hTrace"))$("hTrace").onclick=()=>{sfx.tap();openTraceHub("learn")};
+}
+let FL_FROM="unit";
 function renderUnits(){
  if(!syncState()){show("landing");return}
  const s=me.st,g=state.grade,curU=me.cls.unit||1,{out,full}=unitStars(s.id,s.level);
  const tot=Object.values(out).reduce((a,b)=>a+b,0);
+ learnTop();
  $("uBanner").innerHTML=`${bookArt(g).replace('class="bk"','style="width:64px;height:64px;flex:none"')}<div><b>${BOOK[g].name} – Units Journey</b><small>Unit ${curU} is open now · Tap a unit</small></div><div class="r"><span class="chip sun">${icon("star","f")} ${tot}/${curU*12}</span></div>`;
  $("uPath").innerHTML=Array.from({length:12},(_,i)=>i+1).map(n=>{const U=unitOf(g,n),locked=n>curU,st=out[n]||0,cr=full[n]||0,off=Math.round(Math.sin((n-1)*1.1)*80),r=48,c=2*Math.PI*r;
   return `<div class="node${locked?" locked":""}${n===state.unit&&!locked?" cur":""}" style="transform:translateX(${off}px)">
@@ -2575,7 +2682,7 @@ function renderUnit(){
  $("uZones").innerHTML=ZKEYS.map(k=>{const Z=ZONES[k],b=best[bestKey(s.id,s.level,k)]||0;
   return `<div class="zcard${k==="mixed"?" wide":""}" style="--z:var(--z-${k});--zd:var(--z-${k}-d);--zs:var(--z-${k}-s)">${zoneArt(k,70)}<div class="hd"><b>${Z.en}</b>${k==="mixed"?`<span class="en">Units 1–${curU}</span>`:""}</div><p>${k==="words"?"Learn the unit words with the word cards first, then test yourself.":Z.d}${arHelp(k==="words"?"تعلّم كلمات الوحدة بالبطاقات أولاً، ثم اختبر نفسك.":Z.dar)}</p>
    <div class="ft">${stars3(b)}${k==="words"?`<button class="btn alt" data-fl="1">📇 Word Cards</button>`:`<span class="chip z">${$("optCount").value} questions</span>`}<button class="btn btn-z" data-s="${k}">${k==="words"&&!flashLearned()?"Learn, then play":b?"Play again":"Start"} ${icon("play","f")}</button></div></div>`}).join("");
- $("uZones").querySelectorAll("button[data-fl]").forEach(b=>b.onclick=()=>{sfx.tap();openFlash()});
+ $("uZones").querySelectorAll("button[data-fl]").forEach(b=>b.onclick=()=>{sfx.tap();FL_FROM="unit";openFlash()});
  $("uZones").querySelectorAll("button[data-s]").forEach(b=>b.onclick=()=>{state.skill=b.dataset.s;sfx.tap();startGame()});
  const tl=trUnitLetters();
  if(tl.length){const m=traceStore.get(s.id);$("uZones").insertAdjacentHTML("afterbegin",`<div class="zcard trz wide" style="--z:#E0457B;--zd:#B8305F;--zs:#FFE3EE"><span class="art emo trart">✏️</span><div class="hd"><b>Letter Tracing</b><span class="en">Practice</span></div><p>Learn how to write this unit's letters: ${tl.map(c=>`<b class="en" style="font-family:var(--disp);font-size:20px">${c}${c.toLowerCase()}${m[c]&&m[c.toLowerCase()]?" ✓":""}</b>`).join(" · ")}</p><div class="ft"><button class="btn alt" id="uTrAll">🔤 All letters</button><button class="btn btn-z" id="uTr">Start tracing ${icon("play","f")}</button></div></div>`);
@@ -2596,6 +2703,7 @@ function renderBoard(){
 
 /* ================= ME ================= */
 const ME={edit:false};
+$("meBack").addEventListener("click",()=>go("home","b"));$("bdBack").addEventListener("click",()=>go("me","b"));
 function renderMe(){
  if(!syncState()){show("landing");return}
  const s=me.st,L=LV[s.level];
@@ -2609,6 +2717,11 @@ function renderMe(){
  $("avEdit").onclick=()=>{ME.edit=!ME.edit;sfx.tap();renderMe()};
  $("meCard").querySelectorAll(".avopt").forEach(b=>b.onclick=()=>{if(!ME.edit)return;const p=store.get("eg_prof",{});p[s.id]={av:+b.dataset.a};store.set("eg_prof",p);sfx.tap();ME.edit=false;renderMe()});
  $("meBadges").innerHTML=badgesFor(s.id).map(badgeHtml).join("");
+ const top=classRanking(me.cls,weekStart()).slice(0,3),myPos=classRanking(me.cls,weekStart()).findIndex(x=>x.s.id===s.id)+1;
+ $("meHeroes").innerHTML=`<div class="sec-t" style="margin:0 0 8px"><h3 style="margin:0">🏆 Class heroes this week</h3><button id="meBoard">See all</button></div>
+  <div class="mehero">${top.map((x,i)=>`<div class="mhr${x.s.id===s.id?" me2":""}"><span class="r">${i+1}</span>${avOf(x.s.id,34)}<b>${nm(shortName(x.s.name))}</b><span class="chip sun">${icon("star","f")} ${x.stars}</span></div>`).join("")}</div>
+  ${myPos>3?`<p class="muted" style="margin:6px 0 0">You are number ${myPos} this week.</p>`:""}`;
+ $("meBoard").onclick=()=>{sfx.tap();go("board")};
  try{awardCerts(s.id)}catch(_){}renderMyCerts();
 }
 
@@ -2902,7 +3015,7 @@ function renderQ(first){
  $("gProg").style.width=Math.round(state.i/n*100)+"%";
  $("qCount").textContent=`Question ${state.i+1} of ${n}`;
  const SUPL=supLevel();
- let h=`<span class="qtag">Unit ${q.uNo}</span><div class="prompt">${esc(q.prompt)}${SUPL==="smart"?arHelp(q.ar,{lv:"smart"}):""}</div>`;
+ let h=`<span class="qtag">Unit ${q.uNo}</span><div class="prompt">${esc(q.prompt)}${audBtn(q.prompt)}${SUPL==="smart"?arHelp(q.ar,{lv:"smart"}):""}</div>`;
  if(SUPL==="extra"&&q.ar)h+=`<div class="prompt-ar" lang="ar" dir="rtl">${esc(q.ar)}</div>`;
  if(q.pic)h+=`<div class="pic">${q.pic}</div>`;
  if(q.word)h+=`<div class="stem" style="letter-spacing:1px">${esc(q.word)}</div>`;
@@ -3914,7 +4027,7 @@ function drawFlash(){
  $("flCount").textContent=`${FL.i+1} / ${n}`;
  const hl=esc(c.ex).replace(new RegExp("\\b("+c.w.replace(/[-]/g,"\\-")+")\\b","i"),"<mark>$1</mark>");
  $("flCard").innerHTML=`<div class="fc${FL.flipped?" flip":""}" id="fcInner">
-  <div class="face front"><span class="fcpic emo">${c.e}</span><span class="fcword en">${esc(c.w)}</span><span class="fchint">${icon("refresh")} Tap to discover!</span></div>
+  <div class="face front"><span class="fcpic emo">${c.e}</span><span class="fcword en">${esc(c.w)}</span>${audWord(c.w)}<span class="fchint">${icon("refresh")} Tap to discover!</span></div>
   <div class="face back"><span class="fcword en">${esc(c.w)}</span><span class="fcex en">${hl}</span><span class="fcpic sm emo">${c.e}</span>${c.ar?(FLSUP==="extra"?`<span class="fcar" lang="ar" dir="rtl">${esc(c.ar)}</span>`:FLSUP==="smart"?`<span class="fcarq">${arHelp(c.ar,{lv:"smart"})}<small>Meaning</small></span>`:""):""}</div></div>`;$("flSpeak").style.display="";$("flSpeak").innerHTML=flashSpeakHtml(c);bindFlashSpeak(c);
  $("fcInner").onclick=()=>{FL.flipped=!FL.flipped;$("fcInner").classList.toggle("flip",FL.flipped);sfx.tap()};
  $("flPrev").disabled=FL.i===0;
@@ -3940,7 +4053,7 @@ function flashFinish(){
 }
 $("flPrev").addEventListener("click",()=>flashMove(-1));
 $("flNext").addEventListener("click",()=>flashMove(1));
-$("flBack").addEventListener("click",()=>{renderUnit();show("unit","b")});
+$("flBack").addEventListener("click",()=>{if(FL_FROM==="learn"){FL_FROM="unit";go("units","b");return}renderUnit();show("unit","b")});
 document.addEventListener("keydown",e=>{if(curScreen!=="flash")return;if(e.key==="ArrowRight")flashMove(document.dir==="rtl"?-1:1);if(e.key==="ArrowLeft")flashMove(document.dir==="rtl"?1:-1);if(e.key===" "){e.preventDefault();$("fcInner")&&$("fcInner").click()}});
 
 /* ================= STORY MAKER: endless, choice-driven, levelled ================= */
@@ -4504,7 +4617,7 @@ function renderReadingHub(){
  const stories=myStories(),rec=store.get("eg_read",{})[s.id];
  const doneWk=stories.filter(x=>x.done&&x.doneDate>=ws).length,pagesWk=stories.reduce((a,x)=>a+(x.dates||[]).filter(d=>d>=ws).length,0),passWk=rec?rec.log.filter(x=>x.pass&&x.date>=ws).length:0;
  const dn=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],t=today();
- $("rhHead").innerHTML=`<div class="hello"><div class="t"><b>Hello, ${nm(firstName(s.name))}!</b><span>Let's read something new today!</span></div>${avOf(s.id,56)}</div>
+ $("rhHead").innerHTML=`<div class="dhead" style="--dc:var(--d-read);--dcs:var(--d-read-s)"><span class="emo dhe" aria-hidden="true">📖</span><div><h1>Read</h1><p>Stories, reading steps and the fluency pyramid</p></div></div>
   <div class="card wkcard"><div class="sec-t" style="margin:0"><h2 style="font-size:18px">${new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"})}</h2><span class="chip" style="color:#E8650C">${streak} ${icon("flame")}</span></div>
    <div class="wdays">${wk.map((d,i)=>{const k=fmtD(d),on=ds.has(k);return `<span class="wd${on?" on":""}${k===t?" today":""}"><i>${on?"🔥":""}</i>${dn[i]}</span>`}).join("")}</div></div>
   <div class="sec-t"><h2>This week</h2></div>
@@ -4605,7 +4718,7 @@ function drawPyr(){
  $("pyCrowns").textContent=`👑 ${pyrCrowns(o)}/3`;
  const si=PYSTAGES.findIndex(x=>x[0]===PY.stage);
  $("pySteps").innerHTML=PYSTAGES.map(([k,l,ic],i)=>`<span class="${i===si?"on":i<si||PY.stage==="done"?"done":""}"><i>${i<si||PY.stage==="done"?"✓":ic}</i>${l}</span>`).join("");
- const B=$("pyBody"),say=(en,ar)=>`<div class="helpline pyhelp">${mascot(PY.stage==="done"?"cheer":"read",56)}<span><b>${en}</b>${arHelp(ar)}</span></div>`;
+ const B=$("pyBody"),say=(en,ar)=>`<div class="helpline pyhelp">${mascot(PY.stage==="done"?"cheer":"read",56)}<span><b>${en}</b>${audBtn(en)}${arHelp(ar)}</span></div>`;
  if(PY.stage==="build"){
   const all=PY.row>=5;
   B.innerHTML=say(all?"You built the pyramid! Great reading!":PY.row===0?"Read the top of the pyramid. Then tap it!":"Read the new row out loud. Then tap it!",all?"أحسنت! بنيت الهرم":"اقرأ السطر الجديد بصوت عالٍ ثم اضغط عليه")+
@@ -4663,10 +4776,11 @@ function drawPyr(){
  }
 }
 function pyFinish(){pyrStore.put(me.st.id,pyrKey(PY.sr,PY.i),x=>{x.h=1});PY.stage="done";sfx.win();confetti();drawPyr()}
-$("lsBack").addEventListener("click",()=>go("home","b"));
-$("pgBack0").addEventListener("click",()=>go("home","b"));
+$("lsBack").addEventListener("click",()=>go("units","b"));
+$("pgBack0").addEventListener("click",()=>go("home","b"));$("pgBack0").closest(".bar").hidden=true;
 $("pgBack1").addEventListener("click",()=>{renderPlayHub();show("play","b")});
-$("pgBack2").addEventListener("click",()=>{if(PG.cleanup){PG.cleanup();PG.cleanup=null}if(PG.act){renderWorld();show("pgw","b")}else{renderPlayHub();show("play","b")}});
+$("pgBack2").addEventListener("click",()=>{if(PG.cleanup){PG.cleanup();PG.cleanup=null}pgBackToList()});
+function pgBackToList(){const A=PG.act&&PG_ACTS[PG.act];if(A&&A.world==="story"){go("create","b");return}if(A){PG.world=A.world;renderWorld();show("pgw","b")}else go("play","b")}
 $("pgNext").addEventListener("click",()=>{if(PG.cleanup){PG.cleanup();PG.cleanup=null}pgNextRound()});
 $("pgHint").addEventListener("click",()=>{if(PG.hintFn){PG.hintFn(PG.st===1);sfx.tap();pgPut(m=>{const v=m.sk["h:"+PG.act]=m.sk["h:"+PG.act]||[0,0];v[1]++})}});
 $("lpBack").addEventListener("click",()=>{if(LP.preview){show("teacher","b");renderTeacher();return}lpSave();openLessonList()});
@@ -4845,7 +4959,7 @@ function drawTrace(){
  else if(cele){nx.onclick=()=>{sfx.tap();if(TR.cs==="big"){TR.cs="small";TR.rep=0;trPhase("watch")}else trPhase("done")}}
  else if(ag)ag.onclick=()=>{if(TR.ghost)return;const i=TR.si;TR.ghost=true;const keep=TR.idx;trAnimate(i,700,()=>{setTimeout(()=>{trInk(i,0);trPencil(null);TR.ghost=false;trArm()},250)})};
 }
-$("trBack").addEventListener("click",()=>{cancelAnimationFrame(TR.anim);if(TR.mode==="letter"){openTraceHub(TR.from);return}if(TR.from==="unit"){renderUnit();show("unit","b")}else go("home","b")});
+$("trBack").addEventListener("click",()=>{cancelAnimationFrame(TR.anim);if(TR.mode==="letter"){openTraceHub(TR.from);return}if(TR.from==="unit"){renderUnit();show("unit","b")}else if(TR.from==="learn")go("units","b");else go("home","b")});
 
 /* ================= LESSON MAKER: objective-based PPP lessons =================
    Each lesson is organised by learning objective:  Objective 1 (Presentation → Practice) → Objective 2 (…) → …
@@ -5094,7 +5208,7 @@ function lpDrawQ(objHead){
  if(!a||!LP.qs.length){lpActDone(true);return}
  const q=LP.qs[LP.qi];LP.built=LP.built||[];
  const head=objHead+`<div class="lpacthead"><b>${esc(PKINDS[a.kind].en)}</b><span class="muted">Activity ${LP.ai+1} of ${o.prac.length} · Question ${LP.qi+1} of ${LP.qs.length}</span></div>`;
- let body=`<div class="card lpq"><div class="lpprompt">${esc(q.prompt)}</div>${q.pic?`<span class="lppic emo">${q.pic}</span>`:""}${q.word?`<div class="lpbig en" style="letter-spacing:6px">${esc(q.word)}</div>`:""}${q.sentence?`<p class="lpsent en">${esc(q.sentence).replace("___",'<span class="lpgap">___</span>')}</p>`:""}`;
+ let body=`<div class="card lpq"><div class="lpprompt">${esc(q.prompt)}${audBtn(q.prompt)}</div>${q.pic?`<span class="lppic emo">${q.pic}</span>`:""}${q.word?`<div class="lpbig en" style="letter-spacing:6px">${esc(q.word)}</div>`:""}${q.sentence?`<p class="lpsent en">${esc(q.sentence).replace("___",'<span class="lpgap">___</span>')}</p>`:""}`;
  if(q.t==="choice"){const em=q.opts.every(x=>/^\p{Extended_Pictographic}/u.test(x));body+=`<div class="lpopts${em?" em":""}${q.tf?" tf":""}">${q.opts.map((x,k)=>`<button class="ch${q.ar?" ar":""}${q.tf?(x.startsWith("✓")?" tfy":" tfn"):""}" data-k="${k}" ${q.ar?'lang="ar" dir="rtl"':""}>${q.tf?`<span class="tfi" aria-hidden="true">${x.startsWith("✓")?"✓":"✗"}</span><span>${esc(x.replace(/^[✓✗]\s*/,""))}</span>`:q.hl&&!em?esc(x).replace(q.hl,`<u>${q.hl}</u>`):esc(x)}</button>`).join("")}</div>`}
  else{const fixed=q.fixed?q.a.slice(0,q.fixed):[];body+=`<div class="lpslots${q.joiner?" words":""}">${[...fixed,...LP.built.map(k=>q.tiles[k])].map(x=>`<span>${esc(x)}</span>`).join("")}${Array.from({length:Math.max(0,q.a.length-fixed.length-LP.built.length)},()=>`<span class="e"></span>`).join("")}</div>
   <div class="lptiles">${q.tiles.map((x,k)=>`<button class="tile${LP.built.includes(k)?" used":""}" data-t="${k}" ${LP.built.includes(k)?"disabled":""}>${esc(x)}</button>`).join("")}</div>
@@ -5475,19 +5589,26 @@ function pgMergeDoc(a,b){a=a||{};b=b||{};const o={acts:{},sk:{},conf:{},wr:[],up
  const ca=a.cur,cb=b.cur;o.cur=(ca&&cb)?((ca.at||0)>(cb.at||0)?ca:cb):(ca||cb||null);return o}
 /* ---------- screens ---------- */
 const PG={act:null,st:1,rounds:[],i:0,res:[],tries:0,hintFn:null,solved:false,world:"word"};
-try{if(localStorage.getItem("eg_debug_pg")){window.__PG=PG;window.__pgCheck=pgCheck}}catch(_){}
+try{if(localStorage.getItem("eg_debug_pg")){window.__PG=PG;window.__pgCheck=pgCheck;window.__unitOf=unitOf;window.__audKey=audKey}}catch(_){}
 function pgHomeCard(){if(!me)return"";const m=pgMine();const n=PG_ORDER.filter(id=>pgStatusOf(m.acts[id]).k!=="none").length;
  return `<button class="card hxc pgh" id="hPlay"><span class="pghic" aria-hidden="true"><i>🔤</i><i>🔬</i><i>🏰</i><i>🎨</i></span><span class="t"><small>The English Playground</small><b>4 worlds to explore</b><span class="cr">${n?`${n} of ${PG_ORDER.length} activities started`:"Build, find, fix and write!"}</span></span>${icon("play","f")}</button>`}
 function openPlayground(){renderPlayHub();show("play","up")}
 function renderPlayHub(){const m=pgMine();const ctx=pgCtx();
- $("pgHub").innerHTML=`<div class="pghero"><div>${mascot("happy",86)}</div><div><h1>The English Playground</h1><p>Find, build, fix and write in English. ${BOOK[ctx.g].name} · Units 1–${ctx.cu}</p></div></div>
- <div class="pgworlds">${Object.entries(PG_WORLDS).map(([k,w])=>{const acts=PG_ORDER.filter(id=>PG_ACTS[id].world===k);const done=acts.filter(id=>pgStatusOf(m.acts[id]).k!=="none").length;const mast=acts.filter(id=>pgStatusOf(m.acts[id]).k==="mastered").length;
+ $("pgHub").innerHTML=`<div class="dhead" style="--dc:var(--d-play);--dcs:var(--d-play-s)"><span class="emo dhe" aria-hidden="true">🧩</span><div><h1>Play</h1><p>English games · ${BOOK[ctx.g].name} · Units 1–${ctx.cu}</p></div></div>
+ <div class="pgworlds">${Object.entries(PG_WORLDS).filter(([k])=>k!=="story").map(([k,w])=>{const acts=PG_ORDER.filter(id=>PG_ACTS[id].world===k);const done=acts.filter(id=>pgStatusOf(m.acts[id]).k!=="none").length;const mast=acts.filter(id=>pgStatusOf(m.acts[id]).k==="mastered").length;
   return `<button class="pgworld pgw-${k}" data-w="${k}" style="--c1:${w.c1};--c2:${w.c2};--soft:${w.soft}"><span class="pgwart" aria-hidden="true">${w.ic}</span><span class="pgwt"><b>${w.t}</b><small>${w.sub}</small></span><span class="pgwacts">${acts.map(id=>`<i title="${esc(PG_ACTS[id].t)}">${PG_ACTS[id].ic}</i>`).join("")}</span><span class="pgwbar"><i style="width:${acts.length?Math.round(done/acts.length*100):0}%"></i></span><span class="pgwmeta">${done}/${acts.length} started${mast?` · ${mast} mastered ⭐`:""}</span></button>`}).join("")}</div>
- ${m.wr.length?`<div class="panel pgmine"><h2>📚 My writing</h2><div class="pgwr">${m.wr.slice(0,12).map(w=>`<button class="pgwrc" data-wr="${w.id}"><span class="emo">${PG_ACTS[w.act]?PG_ACTS[w.act].ic:"📝"}</span><b>${esc(w.title)}</b><small>${new Date(w.at).toLocaleDateString("en-GB")}</small></button>`).join("")}</div></div>`:""}`;
+ `;
  $("pgHub").querySelectorAll(".pgworld").forEach(b=>b.onclick=()=>{sfx.tap();openWorld(b.dataset.w)});
  $("pgHub").querySelectorAll(".pgwrc").forEach(b=>b.onclick=()=>{sfx.tap();pgShowWriting(b.dataset.wr)})}
-function openWorld(w){PG.world=w;renderWorld();show("pgw","up")}
-function renderWorld(){const w=PG_WORLDS[PG.world],m=pgMine();const box=$("pgwBody");$("pgw").style.setProperty("--c1",w.c1);$("pgw").style.setProperty("--c2",w.c2);$("pgw").style.setProperty("--soft",w.soft);$("pgw").dataset.world=PG.world;
+/* CREATE: the writing activities (Story Studio world) and the child's writing book – same records as before (eg_play) */
+function renderCreate(){if(!me)return;const m=pgMine();
+ $("crBody").innerHTML=`<div class="dhead" style="--dc:var(--d-create);--dcs:var(--d-create-s)"><span class="emo dhe" aria-hidden="true">🎨</span><div><h1>Create</h1><p>Write your own English</p></div></div>
+  <div id="crActs"></div>
+  <div class="panel pgmine"><h2>📚 My writing book</h2>${m.wr.length?`<div class="pgwr">${m.wr.slice(0,24).map(w=>`<button class="pgwrc" data-wr="${w.id}"><span class="emo">${PG_ACTS[w.act]?PG_ACTS[w.act].ic:"📝"}</span><b>${esc(w.title)}</b><small>${new Date(w.at||Date.now()).toLocaleDateString("en-GB",{day:"numeric",month:"short"})}</small></button>`).join("")}</div>`:`<p class="muted" style="margin:6px 0 0">Your writing will be kept here. Start with Picture to Paragraph!</p>`}</div>`;
+ const keep=PG.world;PG.world="story";renderWorld($("crActs"));PG.world=keep;
+ $("crBody").querySelectorAll(".pgwrc").forEach(b=>b.onclick=()=>{sfx.tap();pgShowWriting(b.dataset.wr)})}
+function openWorld(w){if(w==="story"){go("create");return}PG.world=w;renderWorld();show("pgw","up")}
+function renderWorld(target){const w=PG_WORLDS[PG.world],m=pgMine();const box=target||$("pgwBody");if(target){box.style.setProperty("--c1",w.c1);box.style.setProperty("--c2",w.c2);box.style.setProperty("--soft",w.soft);box.dataset.world=PG.world}$("pgw").style.setProperty("--c1",w.c1);$("pgw").style.setProperty("--c2",w.c2);$("pgw").style.setProperty("--soft",w.soft);$("pgw").dataset.world=PG.world;
  $("pgwTitle").innerHTML=`<b>${w.ic} ${w.t}</b>`;
  box.innerHTML=`<div class="pgwhead pgw-${PG.world}"><span class="pgwbig" aria-hidden="true">${w.ic}</span><div><h1>${w.t}</h1><p>${{word:"Find, choose and use new words.",sound:"Fix words and build them sound by sound.",gram:"Build sentences and make people talk.",story:"Look at pictures and write about them."}[PG.world]}</p></div></div>
  <div class="pgacts">${PG_ORDER.filter(id=>PG_ACTS[id].world===PG.world).map(id=>{const A=PG_ACTS[id],r=pgActRec(JSON.parse(JSON.stringify(m)),id),st=pgStatusOf(m.acts[id]);const cur=m.cur&&m.cur.act===id;
@@ -5508,7 +5629,7 @@ function pgRound(){if(PG.cleanup){PG.cleanup();PG.cleanup=null}const A=PG_ACTS[P
  $("pgaDots").innerHTML=PG.rounds.map((_,k)=>`<i class="${k<PG.i?(PG.res[k]>=1?"ok":"half"):k===PG.i?"on":""}"></i>`).join("");
  $("pgFb").className="pgfb";$("pgFb").innerHTML="";$("pgNext").hidden=true;$("pgHint").hidden=true;
  const api={st:PG.st,g:PG.ctx.g,ctx:PG.ctx,
-  task:(html,mood)=>{$("pgTask").innerHTML=`<span class="pgtm">${mascot(mood||"happy",52)}</span><span class="pgtt">${html}</span>`},
+  task:(html,mood)=>{$("pgTask").innerHTML=`<span class="pgtm">${mascot(mood||"happy",52)}</span><span class="pgtt">${html}${audBtn(html)}</span>`},
   hint:fn=>{PG.hintFn=fn;$("pgHint").hidden=!(PG.st===1||(PG.st===2&&PG.tries>0))},
   fb:(html,k)=>{const f=$("pgFb");f.className="pgfb "+(k||"");f.innerHTML=html},
   miss:(keys=[],msg,conf)=>{PG.tries++;sfx.bad();pgPut(m=>{keys.forEach(k=>{const v=m.sk[k]=m.sk[k]||[0,0];v[1]++});if(conf)m.conf[conf]=(m.conf[conf]||0)+1});
@@ -5532,8 +5653,8 @@ function pgFinish(){const A=PG_ACTS[PG.act],n=PG.rounds.length,pct=Math.round(PG
   <p class="pgscore"><b>${first}</b> of ${n} right first time${A.writing?"":""}</p>
   ${unlocked?`<p class="pgunl">🔓 <b>${unlocked}</b> is open now!</p>`:""}
   <p class="pgstat ${st.k}">${{none:"",practised:"You practised this activity.",shown:"You showed you can do this! ✔",mastered:"You mastered this activity! ⭐"}[st.k]}</p>
-  <div class="row" style="justify-content:center;gap:10px;flex-wrap:wrap"><button class="btn" id="pgAgain">↺ Play again</button>${unlocked?`<button class="btn btn-p" id="pgUp">Try ${unlocked} →</button>`:""}<button class="btn btn-w" id="pgBackW">Back to ${PG_WORLDS[A.world].t}</button></div></div>`;
- $("pgAgain").onclick=()=>pgStart(PG.act,PG.st);if($("pgUp"))$("pgUp").onclick=()=>pgStart(PG.act,PG.st+1);$("pgBackW").onclick=()=>{renderWorld();show("pgw","b")}}
+  <div class="row" style="justify-content:center;gap:10px;flex-wrap:wrap"><button class="btn" id="pgAgain">↺ Play again</button>${unlocked?`<button class="btn btn-p" id="pgUp">Try ${unlocked} →</button>`:""}<button class="btn btn-w" id="pgBackW">Back to ${A.world==="story"?"Create":PG_WORLDS[A.world].t}</button></div></div>`;
+ $("pgAgain").onclick=()=>pgStart(PG.act,PG.st);if($("pgUp"))$("pgUp").onclick=()=>pgStart(PG.act,PG.st+1);$("pgBackW").onclick=()=>pgBackToList()}
 function pgShowWriting(id){const w=pgMine().wr.find(x=>x.id===id);if(!w)return;
  $("pgStage").innerHTML="";const A=PG_ACTS[w.act]||{world:"story",ic:"📝",t:"My writing"};const W=PG_WORLDS[A.world];const s=$("pga");s.style.setProperty("--c1",W.c1);s.style.setProperty("--c2",W.c2);s.style.setProperty("--soft",W.soft);s.dataset.world=A.world;
  PG.act=null;$("pgaTitle").innerHTML=`<b>${A.ic} ${esc(w.title)}</b><small>${new Date(w.at).toLocaleDateString("en-GB")}</small>`;$("pgaDots").innerHTML="";$("pgTask").innerHTML="";$("pgFb").innerHTML="";$("pgNext").hidden=true;$("pgHint").hidden=true;
@@ -6085,7 +6206,7 @@ async function pullConfig(){
  }catch(e){}
 }
 function refreshVisible(){
- try{if(curScreen==="teacher")renderTeacher();else if(curScreen==="home"&&me)renderHome();else if(curScreen==="reading"&&me)renderReadingHub();else if(curScreen==="me"&&me)renderMe();else if(curScreen==="board"&&me)renderBoard();else if(curScreen==="landing")renderLanding()}catch(e){}
+ try{if(curScreen==="teacher")renderTeacher();else if(curScreen==="home"&&me)renderHome();else if(curScreen==="units"&&me)renderUnits();else if(curScreen==="play"&&me)renderPlayHub();else if(curScreen==="create"&&me)renderCreate();else if(curScreen==="reading"&&me)renderReadingHub();else if(curScreen==="me"&&me)renderMe();else if(curScreen==="board"&&me)renderBoard();else if(curScreen==="landing")renderLanding()}catch(e){}
 }
 function renderCloud(){
  const t={denied:["⛔","The online server refused this device","The school code on this device doesn't match the server key – ask your teacher"],local:["📱","Saved on this device only",onlineConfigured()?"No internet connection – work is kept here and sent when you are online":"Sign in to claude.ai on this device to save online"],syncing:["☁️","Syncing…",""],saving:["☁️","Saving…",""],synced:["☁️","Progress saved online",""],error:["⚠️","Online save failed – retrying",""]}[CLOUD.state];
